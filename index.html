@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 文化想象研究库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+        
+        .nav-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.3);
+        }
+        
+        .nav-card h2 {
+            color: #1a1a2e;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-card .emoji {
+            font-size: 2rem;
+        }
+        
+        .nav-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .nav-card .meta {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #999;
+        }
+        
+        .hero-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            color: white;
+        }
+        
+        .hero-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .keyword-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .keyword {
+            background: rgba(233, 69, 96, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+            
+            .stat {
+                padding: 10px 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar" style="background: rgba(255,255,255,0.1);"><a href="index.html" class="home" style="color: white;">🏠 首页</a><a href="theory.html" style="color: white;">📚 理论谱系</a><a href="history.html" style="color: white;">🏛️ 历史演进</a><a href="compare.html" style="color: white;">🌍 跨文化比较</a><a href="analysis.html" style="color: white;">🎯 核心议题</a></div>
+<header>
+            <h1>🧠 文化想象研究库</h1>
+            <p>跨学科 · 跨历史 · 跨文化的深度研究</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">核心报告</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">~130k</div>
+                    <div class="stat-label">研究字数</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">文明比较</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="hero-section">
+            <h2>🔑 核心关键词</h2>
+            <div class="keyword-grid">
+                <span class="keyword">#文化想象</span>
+                <span class="keyword">#想象的共同体</span>
+                <span class="keyword">#民族主义</span>
+                <span class="keyword">#集体记忆</span>
+                <span class="keyword">#文化记忆</span>
+                <span class="keyword">#异托邦</span>
+                <span class="keyword">#叙事转译</span>
+                <span class="keyword">#天下</span>
+                <span class="keyword">#桃花源</span>
+                <span class="keyword">#昭昭天命</span>
+                <span class="keyword">#美国梦</span>
+                <span class="keyword">#躺平</span>
+                <span class="keyword">#内卷</span>
+                <span class="keyword">#隐士文化</span>
+            </div>
+        </div>
+        
+        <div class="nav-grid">
+            <a href="theory.html" class="nav-card">
+                <h2><span class="emoji">📚</span> 理论谱系</h2>
+                <p>从安德森到卡斯特里亚季斯，从福柯到阿斯曼——文化想象的理论发展史</p>
+                <div class="meta">~37,000字 · 西方理论脉络 + 中国理论脉络</div>
+            </a>
+            
+            <a href="history.html" class="nav-card">
+                <h2><span class="emoji">🏛️</span> 历史演进</h2>
+                <p>从神话宗教到民族主义，从意识形态到数字时代——文化想象的层叠与转译</p>
+                <div class="meta">~19,000字 · 前现代→近代→现代→当代</div>
+            </a>
+            
+            <a href="compare.html" class="nav-card">
+                <h2><span class="emoji">🌍</span> 跨文化比较</h2>
+                <p>中国、美国、欧洲、日本、印度——五大文明的文化想象机制比较</p>
+                <div class="meta">~34,000字 · 比较框架 + 六大文明</div>
+            </a>
+            
+            <a href="analysis.html" class="nav-card">
+                <h2><span class="emoji">🎯</span> 核心议题分析</h2>
+                <p>国家共同体、个人主体、叙事转译——三大核心问题的深度剖析</p>
+                <div class="meta">~38,000字 · 国家/个人/转译</div>
+            </a>
+        </div>
+        
+        <footer>
+            <p>🧠 文化想象研究库 · 2026年4月5日</p>
+            <p>由 OpenClaw AI 研究助手生成</p>
+        </footer>
+    </div>
+</body>
+</html>
