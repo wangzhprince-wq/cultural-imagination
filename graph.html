@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕸️ 文化想象 - 知识图谱</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        #graph-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 15px 20px;
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .nav-bar a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .nav-bar a:hover, .nav-bar a.active {
+            color: #e94560;
+        }
+        
+        .nav-bar .title {
+            color: white;
+            font-weight: bold;
+            margin-right: auto;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            border-color: #e94560;
+        }
+        
+        .legend {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(26, 26, 46, 0.9);
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.8rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 200px;
+        }
+        
+        .legend h4 {
+            margin-bottom: 10px;
+            color: #e94560;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: rgba(26, 26, 46, 0.98);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            max-width: 300px;
+            pointer-events: none;
+            z-index: 200;
+            display: none;
+            border: 1px solid rgba(233, 69, 96, 0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            line-height: 1.6;
+        }
+        
+        .tooltip h3 {
+            color: #e94560;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .tooltip .category {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+        }
+        
+        .tooltip .description {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .info-panel {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: rgba(26, 26, 46, 0.9);
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.8rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-panel p {
+            margin-bottom: 5px;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .legend {
+                display: none;
+            }
+            
+            .nav-bar {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <a href="index.html" class="title">🧠 文化想象研究库</a>
+        <a href="graph.html" class="active">🕸️ 知识图谱</a>
+        <a href="theory.html">📚 理论谱系</a>
+        <a href="history.html">🏛️ 历史</a>
+        <a href="compare.html">🌍 比较</a>
+        <a href="analysis.html">🎯 议题</a>
+    </div>
+    
+    <div id="graph-container"></div>
+    
+    <div class="legend">
+        <h4>图例</h4>
+        <div class="legend-item"><span class="legend-dot" style="background:#e94560"></span> 核心概念</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#4ecdc4"></span> 理论家</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#ffe66d"></span> 文明/国家</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#95e1d3"></span> 历史时期</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#f38181"></span> 现象/概念</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#aa96da"></span> 研究议题</div>
+    </div>
+    
+    <div class="info-panel">
+        <p>🖱️ 拖拽节点</p>
+        <p>🔍 滚轮缩放</p>
+        <p>👆 点击查看详情</p>
+    </div>
+    
+    <div class="controls">
+        <button class="btn" onclick="resetView()">🔄 重置视图</button>
+        <button class="btn" onclick="toggleLabels()">🏷️ 切换标签</button>
+        <button class="btn" onclick="focusOn('全部')">🌐 全部</button>
+        <button class="btn" onclick="focusOn('理论')">📚 理论</button>
+        <button class="btn" onclick="focusOn('历史')">🏛️ 历史</button>
+        <button class="btn" onclick="focusOn('比较')">🌍 比较</button>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        // 数据：节点
+        const nodes = [
+            // 核心概念
+            { id: "文化想象", category: "核心", name: "文化想象", description: "社会中群体共享的、关于自身与世界的象征性图像、叙事与情感联结", group: 0 },
+            
+            // 理论家
+            { id: "安德森", category: "理论家", name: "本尼迪克特·安德森", description: "《想象的共同体》(1983) - 民族作为现代想象", group: 1 },
+            { id: "卡斯特里亚季斯", category: "理论家", name: "科妮莉娅·卡斯特里亚季斯", description: "《社会的想象体制》(1975) - 制度性符号创造", group: 1 },
+            { id: "福柯", category: "理论家", name: "米歇尔·福柯", description: "《异托邦》- 空间想象", group: 1 },
+            { id: "哈布瓦赫", category: "理论家", name: "莫里斯·哈布瓦赫", description: "《集体记忆》(1925) - 记忆的社会建构", group: 1 },
+            { id: "阿斯曼", category: "理论家", name: "扬·阿斯曼", description: "《文化记忆》(1992) - 文化传承机制", group: 1 },
+            { id: "格尔茨", category: "理论家", name: "克利福德·格尔茨", description: "《文化的解释》- 厚描述方法", group: 1 },
+            { id: "霍尔", category: "理论家", name: "斯图亚特·霍尔", description: "《文化身份与族裔》- 身份建构", group: 1 },
+            { id: "坎贝尔", category: "理论家", name: "约瑟夫·坎贝尔", description: "《千面英雄》- 英雄之旅原型", group: 1 },
+            { id: "费孝通", category: "理论家", name: "费孝通", description: "《乡土中国》- 差序格局", group: 1 },
+            { id: "汪晖", category: "理论家", name: "汪晖", description: "现代中国语境中的'主义'与'想象'", group: 1 },
+            { id: "葛兆光", category: "理论家", name: "葛兆光", description: "中国思想史中的'边界意识'", group: 1 },
+            { id: "凯博文", category: "理论家", name: "Arthur Kleinman", description: "苦难与文化建构", group: 1 },
+            
+            // 文明/国家
+            { id: "中国", category: "文明", name: "中国", description: "天下/天命/大一统 | 汉字、科举、礼仪", group: 2 },
+            { id: "美国", category: "文明", name: "美国", description: "昭昭天命/美国梦 | 媒体、好莱坞", group: 2 },
+            { id: "欧洲", category: "文明", name: "欧洲", description: "启蒙/文明使命 | 大学、博物馆", group: 2 },
+            { id: "日本", category: "文明", name: "日本", description: "万世一系/武士道 | 动漫、文化工业", group: 2 },
+            { id: "印度", category: "文明", name: "印度", description: "宗教多元 | 宝莱坞、节日", group: 2 },
+            
+            // 历史时期
+            { id: "神话时代", category: "历史", name: "神话时代", description: "美索不达米亚、希腊、印度、中国、犹太-基督教", group: 3 },
+            { id: "宗教时代", category: "历史", name: "宗教时代", description: "佛教、基督教、伊斯兰教的传播与本土化", group: 3 },
+            { id: "近代民族", category: "历史", name: "近代民族主义", description: "印刷资本主义、民族史诗、想象的共同体", group: 3 },
+            { id: "现代意识形态", category: "历史", name: "现代意识形态", description: "社会主义现实主义、好莱坞、消费主义", group: 3 },
+            { id: "数字时代", category: "历史", name: "数字时代", description: "社交媒体、K-pop、全球本土化", group: 3 },
+            
+            // 现象/概念
+            { id: "民族主义", category: "现象", name: "民族主义", description: "利用文化符号建构'我们'的群体认同", group: 4 },
+            { id: "集体记忆", category: "现象", name: "集体记忆", description: "通过仪式、节日、纪念日传递的共同过去", group: 4 },
+            { id: "异托邦", category: "现象", name: "异托邦", description: "真实存在的他者空间（vs 乌托邦）", group: 4 },
+            { id: "天下", category: "现象", name: "天下", description: "以华为中心的世界秩序，朝贡体系的文化基础", group: 4 },
+            { id: "桃花源", category: "现象", name: "桃花源", description: "隐逸乌托邦，从陶渊明到当代旅游IP", group: 4 },
+            { id: "昭昭天命", category: "现象", name: "Manifest Destiny", description: "昭昭天命：美国白人神圣使命，西部拓张意识形态", group: 4 },
+            { id: "美国梦", category: "现象", name: "美国梦", description: "流动性与个人主义，成功的想象", group: 4 },
+            { id: "隐士文化", category: "现象", name: "隐士文化", description: "终南山修行，数字游民，隐居式度假", group: 4 },
+            { id: "躺平", category: "现象", name: "躺平", description: "2021年哲学化拒绝996的生活方式运动", group: 4 },
+            { id: "内卷", category: "现象", name: "内卷", description: "2020年网络热词，竞争死循环", group: 4 },
+            
+            // 研究议题
+            { id: "国家共同体", category: "议题", name: "国家与共同体", description: "民族主义如何利用文化符号？教育系统如何再生产？", group: 5 },
+            { id: "个人主体", category: "议题", name: "个人主体", description: "个体如何在文化想象中建构身份？归属感与疏离感？", group: 5 },
+            { id: "叙事转译", category: "议题", name: "叙事与转译", description: "文化意象如何在历史中被重新叙事？古代符号如何获得当代意义？", group: 5 },
+            { id: "想象机制", category: "议题", name: "想象机制", description: "符号发明与挪用、教育系统、媒体传播", group: 5 },
+        ];
+        
+        // 数据：连线
+        const links = [
+            // 文化想象 → 核心概念
+            { source: "文化想象", target: "安德森", type: "提出理论" },
+            { source: "文化想象", target: "卡斯特里亚季斯", type: "提出理论" },
+            { source: "文化想象", target: "格尔茨", type: "分析方法" },
+            
+            // 安德森的理论
+            { source: "安德森", target: "民族主义", type: "核心论点" },
+            { source: "安德森", target: "近代民族", type: "解释" },
+            { source: "安德森", target: "集体记忆", type: "关联" },
+            
+            // 福柯
+            { source: "福柯", target: "异托邦", type: "提出概念" },
+            { source: "异托邦", target: "隐士文化", type: "应用于" },
+            
+            // 哈布瓦赫 & 阿斯曼
+            { source: "哈布瓦赫", target: "集体记忆", type: "提出理论" },
+            { source: "阿斯曼", target: "文化记忆", type: "发展理论" },
+            { source: "集体记忆", target: "国家共同体", type: "应用于" },
+            
+            // 霍尔
+            { source: "霍尔", target: "个人主体", type: "理论支撑" },
+            { source: "霍尔", target: "躺平", type: "关联" },
+            
+            // 费孝通 & 中国
+            { source: "费孝通", target: "中国", type: "研究" },
+            { source: "中国", target: "天下", type: "核心概念" },
+            { source: "天下", target: "国家共同体", type: "关联" },
+            { source: "葛兆光", target: "中国", type: "研究" },
+            { source: "汪晖", target: "中国", type: "研究" },
+            
+            // 坎贝尔 & 神话
+            { source: "坎贝尔", target: "神话时代", type: "研究" },
+            { source: "坎贝尔", target: "隐士文化", type: "关联" },
+            
+            // 凯博文
+            { source: "凯博文", target: "个人主体", type: "理论支撑" },
+            { source: "凯博文", target: "躺平", type: "关联" },
+            
+            // 国家/文明
+            { source: "中国", target: "桃花源", type: "产生" },
+            { source: "美国", target: "昭昭天命", type: "产生" },
+            { source: "美国", target: "美国梦", type: "产生" },
+            { source: "日本", target: "隐士文化", type: "相关" },
+            
+            // 现象之间
+            { source: "民族主义", target: "国家共同体", type: "利用" },
+            { source: "桃花源", target: "隐士文化", type: "转化为" },
+            { source: "躺平", target: "内卷", type: "回应" },
+            { source: "内卷", target: "个人主体", type: "影响" },
+            
+            // 历史时期
+            { source: "神话时代", target: "宗教时代", type: "演进" },
+            { source: "宗教时代", target: "近代民族", type: "演进" },
+            { source: "近代民族", target: "现代意识形态", type: "演进" },
+            { source: "现代意识形态", target: "数字时代", type: "演进" },
+            { source: "数字时代", target: "躺平", type: "催生" },
+            { source: "数字时代", target: "内卷", type: "催生" },
+            
+            // 议题
+            { source: "国家共同体", target: "个人主体", type: "塑造" },
+            { source: "个人主体", target: "叙事转译", type: "参与" },
+            { source: "叙事转译", target: "想象机制", type: "通过" },
+            { source: "想象机制", target: "国家共同体", type: "服务于" },
+            
+            // 文明比较
+            { source: "中国", target: "美国", type: "比较" },
+            { source: "中国", target: "欧洲", type: "比较" },
+            { source: "美国", target: "欧洲", type: "比较" },
+            { source: "日本", target: "中国", type: "比较" },
+            { source: "印度", target: "中国", type: "比较" },
+        ];
+        
+        // 颜色映射
+        const colors = {
+            0: "#e94560", // 核心
+            1: "#4ecdc4", // 理论家
+            2: "#ffe66d", // 文明
+            3: "#95e1d3", // 历史
+            4: "#f38181", // 现象
+            5: "#aa96da"  // 议题
+        };
+        
+        let showLabels = true;
+        let svg, g, simulation, nodes_data, links_data;
+        let width, height;
+        
+        function init() {
+            const container = document.getElementById('graph-container');
+            width = container.clientWidth;
+            height = container.clientHeight;
+            
+            svg = d3.select('#graph-container')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+                .call(d3.zoom()
+                    .scaleExtent([0.1, 4])
+                    .on('zoom', (event) => {
+                        g.attr('transform', event.transform);
+                    }));
+            
+            // 添加箭头标记
+            svg.append('defs').selectAll('marker')
+                .data(['arrow'])
+                .enter().append('marker')
+                .attr('id', 'arrow')
+                .attr('viewBox', '0 -5 10 10')
+                .attr('refX', 20)
+                .attr('refY', 0)
+                .attr('markerWidth', 6)
+                .attr('markerHeight', 6)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('fill', 'rgba(255,255,255,0.3)')
+                .attr('d', 'M0,-5L10,0L0,5');
+            
+            g = svg.append('g');
+            
+            // 力模拟
+            simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-400))
+                .force('center', d3.forceCenter(width/2, height/2))
+                .force('collision', d3.forceCollide().radius(40));
+            
+            // 绘制连线
+            links_data = g.append('g')
+                .selectAll('line')
+                .data(links)
+                .enter().append('line')
+                .attr('stroke', 'rgba(255,255,255,0.2)')
+                .attr('stroke-width', 1.5)
+                .attr('marker-end', 'url(#arrow)');
+            
+            // 绘制节点
+            nodes_data = g.append('g')
+                .selectAll('circle')
+                .data(nodes)
+                .enter().append('circle')
+                .attr('r', d => d.category === '核心' ? 35 : d.category === '理论家' ? 25 : 18)
+                .attr('fill', d => colors[d.group])
+                .attr('stroke', 'white')
+                .attr('stroke-width', 2)
+                .attr('cursor', 'pointer')
+                .call(d3.drag()
+                    .on('start', dragStarted)
+                    .on('drag', dragged)
+                    .on('end', dragEnded))
+                .on('click', showTooltip)
+                .on('mouseover', function(event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('r', d.category === '核心' ? 40 : d.category === '理论家' ? 30 : 22);
+                    
+                    // 高亮相连线
+                    links_data
+                        .attr('stroke', l => 
+                            l.source.id === d.id || l.target.id === d.id 
+                            ? '#e94560' 
+                            : 'rgba(255,255,255,0.2)')
+                        .attr('stroke-width', l => 
+                            l.source.id === d.id || l.target.id === d.id ? 2 : 1);
+                })
+                .on('mouseout', function(event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('r', d.category === '核心' ? 35 : d.category === '理论家' ? 25 : 18);
+                    
+                    links_data
+                        .attr('stroke', 'rgba(255,255,255,0.2)')
+                        .attr('stroke-width', 1.5);
+                });
+            
+            // 绘制标签
+            const labels = g.append('g')
+                .selectAll('text')
+                .data(nodes)
+                .enter().append('text')
+                .text(d => d.name)
+                .attr('font-size', d => d.category === '核心' ? 12 : 9)
+                .attr('fill', 'white')
+                .attr('text-anchor', 'middle')
+                .attr('dy', d => d.category === '核心' ? 50 : d.category === '理论家' ? 38 : 30)
+                .attr('pointer-events', 'none')
+                .attr('opacity', 0.9);
+            
+            simulation.on('tick', () => {
+                links_data
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+                
+                nodes_data
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+                
+                labels
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+        }
+        
+        function dragStarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+        
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+        
+        function dragEnded(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+        
+        function showTooltip(event, d) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = `
+                <div class="category">${d.category}</div>
+                <h3>${d.name}</h3>
+                <div class="description">${d.description}</div>
+            `;
+            tooltip.style.display = 'block';
+            tooltip.style.left = (event.pageX + 15) + 'px';
+            tooltip.style.top = (event.pageY - 10) + 'px';
+            
+            // 2秒后消失
+            setTimeout(() => {
+                tooltip.style.display = 'none';
+            }, 3000);
+        }
+        
+        function resetView() {
+            svg.transition()
+                .duration(500)
+                .call(d3.zoom().transform, d3.zoomIdentity);
+        }
+        
+        function toggleLabels() {
+            showLabels = !showLabels;
+            g.selectAll('text')
+                .transition()
+                .duration(300)
+                .attr('opacity', showLabels ? 0.9 : 0);
+        }
+        
+        function focusOn(category) {
+            const opacity = category === '全部' 
+                ? { main: 1, other: 1 }
+                : { main: 0.2, other: 1 };
+            
+            nodes_data
+                .transition()
+                .duration(500)
+                .attr('opacity', d => {
+                    if (category === '全部') return 1;
+                    if (category === '理论') return d.group === 1 ? 1 : 0.1;
+                    if (category === '历史') return d.group === 3 ? 1 : 0.1;
+                    if (category === '比较') return d.group === 2 ? 1 : 0.1;
+                    return 1;
+                });
+            
+            links_data
+                .transition()
+                .duration(500)
+                .attr('opacity', 0.1);
+        }
+        
+        window.addEventListener('resize', () => {
+            width = document.getElementById('graph-container').clientWidth;
+            height = document.getElementById('graph-container').clientHeight;
+            svg.attr('width', width).attr('height', height);
+            simulation.force('center', d3.forceCenter(width/2, height/2));
+            simulation.alpha(0.3).restart();
+        });
+        
+        init();
+    </script>
+</body>
+</html>
