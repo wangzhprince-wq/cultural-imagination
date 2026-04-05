@@ -2,268 +2,152 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧠 文化想象 - 知识图谱</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #09090d;
-            color: #e8e8e8;
+            background: #0c0c10;
+            color: #e0e0e0;
             min-height: 100vh;
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
         
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(9,9,13,0.97);
-            backdrop-filter: blur(20px);
-            padding: 14px 20px;
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        .nav {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .topbar h1 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-        }
-        
-        .topbar-nav {
-            display: flex;
-            gap: 18px;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             font-size: 0.8rem;
         }
         
-        .topbar-nav a {
+        .nav a {
             color: rgba(255,255,255,0.4);
             text-decoration: none;
         }
         
-        .topbar-nav a:hover, .topbar-nav a.active { color: #fff; }
+        .nav a:hover, .nav a.active { color: #fff; }
         
-        .main {
-            padding: 70px 16px 60px;
+        .container {
             max-width: 900px;
             margin: 0 auto;
+            padding: 20px;
         }
         
-        /* Search */
-        .search-box {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* Tree structure */
+        .tree {
+            margin-left: 0;
         }
         
-        .search-box input {
-            background: none;
-            border: none;
-            outline: none;
-            color: #fff;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-        
-        .search-box input::placeholder { color: rgba(255,255,255,0.3); }
-        
-        /* Root */
-        .root-section {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px 0;
-        }
-        
-        .root-node {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 25px 40px;
-            background: linear-gradient(135deg, #1a1a24, #252535);
-            border: 1px solid rgba(233,69,96,0.3);
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(233,69,96,0.1);
-            margin-bottom: 15px;
-        }
-        
-        .root-node .emoji { font-size: 2.2rem; margin-bottom: 8px; }
-        .root-node h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
-        .root-node .en { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
-        
-        .root-meta {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.3);
-        }
-        
-        /* Category nav */
-        .cat-nav {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 35px;
-        }
-        
-        .cat-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.6);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .cat-btn:hover, .cat-btn.active {
-            background: rgba(233,69,96,0.2);
-            border-color: rgba(233,69,96,0.4);
-            color: #fff;
-        }
-        
-        /* Branch */
-        .branch {
-            margin-bottom: 20px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        
-        .branch-head {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .branch-head:hover { background: rgba(255,255,255,0.03); }
-        .branch-head.open { background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        
-        .branch-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            flex-shrink: 0;
-        }
-        
-        .branch-info { flex: 1; }
-        .branch-info h2 { font-size: 1rem; font-weight: 600; margin-bottom: 3px; }
-        .branch-info p { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
-        
-        .branch-arrow {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.3);
-            transition: transform 0.3s;
-        }
-        
-        .branch-head.open .branch-arrow { transform: rotate(180deg); }
-        
-        .branch-body { display: none; padding: 20px; }
-        .branch-body.open { display: block; }
-        
-        /* Sub items */
-        .sub-section { margin-bottom: 24px; }
-        .sub-section:last-child { margin-bottom: 0; }
-        
-        .sub-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: rgba(255,255,255,0.5);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .sub-title::before {
-            content: '';
-            width: 3px;
-            height: 14px;
-            background: #e94560;
-            border-radius: 2px;
-        }
-        
-        /* Cards */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 12px;
-        }
-        
-        .card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 16px;
-            transition: all 0.2s;
-        }
-        
-        .card:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.12);
-        }
-        
-        .card h3 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .card .author {
-            font-size: 0.7rem;
-            color: #e94560;
-            font-weight: 500;
+        .node {
             margin-bottom: 8px;
         }
         
-        .card p {
-            font-size: 0.78rem;
-            color: rgba(255,255,255,0.5);
-            line-height: 1.5;
-            margin-bottom: 10px;
+        .node-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
         }
         
-        .card .quote {
+        .node-content:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.08);
+        }
+        
+        .node-content.active {
+            background: rgba(233,69,96,0.08);
+            border-color: rgba(233,69,96,0.2);
+        }
+        
+        .toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+        
+        .node-content.active .toggle {
+            transform: rotate(90deg);
+            color: #e94560;
+        }
+        
+        .no-children .toggle {
+            visibility: hidden;
+        }
+        
+        .node-body {
+            flex: 1;
+        }
+        
+        .node-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+        
+        .node-title .icon {
+            margin-right: 6px;
+        }
+        
+        .node-desc {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.5;
+        }
+        
+        .node-quote {
             font-size: 0.75rem;
-            color: rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.3);
             font-style: italic;
-            padding: 10px 12px;
+            margin-top: 8px;
+            padding: 8px 12px;
             background: rgba(255,255,255,0.02);
-            border-left: 2px solid rgba(233,69,96,0.4);
+            border-left: 2px solid rgba(233,69,96,0.3);
             border-radius: 0 6px 6px 0;
-            margin-bottom: 10px;
-            line-height: 1.5;
         }
         
-        .card .tags {
+        .node-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
+            margin-top: 8px;
         }
         
-        .tag {
+        .node-tag {
             font-size: 0.65rem;
             padding: 3px 8px;
             background: rgba(255,255,255,0.06);
@@ -271,837 +155,1056 @@
             color: rgba(255,255,255,0.5);
         }
         
-        /* Nested cards */
-        .nested { margin-top: 10px; padding-left: 14px; border-left: 1px dashed rgba(255,255,255,0.1); }
-        
-        .nested .card { padding: 12px; }
-        .nested .card h3 { font-size: 0.85rem; }
-        .nested .card p { font-size: 0.72rem; }
-        
-        /* Connections */
-        .connections {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.06);
+        .children {
+            display: none;
+            margin-left: 30px;
+            padding-left: 20px;
+            border-left: 1px solid rgba(255,255,255,0.08);
+            margin-top: 8px;
         }
         
-        .connections h2 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: rgba(255,255,255,0.5);
-            margin-bottom: 20px;
+        .children.show {
+            display: block;
         }
         
-        .conn-flow {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 14px;
+        /* Section headers */
+        .section {
+            margin-bottom: 30px;
         }
         
-        .conn-item {
-            background: rgba(233,69,96,0.12);
-            border: 1px solid rgba(233,69,96,0.25);
-            padding: 8px 14px;
-            border-radius: 20px;
+        .section-title {
             font-size: 0.8rem;
-            white-space: nowrap;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .conn-arrow { color: rgba(233,69,96,0.5); font-size: 0.7rem; }
+        /* Root */
+        .root-node {
+            background: linear-gradient(135deg, rgba(233,69,96,0.15), rgba(233,69,96,0.05));
+            border: 1px solid rgba(233,69,96,0.3);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
         
-        /* Mobile */
+        .root-node:hover {
+            border-color: rgba(233,69,96,0.5);
+        }
+        
+        .root-node .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .root-node h2 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .root-node .sub {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        .root-node .hint {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.3);
+            margin-top: 10px;
+        }
+        
+        /* Color coding */
+        .node[data-level="1"] .node-content { border-left: 3px solid #e94560; }
+        .node[data-level="2"] .node-content { border-left: 3px solid #4ecdc4; }
+        .node[data-level="3"] .node-content { border-left: 3px solid #ffe66d; }
+        
         @media (max-width: 480px) {
-            .card-grid { grid-template-columns: 1fr; }
-            .topbar-nav { display: none; }
+            .children { margin-left: 15px; padding-left: 15px; }
+            .node-content { padding: 10px 12px; }
+            .node-title { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
-    <div class="topbar">
+    <div class="header">
         <h1>🧠 文化想象</h1>
-        <nav class="topbar-nav">
-            <a href="index.html">首页</a>
-            <a href="graph.html" class="active">图谱</a>
-            <a href="theory.html">理论</a>
-            <a href="history.html">历史</a>
-            <a href="compare.html">比较</a>
-        </nav>
+        <p>点击节点展开 · 查看层层深入的脉络</p>
     </div>
     
-    <div class="main">
-        <!-- Search -->
-        <div class="search-box">
-            <span>🔍</span>
-            <input type="text" placeholder="搜索概念、理论家、关键词..." id="searchInput" oninput="filterContent()">
-        </div>
+    <nav class="nav">
+        <a href="index.html">首页</a>
+        <a href="graph.html" class="active">图谱</a>
+        <a href="theory.html">理论</a>
+        <a href="history.html">历史</a>
+        <a href="compare.html">比较</a>
+        <a href="analysis.html">议题</a>
+    </nav>
+    
+    <div class="container">
         
         <!-- Root -->
-        <div class="root-section">
-            <div class="root-node">
-                <span class="emoji">🧠</span>
-                <h2>文化想象</h2>
-                <span class="en">Cultural Imagination</span>
-            </div>
-            <p class="root-meta">约130,000字 · 4份研究报告 · 跨5大文明</p>
+        <div class="root-node" onclick="toggleAll()">
+            <div class="emoji">🧠</div>
+            <h2>文化想象</h2>
+            <div class="sub">Cultural Imagination</div>
+            <div class="hint">点击展开全部</div>
         </div>
         
-        <!-- Category Nav -->
-        <div class="cat-nav">
-            <button class="cat-btn active" onclick="showCat('all', this)">全部</button>
-            <button class="cat-btn" onclick="showCat('theory', this)">📚 理论</button>
-            <button class="cat-btn" onclick="showCat('history', this)">🏛️ 历史</button>
-            <button class="cat-btn" onclick="showCat('compare', this)">🌍 比较</button>
-            <button class="cat-btn" onclick="showCat('issue', this)">🎯 议题</button>
+        <div class="tree">
+            
+            <!-- ========== 分支1: 理论谱系 ========== -->
+            <div class="section">
+                <div class="section-title">📚 理论谱系</div>
+                
+                <!-- 安德森 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title"><span class="icon">📗</span>本尼迪克特·安德森 Benedict Anderson</div>
+                            <div class="node-desc">《想象的共同体》(1983) - 民族作为现代想象</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">核心论点：印刷资本主义</div>
+                                    <div class="node-desc">16世纪印刷革命创造了"同时性"体验——陌生人在同一时间读同一份报纸，想象他们是同一个民族。</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 民族主义传播</div>
+                                            <div class="node-desc">从欧洲向美洲、亚洲传播变形，形成"美洲模式"、"官方民族主义"、"殖民地民族主义"</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">核心论点："同时性"的发明</div>
+                                    <div class="node-desc">印刷媒体使"在同一时刻思考同一事情"成为可能，这是民族认同的技术基础</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 民族主义</div>
+                                    <div class="node-desc">民族作为"想象的共同体"——即使是最小的民族，其成员也不可能认识大多数同胞，但在他们心中却存在着关于这个共同体的想象。</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 福柯 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title"><span class="icon">📕</span>米歇尔·福柯 Michel Foucault</div>
+                            <div class="node-desc">《异托邦》- 真实存在的他者空间</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">核心概念：异托邦 Heterotopia</div>
+                                    <div class="node-quote">"There are also, probably in every culture, real places—places that do exist and are formed in the very founding of society."</div>
+                                    <div class="node-desc">真实存在的"他者空间"，与乌托邦（不存在的地方）相对。如修道院、墓地、花园、殖民地。</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 应用：终南山隐士空间</div>
+                                    <div class="node-desc">修行圣地作为异托邦——真实存在，却与主流社会保持距离，是"他者空间"的典型案例</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 修道院、墓地、殖民地</div>
+                                            <div class="node-desc">福柯列举的异托邦例子：与主流空间形成张力的特殊场所</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 数字游民</div>
+                                            <div class="node-desc">当代的地理套利者，以远程工作为生，在低成本地区生活——新的异托邦实践</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 哈布瓦赫 & 阿斯曼 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title"><span class="icon">📘</span>哈布瓦赫 + 阿斯曼：记忆理论</div>
+                            <div class="node-desc">《集体记忆》(1925) → 《文化记忆》(1992)</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">哈布瓦赫：集体记忆</div>
+                                    <div class="node-quote">"Our every recollection of the past is a result of reconstruction."</div>
+                                    <div class="node-desc">过去不是被"保存"，而是被"重构"。现在社会框架决定我们如何回忆过去。</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">阿斯曼：文化记忆</div>
+                                    <div class="node-desc">区分"交流记忆"（当代人口耳相传）与"文化记忆"（通过符号/仪式/文本固定传承）</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 冷记忆 vs 热记忆</div>
+                                            <div class="node-desc">冷记忆：高度仪式化、少变化（犹太教）；热记忆：不断被改写激活（现代民族主义）</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 纪念日、仪式、博物馆</div>
+                                            <div class="node-desc">文化记忆通过节日庆典、历史博物馆、纪念仪式来传承和再生产</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 霍尔 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title"><span class="icon">📙</span>斯图亚特·霍尔 Stuart Hall</div>
+                            <div class="node-desc">身份是"成为"不是"是"</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">身份建构理论</div>
+                                    <div class="node-quote">"Cultural identity is not a fixed essence out there, lying in wait to be discovered."</div>
+                                    <div class="node-desc">身份不是固定本质，而是持续"成为"的过程。身份是生产而非再现。</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 当代应用：躺平/佛系</div>
+                                    <div class="node-desc">拒绝"成功=意义"的等式，质疑主流身份叙事</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ "空心病"</div>
+                                            <div class="node-desc">北大心理咨询数据：30.4%新生厌恶学习。成功=意义的等式在什么时候失效？</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 存在危机</div>
+                                            <div class="node-desc">凯博文(Kleinman)：苦难是文化建构的产物。抑郁症在不同文化中的表现差异。</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 坎贝尔 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title"><span class="icon">📓</span>约瑟夫·坎贝尔 Joseph Campbell</div>
+                            <div class="node-desc">《千面英雄》- 英雄之旅原型</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">核心结构：离开 → 历险 → 归来</div>
+                                    <div class="node-quote">"The hero's journey is a magnification of the formula which was indicated in the IVF."</div>
+                                    <div class="node-desc">所有神话英雄经历相同的结构——这是人类共同的神话遗产</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 隐士叙事</div>
+                                    <div class="node-desc">离开尘世 → 山林修行 → 归来（或不归来）——隐士是否是当代英雄之旅的变形？</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 终南山案例</div>
+                                            <div class="node-desc">大喜们：困在出世/入世之间，房贷追进山——"我找到了一个方式，但还没付清代价"</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 中国理论 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title"><span class="icon">📒</span>中国理论脉络</div>
+                            <div class="node-desc">费孝通 · 葛兆光 · 汪晖</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">费孝通：差序格局</div>
+                                    <div class="node-quote">"中国传统社会结构是差序格局，以'己'为中心向外推。"</div>
+                                    <div class="node-desc">乡土中国的社会结构，像石子投入水面形成的波纹，没有清晰的团体界限</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">葛兆光：边界意识</div>
+                                    <div class="node-desc">中国思想史中"华夷"边界的变迁——如何划定"我们"与"他们"的界限</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">汪晖：跨体系历史</div>
+                                    <div class="node-desc">超越单一民族国家框架，关注"跨体系"的社会网络与文化流动</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- ========== 分支2: 历史演进 ========== -->
+            <div class="section">
+                <div class="section-title">🏛️ 历史演进</div>
+                
+                <!-- 神话时代 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🏛️ 神话时代</div>
+                            <div class="node-desc">美索不达米亚 · 希腊 · 中国 · 犹太-基督教</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">美索不达米亚</div>
+                                    <div class="node-desc">创世神话(Enuma Elish)、吉尔伽美什史诗、洪水神话——两河流域的文化认同基础</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">希腊：城邦认同</div>
+                                    <div class="node-desc">荷马史诗中的英雄、城邦认同、奥林匹克神话</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 命运观(Moira)</div>
+                                            <div class="node-desc">命运不是被战胜的，而是被接受和超越的——希腊悲剧的核心张力</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">犹太-基督教：选民与末世论</div>
+                                    <div class="node-quote">"你们是特选的子民，万民的司祭"——《出埃及记》</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 美国例外论的源头</div>
+                                            <div class="node-desc">清教徒认为北美是新的应许之地，塑造了美国的"天定命运"想象</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">中国：天命·天下·五服</div>
+                                    <div class="node-quote">"普天之下，莫非王土；率土之滨，莫非王臣"——《诗经》</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 桃花源</div>
+                                            <div class="node-desc">陶渊明笔下的隐逸乌托邦——理想的"化外"空间，与天下体系形成张力</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 近代民族主义 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">📜 近代民族主义</div>
+                            <div class="node-desc">印刷资本主义 · 民族史诗的"发明" · 亚洲的传播与变形</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">安德森核心：印刷资本主义</div>
+                                    <div class="node-desc">印刷出版创造了统一语言，塑造了"同时代人"的想象——民族认同的技术基础</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 民族史诗的"发明"</div>
+                                    <div class="node-desc">E.Hobsbawm：18-19世纪欧洲民族主义建构——苏格兰高地运动会、捷克民族音乐</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 历史博物馆</div>
+                                            <div class="node-desc">民族遗产的展示——被选择的过去，被遗忘的历史</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 亚洲的传播与变形</div>
+                                    <div class="node-desc">梁启超、孙中山→中国；明治维新→日本脱亚入欧vs亚洲主义</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 中国：民族vs天下</div>
+                                            <div class="node-desc">近代中国面临双重困境：既要建立民族国家（响应西方），又想维持天下秩序（保持自我）</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 现代意识形态 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🎬 现代意识形态</div>
+                            <div class="node-desc">社会主义现实主义 · 好莱坞 · 消费主义</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">社会主义现实主义</div>
+                                    <div class="node-desc">苏联：新人(Soviet New Man)、集体农庄；中国：革命叙事（长征/抗日/解放）叠加在传统之上</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">好莱坞与美国梦</div>
+                                    <div class="node-quote">"Life should be better and richer and fuller for everyone, with opportunity for each."</div>
+                                    <div class="node-desc">自由、个人主义、流动性——"美国梦"成为全球最具影响力的文化想象之一</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">消费主义："我买故我在"</div>
+                                    <div class="node-desc">商品消费成为身份建构的主要方式，品牌叙事替代了传统的宗教叙事</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- 数字时代 -->
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">💻 数字时代</div>
+                            <div class="node-desc">社交媒体 · K-pop · 全球本土化</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">算法茧房与回音壁</div>
+                                    <div class="node-desc">你只看到你想看到的——算法强化了既有偏见，创造了封闭的想象共同体</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">K-pop：全球在地化(Glocalization)</div>
+                                    <div class="node-desc">韩国流行文化——本土元素+全球语法的成功输出，是21世纪文化想象流动的典范</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 躺平/内卷</div>
+                                    <div class="node-desc">数字时代的竞争死循环——为什么经济发展没有带来意义感的提升？</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- ========== 分支3: 跨文化比较 ========== -->
+            <div class="section">
+                <div class="section-title">🌍 跨文化比较</div>
+                
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🇨🇳 中国：天下 vs 民族国家</div>
+                            <div class="node-desc">传统"天下"体系 → 近代被迫接受民族国家框架 → 当代"人类命运共同体"</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">符号系统</div>
+                                    <div class="node-desc">龙·凤·麒麟（祥瑞）、长城（边界）、汉字（文化统一性）、科举（社会流动）</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 桃花源的层叠</div>
+                                    <div class="node-desc">陶渊明(5世纪) → 道教圣地 → 革命根据地 → 旅游IP → 乡村振兴</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 每一层都是重新叙事</div>
+                                            <div class="node-desc">符号不变，意义在变——这是文化想象的生命力所在</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🇺🇸 美国：昭昭天命 · 山巅之城 · 美国梦</div>
+                            <div class="node-desc">宗教救赎 + 领土扩张 + 文明使命的混合</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">昭昭天命 Manifest Destiny</div>
+                                    <div class="node-quote">"The American conquest of the West was a fulfillment of providential design."</div>
+                                    <div class="node-desc">白人神圣使命向西拓张的意识形态</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">山巅之城</div>
+                                    <div class="node-quote">"a city upon a hill"——John Winthrop, 1630</div>
+                                    <div class="node-desc">清教想象：美国是上帝拣选的国度，负有向世界传播自由的特殊使命</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 阴暗面：种族乌托邦</div>
+                                    <div class="node-desc">白人至上的"理想秩序"——作为被压制但从未消失的潜流</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🇪🇺 欧洲：启蒙 · 殖民 · 大屠杀记忆</div>
+                            <div class="node-desc">理性、科学、民主 → 文明使命 → 记忆政治</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">文明使命 Mission Civilisatrice</div>
+                                    <div class="node-desc">殖民主义的文化逻辑，将扩张合理化为"文明教化"——这是启蒙理想阴暗面的体现</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 大屠杀记忆</div>
+                                    <div class="node-quote">"European identity is built on the Shoah."</div>
+                                    <div class="node-desc">纳粹大屠杀成为欧洲记忆的核心——"我们不会再犯"作为战后欧洲认同的道德基础</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🇯🇵 日本：万世一系 · 武士道 · 隐士禅宗</div>
+                            <div class="node-desc">天皇制连续性 · 物哀美学 · 禅宗</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">万世一系</div>
+                                    <div class="node-desc">日本是世界上唯一没有王朝断裂的国家——这是被神话化的叙事</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 武士道与物哀</div>
+                                    <div class="node-desc">武士道是江户时代被"发明"的传统；物哀(Mono no aware)——对生命无常的敏感</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 与中国隐士比较</div>
+                                            <div class="node-desc">中国：儒家出/入世张力；日本：侘寂(Wabi-sabi)+物哀意识</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- ========== 分支4: 核心议题 ========== -->
+            <div class="section">
+                <div class="section-title">🎯 核心议题</div>
+                
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🎯 议题一：国家共同体</div>
+                            <div class="node-desc">民族主义如何利用文化符号？教育系统如何再生产？</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">符号的发明与挪用</div>
+                                    <div class="node-desc">历史博物馆、民族节日、民族服装、语言标准化——国家如何建构"我们"</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">教育系统的再生产</div>
+                                    <div class="node-quote">"教科书不是中立的知识传递，而是价值选择和叙事建构。"</div>
+                                    <div class="node-desc">历史教科书、公民教育、考试制度——文化想象通过制度化教育代际传递</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 争议：安德森理论适用于中国吗？</div>
+                                    <div class="node-desc">支持：印刷资本主义同样存在；质疑：中国传统"天下"观 vs 近代民族主义</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 葛兆光的质疑</div>
+                                            <div class="node-desc">中国思想史中的"边界意识"——安德森的理论框架是否足以解释中国？</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🎯 议题二：个人主体</div>
+                            <div class="node-desc">归属感 ← → 疏离感；文化想象如何塑造欲望？</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">归属感 vs 疏离感</div>
+                                    <div class="node-desc">文化想象提供"家"的感觉，但当想象与现实落差太大，就会产生愤怒和疏离</div>
+                                    <div class="node-quote">"我们都是中国人"vs"我买不起房"——认同与现实的断裂</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">欲望的建构</div>
+                                    <div class="node-desc">"成功"的标准（有钱/有权/有名）、生活方式想象（买房/结婚/育儿）——这些都是文化想象的产物</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 躺平·内卷·佛系</div>
+                                    <div class="node-desc">这是对主流成功叙事的抵抗？还是被收编的消费选择？</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 国际比较</div>
+                                            <div class="node-desc">日本"草食男"、韩国"三放世代"、中国"躺平"——东亚集体焦虑的不同表达</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="node" data-level="1">
+                    <div class="node-content" onclick="toggleNode(this)">
+                        <span class="toggle">▶</span>
+                        <div class="node-body">
+                            <div class="node-title">🎯 议题三：叙事转译</div>
+                            <div class="node-desc">文化意象如何在历史中被重新叙事？古代符号如何获得当代意义？</div>
+                        </div>
+                    </div>
+                    <div class="children">
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content no-children">
+                                <span class="toggle"></span>
+                                <div class="node-body">
+                                    <div class="node-title">三种转译机制</div>
+                                    <div class="node-desc">①重新叙事：同一符号被赋予新故事<br>②挪用(Appropriation)：借用异文化符号并本土化<br>③杂糅(Hybridization)：多种文化混合</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 龙的形象转译</div>
+                                    <div class="node-desc">古代（皇权）→ 近代（民族图腾）→ 当代（中国崛起与西方Dragon融合）</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 争议</div>
+                                            <div class="node-desc">龙是祥瑞还是恶兽？中西方语境中有巨大差异——软实力符号的困境</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="node" data-level="2">
+                            <div class="node-content" onclick="toggleNode(this)">
+                                <span class="toggle">▶</span>
+                                <div class="node-body">
+                                    <div class="node-title">→ 隐士文化的当代转译</div>
+                                    <div class="node-desc">古代（道家/儒家山林情怀）→ 当代（终南山、数字游民、隐居式度假）</div>
+                                </div>
+                            </div>
+                            <div class="children">
+                                <div class="node" data-level="3">
+                                    <div class="node-content no-children">
+                                        <span class="toggle"></span>
+                                        <div class="node-body">
+                                            <div class="node-title">→ 商业化问题</div>
+                                            <div class="node-desc">隐居成为消费品——"隐居式度假"是否消解了隐士精神？</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            
         </div>
-        
-        <!-- ========== 理论谱系 ========== -->
-        <div class="branch" data-cat="theory" id="branch-theory">
-            <div class="branch-head" onclick="toggleBranch(this)">
-                <div class="branch-icon" style="background:rgba(233,69,96,0.15)">📚</div>
-                <div class="branch-info">
-                    <h2>理论谱系</h2>
-                    <p>西方理论脉络 · 中国理论脉络 · 跨文化理论</p>
-                </div>
-                <span class="branch-arrow">▼</span>
-            </div>
-            <div class="branch-body">
-                
-                <div class="sub-section">
-                    <div class="sub-title">西方理论脉络</div>
-                    <div class="card-grid">
-                        
-                        <div class="card">
-                            <h3>想象的共同体</h3>
-                            <div class="author">Benedict Anderson · 1983</div>
-                            <p>民族作为"想象的共同体"——即使是最小的民族，其成员也不可能认识大多数同胞，但在他们心中却存在着关于这个共同体的想象。</p>
-                            <div class="quote">"It is imagined because the members of even the smallest nation will never know most of their fellow-members... yet in the minds of each lives the image of their communion."</div>
-                            <div class="tags">
-                                <span class="tag">印刷资本主义</span>
-                                <span class="tag">民族主义</span>
-                                <span class="tag">同时性</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 印刷资本主义</h3>
-                                    <p>小说和报纸作为媒介，使"想象的共同体"成为可能。印刷出版创造了统一语言，塑造了共同认同。</p>
-                                </div>
-                                <div class="card">
-                                    <h3>→ 民族主义的传播</h3>
-                                    <p>民族主义从欧洲向美洲、亚洲传播变形，形成"美洲模式"、"官方民族主义"、"殖民地民族主义"。</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>社会的想象体制</h3>
-                            <div class="author">Cornelius Castoriadis · 1975</div>
-                            <p>社会如何创造和组织符号/价值/意义。区分"想象"（个人心理）与社会想象体制（集体共享）。</p>
-                            <div class="quote">"The social imaginary is the way in which society imagines itself."</div>
-                            <div class="tags">
-                                <span class="tag">符号创造</span>
-                                <span class="tag">制度</span>
-                                <span class="tag">意义</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>异托邦</h3>
-                            <div class="author">Michel Foucault · 1967</div>
-                            <p>真实存在的"他者空间"，与乌托邦（不存在的地方）相对。如修道院、墓地、花园、殖民地。</p>
-                            <div class="quote">"There are also, probably in every culture, in every civilization, real places—places that do exist and are formed in the very founding of society."</div>
-                            <div class="tags">
-                                <span class="tag">空间</span>
-                                <span class="tag">他者</span>
-                                <span class="tag">乌托邦</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 应用：终南山隐士</h3>
-                                    <p>修行圣地作为异托邦——真实存在，却与主流社会保持距离，是"他者空间"的典型案例。</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>集体记忆</h3>
-                            <div class="author">Maurice Halbwachs · 1925</div>
-                            <p>记忆的社会建构。过去不是被"保存"，而是被"重构"。现在社会框架决定我们如何回忆过去。</p>
-                            <div class="quote">"Our every recollection of the past is a result of reconstruction."</div>
-                            <div class="tags">
-                                <span class="tag">记忆</span>
-                                <span class="tag">社会框架</span>
-                                <span class="tag">过去</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>文化记忆</h3>
-                            <div class="author">Jan Assmann · 1992</div>
-                            <p>区分"交流记忆"（当代人口耳相传）与"文化记忆"（通过符号/仪式/文本固定传承）。</p>
-                            <div class="tags">
-                                <span class="tag">文化传承</span>
-                                <span class="tag">仪式</span>
-                                <span class="tag">符号</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 冷记忆 vs 热记忆</h3>
-                                    <p>冷记忆：高度仪式化、少变化（犹太教）；热记忆：不断被改写激活（现代民族主义）。</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>身份是"成为"</h3>
-                            <div class="author">Stuart Hall · 1990</div>
-                            <p>文化身份不是固定本质，而是持续"成为"的过程。身份是生产而非再现。</p>
-                            <div class="quote">"Cultural identity is not a fixed essence out there, lying in wait to be discovered. It is not some fixed origin to which we can make some final and terminal Return."</div>
-                            <div class="tags">
-                                <span class="tag">身份</span>
-                                <span class="tag">建构</span>
-                                <span class="tag">过程</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 躺平/佛系</h3>
-                                    <p>拒绝"成功=意义"的等式，质疑主流身份叙事，是霍尔身份理论的当代实践。</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>厚描述</h3>
-                            <div class="author">Clifford Geertz · 1973</div>
-                            <p>文化分析不是寻找规律，而是解读意义之网中的层层嵌套的符号结构。</p>
-                            <div class="quote">"Man is an animal suspended in webs of significance he himself has spun."</div>
-                            <div class="tags">
-                                <span class="tag">符号</span>
-                                <span class="tag">意义</span>
-                                <span class="tag">解释</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>千面英雄</h3>
-                            <div class="author">Joseph Campbell · 1949</div>
-                            <p>所有神话英雄经历相同的"英雄之旅"结构：离开 → 历险 → 归来。这是人类共同的神话遗产。</p>
-                            <div class="quote">"The hero's journey is a magnification of the formula which was indicated in the IVF."</div>
-                            <div class="tags">
-                                <span class="tag">原型</span>
-                                <span class="tag">神话</span>
-                                <span class="tag">结构</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 隐士叙事</h3>
-                                    <p>离开尘世 → 山林修行 → 归来（或不归来）——隐士是否是当代英雄之旅的变形？</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">中国理论脉络</div>
-                    <div class="card-grid">
-                        
-                        <div class="card">
-                            <h3>差序格局</h3>
-                            <div class="author">费孝通 · 1947</div>
-                            <p>中国传统社会结构像石子投入水面形成的波纹，以"己"为中心层层外推，没有清晰的团体界限。</p>
-                            <div class="quote">"中国传统社会结构是差序格局，以'己'为中心向外推。"</div>
-                            <div class="tags">
-                                <span class="tag">乡土中国</span>
-                                <span class="tag">社会结构</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>边界意识</h3>
-                            <div class="author">葛兆光</div>
-                            <p>中国思想史研究中"边界意识"——中国如何划定"华夷"边界，以及这种边界在不同历史时期的变迁。</p>
-                            <div class="tags">
-                                <span class="tag">华夷之辨</span>
-                                <span class="tag">思想史</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>跨体系历史</h3>
-                            <div class="author">汪晖</div>
-                            <p>超越单一民族国家框架，在跨体系联系中理解中国历史。关注"跨体系"的社会网络与文化流动。</p>
-                            <div class="tags">
-                                <span class="tag">中国现代性</span>
-                                <span class="tag">跨体系</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>苦难的文化建构</h3>
-                            <div class="author">Arthur Kleinman</div>
-                            <p>苦难不是纯客观经验，而是文化建构的产物。抑郁症在不同文化中的表现差异说明了这一点。</p>
-                            <div class="tags">
-                                <span class="tag">存在危机</span>
-                                <span class="tag">心理健康</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- ========== 历史演进 ========== -->
-        <div class="branch" data-cat="history" id="branch-history">
-            <div class="branch-head" onclick="toggleBranch(this)">
-                <div class="branch-icon" style="background:rgba(78,205,196,0.15)">🏛️</div>
-                <div class="branch-info">
-                    <h2>历史演进</h2>
-                    <p>前现代 → 宗教 → 近代民族 → 现代意识形态 → 数字时代</p>
-                </div>
-                <span class="branch-arrow">▼</span>
-            </div>
-            <div class="branch-body">
-                
-                <div class="sub-section">
-                    <div class="sub-title">前现代：神话与宗教想象</div>
-                    <div class="card-grid">
-                        
-                        <div class="card">
-                            <h3>美索不达米亚</h3>
-                            <p>创世神话（Enuma Elish）、吉尔伽美什史诗、洪水神话——两河流域的文化认同基础。</p>
-                            <div class="quote">大洪水后，神命令人类繁衍，却因人类喧嚣而降下毁灭——体现了"集体罪感"的早期形态。</div>
-                            <div class="tags">
-                                <span class="tag">创世</span>
-                                <span class="tag">洪水</span>
-                                <span class="tag">英雄</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>希腊：城邦认同</h3>
-                            <p>荷马史诗中的英雄（阿喀琉斯、奥德修斯）、命运观（Moira）、奥林匹克神话——泛希腊认同的根基。</p>
-                            <div class="quote">命运不是被战胜的，而是被接受和超越的——这是希腊悲剧的核心张力。</div>
-                            <div class="tags">
-                                <span class="tag">英雄</span>
-                                <span class="tag">命运</span>
-                                <span class="tag">城邦</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>犹太-基督教：选民与末世论</h3>
-                            <p>选民概念（Chosen People）、应许之地、弥赛亚与末世论——塑造了西方现代政治想象的深层结构。</p>
-                            <div class="quote">"你们是特选的子民，万民的司祭"——《出埃及记》</div>
-                            <div class="tags">
-                                <span class="tag">选民</span>
-                                <span class="tag">应许之地</span>
-                                <span class="tag">末世论</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 美国例外论</h3>
-                                    <p>清教徒认为北美是新的应许之地，"昭昭天命"(Manifest Destiny)将这种宗教想象转化为政治扩张意识形态。</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>中国：天命·天下·五服</h3>
-                            <p>天命观→天下体系→五服制度（甸服/侯服/绥服/要服/荒服）——以华为中心的世界秩序想象。</p>
-                            <div class="quote">"普天之下，莫非王土；率土之滨，莫非王臣"——《诗经》</div>
-                            <div class="tags">
-                                <span class="tag">天命</span>
-                                <span class="tag">朝贡</span>
-                                <span class="tag">华夷</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 桃花源</h3>
-                                    <p>陶渊明笔下的隐逸乌托邦——理想的"化外"空间，与天下体系形成张力。</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>印度：轮回与解脱</h3>
-                            <p>业(Karma)、轮回(Samsara)、梵我一如(Maya)、解脱(Moksha)——印度教构建了独特的宇宙想象。</p>
-                            <div class="tags">
-                                <span class="tag">业</span>
-                                <span class="tag">解脱</span>
-                                <span class="tag">种姓</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">近代：民族主义的文化基础</div>
-                    <div class="card-grid">
-                        
-                        <div class="card">
-                            <h3>印刷资本主义</h3>
-                            <p>安德森核心论点：16世纪印刷革命创造了"同时性"体验——陌生人在同一时间读同一份报纸，想象他们是同一个民族。</p>
-                            <div class="tags">
-                                <span class="tag">安德森</span>
-                                <span class="tag">印刷</span>
-                                <span class="tag">同时性</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>民族史诗的"发明"</h3>
-                            <p>E.Hobsbawm"发明的传统"：苏格兰高地运动会、捷克民族音乐、民族节日——18-19世纪欧洲民族主义建构。</p>
-                            <div class="tags">
-                                <span class="tag">传统发明</span>
-                                <span class="tag">民族主义</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>亚洲的传播与变形</h3>
-                            <p>梁启超、孙中山→中国民族国家想象；明治维新→日本脱亚入欧vs亚洲主义；韩国的去中国化。</p>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 中国：民族vs天下</h3>
-                                    <p>近代中国面临双重困境：既要建立民族国家（响应西方），又想维持天下秩序（保持自我）。</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">现代：意识形态与大众媒介</div>
-                    <div class="card-grid">
-                        
-                        <div class="card">
-                            <h3>社会主义现实主义</h3>
-                            <p>苏联：新人（Soviet New Man）、集体农庄、工业化叙事——另一种现代性想象。</p>
-                            <p>中国：革命叙事（长征/抗日/解放）叠加在传统之上。</p>
-                            <div class="tags">
-                                <span class="tag">革命叙事</span>
-                                <span class="tag">集体主义</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>好莱坞与美国梦</h3>
-                            <p>自由、个人主义、流动性作为核心价值——"美国梦"成为全球最具影响力的文化想象之一。</p>
-                            <div class="quote">"Life should be better and richer and fuller for everyone, with opportunity for each."</div>
-                            <div class="tags">
-                                <span class="tag">个人主义</span>
-                                <span class="tag">流动性</span>
-                                <span class="tag">消费</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>消费主义</h3>
-                            <p>"我买故我在"——商品消费成为身份建构的主要方式。品牌叙事替代了传统的宗教叙事。</p>
-                            <div class="tags">
-                                <span class="tag">消费</span>
-                                <span class="tag">品牌</span>
-                                <span class="tag">身份</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">当代：数字时代</div>
-                    <div class="card-grid">
-                        
-                        <div class="card">
-                            <h3>社交媒体与微粒部落</h3>
-                            <p>算法茧房、回音壁、micro-tribes——数字时代创造了碎片化的"想象共同体"。</p>
-                            <div class="tags">
-                                <span class="tag">算法</span>
-                                <span class="tag">部落</span>
-                                <span class="tag">碎片化</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>K-pop与全球在地化</h3>
-                            <p>韩国流行文化作为"全球在地化"(Glocalization)典范——本土元素+全球语法的成功输出。</p>
-                            <div class="tags">
-                                <span class="tag">K-pop</span>
-                                <span class="tag">软实力</span>
-                                <span class="tag">跨文化</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>逆全球化与文明冲突</h3>
-                            <p>亨廷顿"文明的冲突"vs福山"历史终结"——21世纪的文化想象争夺。</p>
-                            <div class="tags">
-                                <span class="tag">文明</span>
-                                <span class="tag">地缘政治</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- ========== 跨文化比较 ========== -->
-        <div class="branch" data-cat="compare" id="branch-compare">
-            <div class="branch-head" onclick="toggleBranch(this)">
-                <div class="branch-icon" style="background:rgba(255,230,109,0.15)">🌍</div>
-                <div class="branch-info">
-                    <h2>跨文化比较</h2>
-                    <p>中国 · 美国 · 欧洲 · 日本 · 印度</p>
-                </div>
-                <span class="branch-arrow">▼</span>
-            </div>
-            <div class="branch-body">
-                
-                <div class="sub-section">
-                    <div class="sub-title">🇨🇳 中国</div>
-                    <div class="card-grid">
-                        <div class="card">
-                            <h3>天下 vs 民族国家</h3>
-                            <p>传统"天下"体系以华为中心，朝贡为秩序——近代被迫接受民族国家框架，但"天下"想象的变体从未消失。</p>
-                            <div class="quote">"人类命运共同体"是否是"天下"想象的当代表达？</div>
-                            <div class="tags">
-                                <span class="tag">天下</span>
-                                <span class="tag">朝贡</span>
-                                <span class="tag">民族国家</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>符号系统</h3>
-                            <p>龙·凤·麒麟（祥瑞）、长城（边界）、汉字（文化统一性）、科举（社会流动）</p>
-                            <div class="tags">
-                                <span class="tag">龙</span>
-                                <span class="tag">汉字</span>
-                                <span class="tag">科举</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>桃花源</h3>
-                            <p>永恒的隐逸乌托邦——从陶渊明(5世纪)到乡村振兴战略，一直在历史中被转译和挪用。</p>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 层叠历程</h3>
-                                    <p>陶渊明→道教圣地→革命根据地→旅游IP→乡村振兴（每一层都重新叙事）</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">🇺🇸 美国</div>
-                    <div class="card-grid">
-                        <div class="card">
-                            <h3>昭昭天命 Manifest Destiny</h3>
-                            <p>白人神圣使命向西拓张的意识形态——宗教救赎+领土扩张+文明使命的混合。</p>
-                            <div class="quote">"The American conquest of the West was a fulfillment of providential design."</div>
-                            <div class="tags">
-                                <span class="tag">天命</span>
-                                <span class="tag">扩张</span>
-                                <span class="tag">例外论</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>山巅之城</h3>
-                            <p>清教想象：美国是上帝拣选的国度，负有向世界传播自由的特殊使命。</p>
-                            <div class="quote">"a city upon a hill"——John Winthrop, 1630</div>
-                            <div class="tags">
-                                <span class="tag">清教</span>
-                                <span class="tag">道德使命</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>美国梦</h3>
-                            <p>流动性与自我创造的核心叙事——任何人通过努力都能成功。"自我塑造的人"(Self-made man)。</p>
-                            <div class="tags">
-                                <span class="tag">流动性</span>
-                                <span class="tag">个人主义</span>
-                                <span class="tag">成功</span>
-                            </div>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 阴暗面</h3>
-                                    <p>种族乌托邦：白人至上的"理想秩序"作为被压制但从未消失的潜流。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">🇪🇺 欧洲</div>
-                    <div class="card-grid">
-                        <div class="card">
-                            <h3>启蒙理想</h3>
-                            <p>理性、科学、民主——欧洲现代性的核心想象，也是向全球输出的"普世价值"。</p>
-                            <div class="tags">
-                                <span class="tag">理性</span>
-                                <span class="tag">科学</span>
-                                <span class="tag">民主</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>文明使命</h3>
-                            <p>"Mission civilisatrice"——殖民主义的文化逻辑，将扩张合理化为"文明教化"。</p>
-                            <div class="tags">
-                                <span class="tag">殖民</span>
-                                <span class="tag">文明等级</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>大屠杀记忆</h3>
-                            <p>纳粹大屠杀成为欧洲记忆的核心——"我们不会再犯"作为战后欧洲认同的道德基础。</p>
-                            <div class="quote">"European identity is built on the Shoah."</div>
-                            <div class="tags">
-                                <span class="tag">大屠杀</span>
-                                <span class="tag">记忆政治</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">🇯🇵 日本</div>
-                    <div class="card-grid">
-                        <div class="card">
-                            <h3>万世一系</h3>
-                            <p>天皇制连续性神话——日本是世界上唯一没有王朝断裂的国家（神话化叙事）。</p>
-                            <div class="tags">
-                                <span class="tag">天皇</span>
-                                <span class="tag">连续性</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>武士道</h3>
-                            <p>忠诚、死亡、美学——武士道是江户时代被"发明"的传统，将武人伦理诗意化。</p>
-                            <div class="tags">
-                                <span class="tag">武士</span>
-                                <span class="tag">忠诚</span>
-                                <span class="tag">物哀</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>隐士·禅宗</h3>
-                            <p>日本禅宗将中国禅宗与本土审美融合，形成独特的"侘寂"(Wabi-sabi)美学。</p>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 与中国隐士比较</h3>
-                                    <p>中国：儒家出/入世张力；日本：侘寂美学+物哀意识</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- ========== 核心议题 ========== -->
-        <div class="branch" data-cat="issue" id="branch-issue">
-            <div class="branch-head" onclick="toggleBranch(this)">
-                <div class="branch-icon" style="background:rgba(170,150,218,0.15)">🎯</div>
-                <div class="branch-info">
-                    <h2>核心议题</h2>
-                    <p>国家 · 个人 · 叙事转译</p>
-                </div>
-                <span class="branch-arrow">▼</span>
-            </div>
-            <div class="branch-body">
-                
-                <div class="sub-section">
-                    <div class="sub-title">议题一：文化想象与国家共同体</div>
-                    <div class="card-grid">
-                        <div class="card">
-                            <h3>民族主义如何利用文化符号</h3>
-                            <p>历史博物馆（"遗产"）、民族节日（"传统发明"）、教科书（"历史叙事"）、语言标准化。</p>
-                            <div class="tags">
-                                <span class="tag">符号</span>
-                                <span class="tag">教育</span>
-                                <span class="tag">媒体</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>教育系统的再生产</h3>
-                            <p>公民教育、爱国主义课程、考试制度——文化想象通过制度化教育代际传递。</p>
-                            <div class="quote">"教科书不是中立的知识传递，而是价值选择和叙事建构。"</div>
-                            <div class="tags">
-                                <span class="tag">教育</span>
-                                <span class="tag">再生产</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">议题二：文化想象与个人主体</div>
-                    <div class="card-grid">
-                        <div class="card">
-                            <h3>归属感 ← → 疏离感</h3>
-                            <p>文化想象提供"家"的感觉，但当想象与现实落差太大，就会产生疏离和愤怒。</p>
-                            <div class="quote">"我们都是中国人"vs"我买不起房"——认同与现实的断裂。</div>
-                        </div>
-                        <div class="card">
-                            <h3>躺平·内卷·佛系</h3>
-                            <p>这是对主流成功叙事的抵抗？还是被收编的消费选择？</p>
-                            <div class="quote">躺平=低欲望社会的中国版本？还是存在危机？</div>
-                            <div class="tags">
-                                <span class="tag">躺平</span>
-                                <span class="tag">内卷</span>
-                                <span class="tag">佛系</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>"空心病"</h3>
-                            <p>北大心理咨询数据：30.4%新生厌恶学习。成功=意义的等式在什么时候失效？</p>
-                            <div class="tags">
-                                <span class="tag">存在危机</span>
-                                <span class="tag">心理健康</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="sub-section">
-                    <div class="sub-title">议题三：叙事与文化想象的转译</div>
-                    <div class="card-grid">
-                        <div class="card">
-                            <h3>三种转译机制</h3>
-                            <p><strong>重新叙事</strong>：同一符号被赋予新故事</p>
-                            <p><strong>挪用(Appropriation)</strong>：借用异文化符号并本土化</p>
-                            <p><strong>杂糅(Hybridization)</strong>：多种文化混合</p>
-                            <div class="tags">
-                                <span class="tag">转译</span>
-                                <span class="tag">挪用</span>
-                                <span class="tag">杂糅</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h3>案例：龙的形象转译</h3>
-                            <p>古代（皇权）→近代（民族图腾）→当代（中国崛起与西方Dragon融合）</p>
-                            <div class="quote">龙是祥瑞还是恶兽？在中西方语境中有巨大差异。</div>
-                        </div>
-                        <div class="card">
-                            <h3>案例：隐士文化的当代转译</h3>
-                            <p>古代（道家/儒家山林情怀）→当代（终南山隐士、数字游民、Wellness Retreat）</p>
-                            <div class="nested">
-                                <div class="card">
-                                    <h3>→ 商业化问题</h3>
-                                    <p>隐居成为消费品——"隐居式度假"是否消解了隐士精神？</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        <!-- Connections -->
-        <div class="connections">
-            <h2>🔗 核心脉络</h2>
-            
-            <div class="conn-flow">
-                <span class="conn-item">安德森</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">想象的共同体</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">民族主义</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">国家共同体</span>
-            </div>
-            
-            <div class="conn-flow">
-                <span class="conn-item">福柯</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">异托邦</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">隐士空间</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">终南山</span>
-            </div>
-            
-            <div class="conn-flow">
-                <span class="conn-item">霍尔</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">身份建构</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">躺平/内卷</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">存在危机</span>
-            </div>
-            
-            <div class="conn-flow">
-                <span class="conn-item">哈布瓦赫</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">集体记忆</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">国庆/纪念日</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">民族认同</span>
-            </div>
-            
-            <div class="conn-flow">
-                <span class="conn-item">数字时代</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">算法茧房</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">微粒部落</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">文化碎片化</span>
-            </div>
-            
-            <div class="conn-flow">
-                <span class="conn-item">中国</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">天下/天命</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">桃花源</span>
-                <span class="conn-arrow">→</span>
-                <span class="conn-item">隐逸乌托邦</span>
-            </div>
-            
-        </div>
-        
     </div>
     
     <script>
-        function toggleBranch(el) {
-            el.classList.toggle('open');
-            el.nextElementSibling.classList.toggle('open');
-        }
-        
-        function showCat(cat, btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        function toggleNode(el) {
+            const content = el.classList.contains('node-content') ? el : el.closest('.node-content');
+            const node = content.closest('.node');
+            const childrenContainer = node.querySelector('.children');
             
-            document.querySelectorAll('.branch').forEach(b => {
-                if (cat === 'all') {
-                    b.style.display = 'block';
-                } else {
-                    b.style.display = b.dataset.cat === cat ? 'block' : 'none';
-                }
-            });
+            if (!childrenContainer) return;
+            
+            content.classList.toggle('active');
+            childrenContainer.classList.toggle('show');
         }
         
-        function filterContent() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('.card').forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(q) ? '' : 'none';
-            });
+        function toggleAll() {
+            const allChildren = document.querySelectorAll('.children');
+            const allContent = document.querySelectorAll('.node-content');
+            const isExpanded = document.querySelector('.children.show');
+            
+            if (isExpanded) {
+                allChildren.forEach(c => c.classList.remove('show'));
+                allContent.forEach(c => c.classList.remove('active'));
+            } else {
+                allChildren.forEach(c => c.classList.add('show'));
+                allContent.forEach(c => c.classList.add('active'));
+            }
         }
     </script>
 </body>
