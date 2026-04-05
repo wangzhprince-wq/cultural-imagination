@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧠 文化想象 - 知识图谱</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <style>
         :root {
             --bg: #0d0f14; --theorist: #4a9eff; --concept: #f5a623; --place: #4ecdc4;
@@ -210,7 +210,7 @@ document.addEventListener('click',function(e){
 var item=e.target.closest('.related-item');
 if(item&&item.dataset.nodeid){jumpToNode(item.dataset.nodeid);}
 });
-init();
+try{init();}catch(e){console.error("INIT ERROR:",e);document.body.insertAdjacentHTML("beforeend","<div style='position:fixed;bottom:10px;left:10px;background:#e94560;color:white;padding:10px;border-radius:8px;font-size:12px;z-index:9999'>Graph Error: "+e.message+"</div>");}
 window.addEventListener('resize',function(){width=window.innerWidth;height=window.innerHeight;svg.attr('width',width).attr('height',height);simulation.force('center',d3.forceCenter(width/2,height/2));simulation.alpha(0.3).restart();});
 </script>
 </body>
