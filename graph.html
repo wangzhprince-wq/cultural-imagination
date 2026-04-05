@@ -161,6 +161,7 @@ const graphData = {"nodes":[{"id":"anderson","label":"本尼迪克特·安德森
 const typeColors={theorist:'#4a9eff',concept:'#f5a623',place:'#4ecdc4',phenomenon:'#ff6b9d',event:'#9b8db0',medium:'#c084fc',work:'#86efac'};
 const edgeColors={influences:'rgba(74,158,255,0.5)',contrasts:'rgba(255,74,74,0.5)',applies:'rgba(78,205,196,0.5)',critiques:'rgba(245,166,35,0.5)',compares:'rgba(136,136,136,0.4)'};
 const edgeDash={influences:'0',contrasts:'6,3',applies:'0',critiques:'4,4',compares:'2,4'};
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function nodeRadius(d){return[0,16,22,30,40][d.size]||16;}
 let svg,container,simulation,nodes,edges,nodeElements,edgeElements,width,height,selectedNode=null,activeGroup='all',searchQuery='',currentMode='graph',currentRootId='imagined_community',zoom;
 var currentDepth=2;
@@ -170,12 +171,27 @@ document.querySelectorAll('.mode-btn').forEach(function(btn){btn.addEventListene
 document.querySelectorAll('.depth-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.depth-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');buildTreeAndRender(currentRootId,parseInt(btn.dataset.depth));});});
 document.getElementById('searchInput').addEventListener('input',function(e){searchQuery=e.target.value.toLowerCase();updateVisibility();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closePanel();});
-function showTooltip(event,d){document.getElementById('tooltip-title').textContent=d.label;document.getElementById('tooltip-sublabel').textContent=d.sublabel;var quoteEl=document.getElementById('tooltip-quote');if(d.detail.quote){quoteEl.textContent=d.detail.quote;quoteEl.style.display='block';}else{quoteEl.style.display='none';}document.getElementById('tooltip').style.display='block';moveTooltip(event);}
-function moveTooltip(event){var tooltip=document.getElementById('tooltip');tooltip.style.left=(event.pageX+15)+'px';tooltip.style.top=(event.pageY-10)+'px';}
-function hideTooltip(){document.getElementById('tooltip').style.display='none';}
-function clickNode(event,d){event.stopPropagation();selectedNode=d;showDetailPanel(d);highlightNeighbors(d);}
-function rightClickNode(event,d){event.preventDefault();currentRootId=d.id;buildTreeAndRender(currentRootId,currentDepth);}
-function showDetailPanel(d){var panel=document.getElementById('detailPanel');var content=document.getElementById('detailContent');var relatedEdges=graphData.edges.filter(function(e){return e.source===d.id||e.target===d.id;});var relatedNodes=relatedEdges.map(function(e){var targetId=e.source===d.id?e.target:e.source;return graphData.nodes.find(function(n){return n.id===targetId;});}).filter(function(n){return n;});var html='<h2>'+d.label+'</h2><div class="sublabel">'+(d.sublabel||'')+'</div>';if(d.detail.work){html+='<div class="work">'+d.detail.work+'</div>';}if(d.detail.core){html+='<div class="core">'+d.detail.core+'</div>';}if(d.detail.tension){html+='<div class="tension"><h4>⚡ 张力/争议</h4>'+d.detail.tension+'</div>';}if(relatedNodes.length>0){html+='<div class="related"><h4>🔗 相关节点</h4>';relatedNodes.forEach(function(n){var edge=relatedEdges.find(function(e){return e.source===n.id||e.target===n.id;});html+='<div class="related-item" onclick="jumpToNode(\'\''+n.id+'\'\')"><span class="related-dot" style="background:'+typeColors[n.type]+'"></span>'+n.label+'<span style="margin-left:auto;font-size:0.7rem;color:var(--text-dim)">'+(edge?edge.label:'')+'</span></div>';});html+='</div>';}content.innerHTML=html;panel.classList.add('open');document.getElementById('overlay').classList.add('show');}
+
+function showDetailPanel(d){
+var panel=document.getElementById('detailPanel');
+var content=document.getElementById('detailContent');
+var relatedEdges=graphData.edges.filter(function(e){return e.source===d.id||e.target===d.id;});
+var relatedNodes=relatedEdges.map(function(e){var targetId=e.source===d.id?e.target:e.source;return graphData.nodes.find(function(n){return n.id===targetId;});}).filter(function(n){return n;});
+var html='<h2>'+escHtml(d.label)+'</h2><div class="sublabel">'+(d.sublabel||'')+'</div>';
+if(d.detail.work){html+='<div class="work">'+escHtml(d.detail.work)+'</div>';}
+if(d.detail.core){html+='<div class="core">'+escHtml(d.detail.core)+'</div>';}
+if(d.detail.tension){html+='<div class="tension"><h4>⚡ 张力/争议</h4>'+escHtml(d.detail.tension)+'</div>';}
+if(relatedNodes.length>0){
+html+='<div class="related"><h4>🔗 相关节点</h4>';
+relatedNodes.forEach(function(n){
+var edge=relatedEdges.find(function(e){return e.source===n.id||e.target===n.id;});
+html+='<div class="related-item" data-nodeid="'+n.id+'"><span class="related-dot" style="background:'+typeColors[n.type]+'"></span>'+escHtml(n.label)+'<span style="margin-left:auto;font-size:0.7rem;color:var(--text-dim)">'+(edge?escHtml(edge.label):'')+'</span></div>';
+});
+html+='</div>';}
+content.innerHTML=html;
+panel.classList.add('open');
+document.getElementById('overlay').classList.add('show');
+}
 function jumpToNode(id){var node=simulation.nodes().find(function(n){return n.id===id;});if(node){selectedNode=node;showDetailPanel(node);highlightNeighbors(node);}}
 function closePanel(){document.getElementById('detailPanel').classList.remove('open');document.getElementById('overlay').classList.remove('show');selectedNode=null;resetHighlight();}
 function highlightNeighbors(d){var neighborIds=new Set([d.id]);graphData.edges.forEach(function(e){if(e.source===d.id)neighborIds.add(e.target);if(e.target===d.id)neighborIds.add(e.source);});nodeElements.attr('opacity',function(n){return neighborIds.has(n.id)?1:0.1;});d3.selectAll('.link').attr('opacity',function(e){return(e.source.id===d.id||e.target.id===d.id)?1:0.1;});nodeElements.attr('r',function(n){return n.id===d.id?nodeRadius(n)*1.3:nodeRadius(n);});}
@@ -190,6 +206,10 @@ function computeTreePositions(treeNodes,treeLinks,width,height){var stratify=d3.
 function buildTreeAndRender(rootId,depth){depth=(depth===undefined)?currentDepth:depth;currentDepth=depth;var result=buildTree(rootId,graphData.nodes,graphData.edges,depth);var pos=computeTreePositions(result.treeNodes,result.treeLinks,width,height);d3.selectAll('.node').transition().duration(600).ease(d3.easeCubicInOut).attr('transform',function(d){var p=pos[d.id];if(p){d.x=p.x;d.y=p.y;return'translate('+p.x+','+p.y+')';}return'translate('+(d.x||0)+','+(d.y||0)+')';}).select('.node-circle').attr('r',function(d){return Math.max(nodeRadius(d),15);});d3.selectAll('.link').transition().duration(600).attr('x1',function(d){var s=d.source;return(pos[s.id]||s).x||s.x;}).attr('y1',function(d){var s=d.source;return(pos[s.id]||s).y||s.y;}).attr('x2',function(d){var t=d.target;return(pos[t.id]||t).x||t.x;}).attr('y2',function(d){var t=d.target;return(pos[t.id]||t).y||t.y;}).attr('stroke-width',2);setTimeout(function(){d3.selectAll('.link').each(function(d){var sx=(pos[d.source.id||d.source]||d.source).x||d.source.x;var sy=(pos[d.source.id||d.source]||d.source).y||d.source.y;var tx=(pos[d.target.id||d.target]||d.target).x||d.target.x;var ty=(pos[d.target.id||d.target]||d.target).y||d.target.y;d3.select(this).attr('x1',sx).attr('y1',sy).attr('x2',tx).attr('y2',ty);});},650);updateVisibility();}
 function switchMode(newMode){if(currentMode===newMode)return;currentMode=newMode;document.querySelectorAll('.mode-btn').forEach(function(btn){btn.classList.toggle('active',btn.dataset.mode===newMode);});document.getElementById('treeHint').classList.toggle('show',newMode==='tree');if(newMode==='graph'){simulation.alpha(0.3).restart();d3.selectAll('.link').transition().duration(500).style('opacity',null);nodeElements.transition().duration(500).style('opacity',null);}else{simulation.stop();buildTreeAndRender(currentRootId,currentDepth);}}
 function showToast(msg){var toast=document.getElementById('toast');toast.textContent=msg;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},2500);}
+document.addEventListener('click',function(e){
+var item=e.target.closest('.related-item');
+if(item&&item.dataset.nodeid){jumpToNode(item.dataset.nodeid);}
+});
 init();
 window.addEventListener('resize',function(){width=window.innerWidth;height=window.innerHeight;svg.attr('width',width).attr('height',height);simulation.force('center',d3.forceCenter(width/2,height/2));simulation.alpha(0.3).restart();});
 </script>
