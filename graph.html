@@ -13,18 +13,11 @@
             --place: #4ecdc4;
             --phenomenon: #ff6b9d;
             --event: #9b8db0;
-            --edge-influences: rgba(74, 158, 255, 0.4);
-            --edge-contrasts: rgba(255, 74, 74, 0.4);
-            --edge-applies: rgba(78, 205, 196, 0.4);
-            --edge-critiques: rgba(245, 166, 35, 0.4);
-            --edge-compares: rgba(136, 136, 136, 0.4);
             --text: #e8e8e8;
             --text-dim: rgba(255,255,255,0.5);
             --panel-bg: rgba(15, 17, 23, 0.98);
         }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
             background: var(--bg);
@@ -32,13 +25,9 @@
             overflow: hidden;
             height: 100vh;
         }
-        
-        /* Nav */
         .nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 50px;
             background: rgba(13, 15, 20, 0.95);
             backdrop-filter: blur(20px);
@@ -49,43 +38,19 @@
             z-index: 200;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        
-        .nav h1 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            font-size: 0.8rem;
-        }
-        
-        .nav-links a {
-            color: rgba(255,255,255,0.4);
-            text-decoration: none;
-        }
-        
+        .nav h1 { font-size: 1rem; font-weight: 600; }
+        .nav-links { display: flex; gap: 20px; font-size: 0.8rem; }
+        .nav-links a { color: rgba(255,255,255,0.4); text-decoration: none; }
         .nav-links a:hover, .nav-links a.active { color: #fff; }
-        
-        /* Controls */
         .controls {
             position: fixed;
-            top: 60px;
-            left: 15px;
+            top: 60px; left: 15px;
             z-index: 100;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        
-        .filter-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            max-width: 300px;
-        }
-        
+        .filter-group { display: flex; gap: 6px; flex-wrap: wrap; max-width: 300px; }
         .filter-btn {
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.12);
@@ -96,10 +61,8 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
         .filter-btn:hover { background: rgba(255,255,255,0.12); }
         .filter-btn.active { background: rgba(233,69,96,0.25); border-color: rgba(233,69,96,0.5); color: #fff; }
-        
         .search-box {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
@@ -110,7 +73,6 @@
             gap: 8px;
             width: 200px;
         }
-        
         .search-box input {
             background: none;
             border: none;
@@ -119,19 +81,8 @@
             font-size: 0.8rem;
             width: 100%;
         }
-        
         .search-box input::placeholder { color: rgba(255,255,255,0.3); }
-        
-        /* Graph */
-        #graph {
-            width: 100vw;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-        
-        /* Tooltip */
+        #graph { width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; }
         .tooltip {
             position: fixed;
             background: var(--panel-bg);
@@ -144,18 +95,8 @@
             max-width: 280px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
-        
-        .tooltip h3 {
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-        }
-        
-        .tooltip .sublabel {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            margin-bottom: 8px;
-        }
-        
+        .tooltip h3 { font-size: 0.95rem; margin-bottom: 4px; }
+        .tooltip .sublabel { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 8px; }
         .tooltip .quote {
             font-size: 0.75rem;
             font-style: italic;
@@ -163,8 +104,6 @@
             border-left: 2px solid rgba(233,69,96,0.4);
             padding-left: 10px;
         }
-        
-        /* Detail Panel */
         .detail-panel {
             position: fixed;
             top: 0;
@@ -178,33 +117,19 @@
             overflow-y: auto;
             padding: 70px 20px 30px;
         }
-        
         .detail-panel.open { right: 0; }
-        
         .detail-close {
             position: absolute;
-            top: 60px;
-            right: 15px;
+            top: 60px; right: 15px;
             background: none;
             border: none;
             color: rgba(255,255,255,0.4);
             font-size: 1.5rem;
             cursor: pointer;
         }
-        
         .detail-content { padding: 0 5px; }
-        
-        .detail-content h2 {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-        
-        .detail-content .sublabel {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            margin-bottom: 15px;
-        }
-        
+        .detail-content h2 { font-size: 1.2rem; margin-bottom: 4px; }
+        .detail-content .sublabel { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px; }
         .detail-content .work {
             font-size: 0.75rem;
             color: #e94560;
@@ -213,14 +138,7 @@
             background: rgba(233,69,96,0.1);
             border-radius: 8px;
         }
-        
-        .detail-content .core {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 15px;
-        }
-        
+        .detail-content .core { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.8); margin-bottom: 15px; }
         .detail-content .tension {
             font-size: 0.8rem;
             padding: 10px 14px;
@@ -230,24 +148,9 @@
             color: rgba(255,255,255,0.7);
             margin-bottom: 20px;
         }
-        
-        .detail-content .tension h4 {
-            font-size: 0.7rem;
-            color: #f5a623;
-            margin-bottom: 6px;
-        }
-        
-        .detail-content .related {
-            border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 15px;
-        }
-        
-        .detail-content .related h4 {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            margin-bottom: 10px;
-        }
-        
+        .detail-content .tension h4 { font-size: 0.7rem; color: #f5a623; margin-bottom: 6px; }
+        .detail-content .related { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 15px; }
+        .detail-content .related h4 { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 10px; }
         .related-item {
             display: flex;
             align-items: center;
@@ -258,20 +161,11 @@
             cursor: pointer;
             transition: color 0.2s;
         }
-        
         .related-item:hover { color: #fff; }
-        
-        .related-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-        
-        /* Legend */
+        .related-dot { width: 8px; height: 8px; border-radius: 50%; }
         .legend {
             position: fixed;
-            bottom: 20px;
-            left: 15px;
+            bottom: 20px; left: 15px;
             background: rgba(15, 17, 23, 0.9);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
@@ -279,91 +173,24 @@
             z-index: 100;
             font-size: 0.7rem;
         }
-        
-        .legend-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: rgba(255,255,255,0.5);
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-        
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        
+        .legend-title { font-weight: 600; margin-bottom: 8px; color: rgba(255,255,255,0.5); }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
         .legend-dot.theorist { background: var(--theorist); }
         .legend-dot.concept { background: var(--concept); }
         .legend-dot.place { background: var(--place); }
         .legend-dot.phenomenon { background: var(--phenomenon); }
         .legend-dot.event { background: var(--event); }
-        
-        .legend-line {
-            width: 20px;
-            height: 2px;
-        }
-        
+        .legend-line { width: 20px; height: 2px; }
         .legend-line.influences { background: var(--theorist); }
-        .legend-line.contrasts { background: var(--phenomenon); border: 1px dashed var(--phenomenon); height: 0; }
-        .legend-line.applies { background: var(--place); }
-        .legend-line.critiques { background: var(--concept); border: 1px dashed var(--concept); height: 0; }
-        .legend-line.compares { background: rgba(136,136,136,0.5); border: 1px dotted rgba(136,136,136,0.5); height: 0; }
-        
-        .legend-sep {
-            margin: 10px 0;
-            border-top: 1px solid rgba(255,255,255,0.06);
-        }
-        
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 170;
-            display: none;
-        }
-        
+        .legend-sep { margin: 10px 0; border-top: 1px solid rgba(255,255,255,0.06); }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 170; display: none; }
         .overlay.show { display: block; }
-        
-        /* Node styles */
         .node { cursor: pointer; }
-        
-        .node-circle {
-            stroke-width: 2px;
-            transition: all 0.2s;
-        }
-        
-        .node-label {
-            font-size: 11px;
-            fill: rgba(255,255,255,0.7);
-            text-anchor: middle;
-            pointer-events: none;
-        }
-        
-        /* Edge label */
-        .edge-label {
-            font-size: 9px;
-            fill: rgba(255,255,255,0.35);
-            text-anchor: middle;
-            pointer-events: none;
-            display: none;
-        }
-        
-        /* Special node: humansolo */
-        .node-humansolo .node-circle {
-            stroke-dasharray: 4,2;
-            stroke-width: 3px;
-        }
-        
+        .node-circle { stroke-width: 2px; transition: all 0.2s; }
+        .node-label { font-size: 11px; fill: rgba(255,255,255,0.7); text-anchor: middle; pointer-events: none; }
+        .edge-label { font-size: 9px; fill: rgba(255,255,255,0.35); text-anchor: middle; pointer-events: none; display: none; }
+        .node-humansolo .node-circle { stroke-dasharray: 4,2; stroke-width: 3px; }
         @media (max-width: 768px) {
             .detail-panel { width: 100%; right: -100%; }
             .filter-group { max-width: 200px; }
@@ -372,7 +199,6 @@
     </style>
 </head>
 <body>
-    <!-- Nav -->
     <nav class="nav">
         <h1>🧠 文化想象</h1>
         <div class="nav-links">
@@ -384,8 +210,6 @@
             <a href="analysis.html">议题</a>
         </div>
     </nav>
-    
-    <!-- Controls -->
     <div class="controls">
         <div class="filter-group">
             <button class="filter-btn active" data-group="all">全部</button>
@@ -399,27 +223,17 @@
             <input type="text" id="searchInput" placeholder="搜索...">
         </div>
     </div>
-    
-    <!-- Graph -->
     <svg id="graph"></svg>
-    
-    <!-- Tooltip -->
     <div class="tooltip" id="tooltip">
         <h3 id="tooltip-title"></h3>
         <div class="sublabel" id="tooltip-sublabel"></div>
         <div class="quote" id="tooltip-quote"></div>
     </div>
-    
-    <!-- Detail Panel -->
     <div class="detail-panel" id="detailPanel">
         <button class="detail-close" onclick="closePanel()">×</button>
         <div class="detail-content" id="detailContent"></div>
     </div>
-    
-    <!-- Overlay -->
     <div class="overlay" id="overlay" onclick="closePanel()"></div>
-    
-    <!-- Legend -->
     <div class="legend">
         <div class="legend-title">节点类型</div>
         <div class="legend-item"><span class="legend-dot theorist"></span>理论家</div>
@@ -435,818 +249,29 @@
         <div class="legend-item"><span class="legend-line critiques"></span>批评</div>
         <div class="legend-item"><span class="legend-line compares"></span>比较</div>
     </div>
-
 <script>
-// ============================================================
-// 数据 - 只需修改这里即可增删节点和边
-// ============================================================
-const graphData = {
-    nodes: [
-        // 理论家
-        {
-            id: "anderson",
-            label: "本尼迪克特·安德森",
-            sublabel: "Benedict Anderson",
-            type: "theorist",
-            group: "theory",
-            size: 4,
-            detail: {
-                quote: "民族是一个想象的政治共同体——即使是最小的民族，成员也不可能认识大多数同胞，但在他们心中却存在着关于这个共同体的想象。",
-                work: "《想象的共同体》(1983)",
-                core: "印刷资本主义（小说+报纸）创造了'同时性'体验——陌生人在同一时间读同一份报纸，想象他们是同一个民族。这是民族认同的技术基础。",
-                tension: "葛兆光质疑：安德森的框架是否能解释中国的天下观？中国传统的天下体系与近代民族国家之间存在根本张力。"
-            }
-        },
-        {
-            id: "foucault",
-            label: "米歇尔·福柯",
-            sublabel: "Michel Foucault",
-            type: "theorist",
-            group: "theory",
-            size: 4,
-            detail: {
-                quote: "有在其他文化中真实存在的地方——真实的地方，是从社会实在中形成的地方。",
-                work: "《不同空间的正文与上下文》(1967)",
-                core: "异托邦(Heterotopia)是真实存在的'他者空间'，与乌托邦（不存在的地方）相对。如修道院、墓地、殖民地、花园。",
-                tension: "异托邦概念是否足以解释像终南山这样的宗教-灵性空间？"
-            }
-        },
-        {
-            id: "halbwachs",
-            label: "莫里斯·哈布瓦赫",
-            sublabel: "Maurice Halbwachs",
-            type: "theorist",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "我们过去的所有记忆都是重建的结果。",
-                work: "《集体记忆》(1925)",
-                core: "记忆不是被'保存'，而是被'重构'。现在社会框架决定我们如何回忆过去。集体记忆是社会框架对过去的重构。",
-                tension: ""
-            }
-        },
-        {
-            id: "assmann",
-            label: "扬·阿斯曼",
-            sublabel: "Jan Assmann",
-            type: "theorist",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "文化记忆通过固定的符号和仪式来传承，跨越世代。",
-                work: "《文化记忆》(1992)",
-                core: "区分'交流记忆'（当代人口耳相传）和'文化记忆'（通过符号/仪式/文本固定传承）。冷记忆vs热记忆：冷记忆高度仪式化、少变化；热记忆不断被改写激活。",
-                tension: ""
-            }
-        },
-        {
-            id: "hall",
-            label: "斯图亚特·霍尔",
-            sublabel: "Stuart Hall",
-            type: "theorist",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "文化身份不是固定本质，不是等待被发现的东西。",
-                work: "《文化身份与族裔》(1990)",
-                core: "身份是持续'成为'的过程，而非固定'是'的状态。身份是生产而非再现。文化身份涉及认同的政治学——谁被代表，谁被隐形。",
-                tension: ""
-            }
-        },
-        {
-            id: "campbell",
-            label: "约瑟夫·坎贝尔",
-            sublabel: "Joseph Campbell",
-            type: "theorist",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "英雄之旅是对'分离-启蒙-回归'这一公式的放大。",
-                work: "《千面英雄》(1949)",
-                core: "所有神话英雄经历相同的结构：离开（分离）→ 历险（启蒙）→ 归来（回归）。这是人类共同的神话遗产，跨越文化和时代。",
-                tension: ""
-            }
-        },
-        {
-            id: "fei_xiaotong",
-            label: "费孝通",
-            sublabel: "Fei Xiaotong",
-            type: "theorist",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "中国传统社会结构是差序格局，以'己'为中心向外推。",
-                work: "《乡土中国》(1947)",
-                core: "乡土中国的社会结构像石子投入水面形成的波纹，以'己'为中心层层外推，没有清晰的团体界限。这与西方的团体格局形成对比。",
-                tension: ""
-            }
-        },
-        {
-            id: "ge_zhaoguang",
-            label: "葛兆光",
-            sublabel: "Ge Zhaoguang",
-            type: "theorist",
-            group: "theory",
-            size: 2,
-            detail: {
-                quote: "中国思想史需要'边界意识'——关注中国如何划定'华夷'界限。",
-                work: "中国思想史研究",
-                core: "质疑安德森框架的普世性：中国传统'天下'观与近代民族国家之间存在根本张力，需要更细致的分析框架。",
-                tension: "葛兆光对安德森的批评：'想象的共同体'框架是否过度强调了西方经验的普遍性？"
-            }
-        },
-        {
-            id: "wang_hui",
-            label: "汪晖",
-            sublabel: "Wang Hui",
-            type: "theorist",
-            group: "theory",
-            size: 2,
-            detail: {
-                quote: "需要超越单一民族国家框架，在跨体系联系中理解中国历史。",
-                work: "现代中国思想史研究",
-                core: "关注'跨体系'的社会网络与文化流动。中国的现代性不能简单地用'冲击-回应'模式来解释。",
-                tension: ""
-            }
-        },
-        
-        // 概念
-        {
-            id: "imagined_community",
-            label: "想象的共同体",
-            sublabel: "Imagined Community",
-            type: "concept",
-            group: "theory",
-            size: 4,
-            detail: {
-                quote: "民族是想象的政治共同体——被想象为本质上既是有限的又是拥有主权的。",
-                work: "Anderson, 1983",
-                core: "安德森的核心概念。民族作为'想象的'不是因为它'虚假'，而是因为它的成员永远不可能认识所有同胞，但在心中存在关于这个共同体的想象。",
-                tension: ""
-            }
-        },
-        {
-            id: "heterotopia",
-            label: "异托邦",
-            sublabel: "Heterotopia",
-            type: "concept",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "异托邦是在所有文化中真实存在的地方——从社会实在中形成的地方。",
-                work: "Foucault, 1967",
-                core: "与乌托邦（不存在的地方）相对。异托邦是真实存在的他者空间，如墓地、花园、殖民地、修道院。它们与主流空间形成张力。",
-                tension: ""
-            }
-        },
-        {
-            id: "cultural_memory",
-            label: "文化记忆",
-            sublabel: "Cultural Memory",
-            type: "concept",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "文化记忆通过固定的符号和仪式来传承，跨越世代。",
-                work: "Assmann, 1992",
-                core: "与交流记忆（当代人口耳相传）相对。文化记忆通过文本、仪式、纪念物固定传承，具有稳定性和持续性。",
-                tension: ""
-            }
-        },
-        {
-            id: "identity_becoming",
-            label: "身份是成为",
-            sublabel: "Identity as Becoming",
-            type: "concept",
-            group: "theory",
-            size: 2,
-            detail: {
-                quote: "身份不是固定本质，而是持续'成为'的过程。",
-                work: "Hall, 1990",
-                core: "身份不是等待被发现，而是通过不断的话语实践被生产出来。涉及'差异的政治'和认同的张力。",
-                tension: ""
-            }
-        },
-        {
-            id: "heros_journey",
-            label: "英雄之旅",
-            sublabel: "Hero's Journey",
-            type: "concept",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "英雄之旅是对分离-启蒙-回归这一公式的放大。",
-                work: "Campbell, 1949",
-                core: "所有神话英雄经历相同的结构：离开熟悉的世界 → 经历考验和转变 → 带着力量归来。这是跨文化的神话原型。",
-                tension: ""
-            }
-        },
-        {
-            id: "tianxia",
-            label: "天下体系",
-            sublabel: "Tianxia System",
-            type: "concept",
-            group: "compare",
-            size: 3,
-            detail: {
-                quote: "普天之下，莫非王土；率土之滨，莫非王臣。",
-                work: "《诗经》",
-                core: "以华为中心的世界秩序想象——天下体系通过朝贡制度运作，是前现代中国的国际秩序想象。与现代民族国家体系形成张力。",
-                tension: "当代'人类命运共同体'是否只是天下观念的现代表达？还是根本性的范式转换？"
-            }
-        },
-        {
-            id: "print_capitalism",
-            label: "印刷资本主义",
-            sublabel: "Print Capitalism",
-            type: "concept",
-            group: "theory",
-            size: 3,
-            detail: {
-                quote: "印刷资本主义使'同时性'成为可能——陌生人在同一时间读同一份报纸。",
-                work: "Anderson, 1983",
-                core: "16世纪印刷革命创造了统一语言，塑造了'同时代人'的想象。印刷出版使民族认同成为技术上的可能。",
-                tension: ""
-            }
-        },
-        {
-            id: "desire",
-            label: "欲望建构",
-            sublabel: "Construction of Desire",
-            type: "concept",
-            group: "issue",
-            size: 2,
-            detail: {
-                quote: "",
-                work: "",
-                core: "'成功'的标准（有钱/有权/有名）、生活方式想象（买房/结婚/育儿）都是文化想象的产物。广告和消费主义不断塑造新的欲望。",
-                tension: "当欲望无法实现时，集体焦虑和存在危机会随之而来。"
-            }
-        },
-        {
-            id: "involution",
-            label: "内卷",
-            sublabel: "Involution / Neijuan",
-            type: "phenomenon",
-            group: "issue",
-            size: 3,
-            detail: {
-                quote: "",
-                work: "",
-                core: "2020年网络热词，描述竞争的死循环——在封闭系统内不断精细化，但无法产出真正的创新或进步。源于人类学家格尔茨的农业概念。",
-                tension: "内卷是资本主义的逻辑必然？还是特定文化的产物？"
-            }
-        },
-        {
-            id: "tangping",
-            label: "躺平",
-            sublabel: "Tang Ping / Lying Flat",
-            type: "phenomenon",
-            group: "issue",
-            size: 3,
-            detail: {
-                quote: "",
-                work: "",
-                core: "2021年以哲学化表达拒绝996和'中国梦'叙事的生活方式运动。低欲望、低消费、低奋斗，被视为对内卷的回应。",
-                tension: "躺平是抵抗？还是被收编的消费选择？"
-            }
-        },
-        
-        // 地方/空间
-        {
-            id: "zhongnan",
-            label: "终南山",
-            sublabel: "Zhongnan Mountains",
-            type: "place",
-            group: "history",
-            size: 4,
-            detail: {
-                quote: "",
-                work: "",
-                core: "中国道家修行圣地，'洞天福地'之首。历史上是隐士文化的象征空间。当代仍有人在此隐居修行，形成独特的'隐士共同体'。",
-                tension: "终南山隐士是真正的'异托邦'实践？还是已经商业化的旅游产品？"
-            }
-        },
-        {
-            id: "taoyuanjing",
-            label: "桃花源",
-            sublabel: "Peach Blossom Spring",
-            type: "place",
-            group: "history",
-            size: 3,
-            detail: {
-                quote: "土地平旷，屋舍俨然，有良田美池桑竹之属。阡陌交通，鸡犬相闻。",
-                work: "陶渊明(5世纪)",
-                core: "陶渊明笔下的隐逸乌托邦——一个与世隔绝、和平安宁的理想社会。从此成为中国文学和文化中永恒的隐逸想象。",
-                tension: "桃花源在不同历史时期被赋予不同意义：道教圣地→革命根据地→旅游IP。每一次转译都是对原文的重新叙事。"
-            }
-        },
-        {
-            id: "shandinzhi_cheng",
-            label: "山巅之城",
-            sublabel: "City Upon a Hill",
-            type: "place",
-            group: "history",
-            size: 2,
-            detail: {
-                quote: "We shall be as a city upon a hill.",
-                work: "John Winthrop, 1630",
-                core: "清教想象中美国是上帝拣选的国度，负有向世界传播自由的特殊使命。塑造了美国的'例外论'传统。",
-                tension: ""
-            }
-        },
-        
-        // 当代现象
-        {
-            id: "digital_nomad",
-            label: "数字游民",
-            sublabel: "Digital Nomad",
-            type: "phenomenon",
-            group: "history",
-            size: 2,
-            detail: {
-                quote: "",
-                work: "",
-                core: "以远程工作为生，在全球范围内流动生活的群体。地理套利：用发达国家的收入，在发展中国家消费。是当代的'异托邦'实践。",
-                tension: ""
-            }
-        },
-        {
-            id: "kpop",
-            label: "K-pop 全球在地化",
-            sublabel: "K-pop / Glocalization",
-            type: "phenomenon",
-            group: "history",
-            size: 2,
-            detail: {
-                quote: "",
-                work: "",
-                core: "韩国流行文化的全球输出——本土元素与全球语法的成功融合。是21世纪文化想象全球流动的典范案例。",
-                tension: ""
-            }
-        },
-        {
-            id: "echo_chamber",
-            label: "算法茧房",
-            sublabel: "Echo Chamber / Algorithm",
-            type: "phenomenon",
-            group: "history",
-            size: 2,
-            detail: {
-                quote: "你只看到你想看到的。",
-                work: "",
-                core: "算法强化既有偏见，创造封闭的信息空间。微粒部落(micro-tribes)取代了传统的想象共同体。",
-                tension: ""
-            }
-        },
-        {
-            id: "humansolo",
-            label: "人间 solo · 终南山",
-            sublabel: "Human Solo · Zhongnan",
-            type: "place",
-            group: "issue",
-            size: 3,
-            detail: {
-                quote: "我想离开，但我不知道离开之后还剩下什么。",
-                work: "🎬 纪录片项目，制作中",
-                core: "纪录片项目，探索终南山隐士文化与当代人的精神困境。核心问题：文化想象如何塑造我们对'另一种生活'的渴望？",
-                tension: ""
-            }
-        },
-        
-        // 历史事件
-        {
-            id: "print_revolution",
-            label: "16世纪印刷革命",
-            sublabel: "Print Revolution",
-            type: "event",
-            group: "history",
-            size: 2,
-            detail: {
-                quote: "",
-                work: "",
-                core: "古腾堡印刷术引发的信息革命。创造了统一语言，标准化了拼写和语法，为民族认同奠定了技术基础。",
-                tension: ""
-            }
-        },
-        {
-            id: "manifest_destiny",
-            label: "昭昭天命",
-            sublabel: "Manifest Destiny",
-            type: "event",
-            group: "history",
-            size: 2,
-            detail: {
-                quote: "The American conquest of the West was a fulfillment of providential design.",
-                work: "19世纪美国",
-                core: "白人神圣使命向西拓张的意识形态——宗教救赎、领土扩张、文明使命的混合。为美国西部拓张提供了意识形态正当性。",
-                tension: ""
-            }
-        },
-        {
-            id: "socialist_realism",
-            label: "社会主义现实主义",
-            sublabel: "Socialist Realism",
-            type: "event",
-            group: "history",
-            size: 2,
-            detail: {
-                quote: "",
-                work: "",
-                core: "苏联和社会主义国家的官方艺术风格——塑造'新人'形象、集体农庄、工业化叙事的文化政策。另一种现代性想象。",
-                tension: ""
-            }
-        }
-    ],
-    
-    edges: [
-        // influences - 实线蓝色
-        { source: "anderson", target: "imagined_community", type: "influences", label: "提出" },
-        { source: "anderson", target: "print_capitalism", type: "influences", label: "论证" },
-        { source: "print_capitalism", target: "imagined_community", type: "influences", label: "支撑" },
-        { source: "foucault", target: "heterotopia", type: "influences", label: "提出" },
-        { source: "halbwachs", target: "cultural_memory", type: "influences", label: "提出" },
-        { source: "assmann", target: "cultural_memory", type: "influences", label: "发展" },
-        { source: "campbell", target: "heros_journey", type: "influences", label: "提出" },
-        { source: "hall", target: "identity_becoming", type: "influences", label: "提出" },
-        { source: "ge_zhaoguang", target: "tianxia", type: "influences", label: "研究" },
-        { source: "fei_xiaotong", target: "tianxia", type: "influences", label: "研究" },
-        { source: "wang_hui", target: "tianxia", type: "influences", label: "研究" },
-        { source: "print_revolution", target: "print_capitalism", type: "influences", label: "催生" },
-        { source: "manifest_destiny", target: "shandinzhi_cheng", type: "influences", label: "衍化" },
-        
-        // applies - 实线绿色
-        { source: "heterotopia", target: "zhongnan", type: "applies", label: "异托邦应用" },
-        { source: "heterotopia", target: "taoyuanjing", type: "applies", label: "异托邦应用" },
-        { source: "heterotopia", target: "digital_nomad", type: "applies", label: "当代实践" },
-        { source: "heros_journey", target: "zhongnan", type: "applies", label: "结构分析" },
-        { source: "identity_becoming", target: "tangping", type: "applies", label: "理论对应" },
-        { source: "identity_becoming", target: "involution", type: "applies", label: "理论对应" },
-        { source: "zhongnan", target: "humansolo", type: "applies", label: "纪录片主题" },
-        { source: "campbell", target: "humansolo", type: "applies", label: "理论框架" },
-        { source: "foucault", target: "humansolo", type: "applies", label: "理论框架" },
-        
-        // contrasts - 虚线红色
-        { source: "tianxia", target: "imagined_community", type: "contrasts", label: "框架张力" },
-        { source: "taoyuanjing", target: "tianxia", type: "contrasts", label: "内外对立" },
-        
-        // critiques - 虚线橙色
-        { source: "ge_zhaoguang", target: "anderson", type: "critiques", label: "质疑" },
-        
-        // compares - 点线灰色
-        { source: "tangping", target: "involution", type: "compares", label: "关联" },
-        { source: "kpop", target: "echo_chamber", type: "compares", label: "悖论" }
-    ]
-};
-
-// ============================================================
-// 渲染代码（一般不需要修改）
-// ============================================================
-
-// 颜色映射
-const typeColors = {
-    theorist: '#4a9eff',
-    concept: '#f5a623',
-    place: '#4ecdc4',
-    phenomenon: '#ff6b9d',
-    event: '#9b8db0'
-};
-
-const edgeColors = {
-    influences: 'rgba(74, 158, 255, 0.5)',
-    contrasts: 'rgba(255, 74, 74, 0.5)',
-    applies: 'rgba(78, 205, 196, 0.5)',
-    critiques: 'rgba(245, 166, 35, 0.5)',
-    compares: 'rgba(136, 136, 136, 0.4)'
-};
-
-const edgeDash = {
-    influences: '0',
-    contrasts: '6,3',
-    applies: '0',
-    critiques: '4,4',
-    compares: '2,4'
-};
-
-// 节点半径
-function nodeRadius(d) {
-    return [0, 16, 22, 30, 40][d.size] || 16;
-}
-
-// 全局变量
-let svg, container, simulation, nodes, edges, nodeElements, edgeElements;
-let width, height;
-let selectedNode = null;
-let activeGroup = 'all';
-let searchQuery = '';
-
-// 初始化
-function init() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    
-    svg = d3.select('#graph')
-        .attr('width', width)
-        .attr('height', height);
-    
-    // Defs for arrow markers
-    const defs = svg.append('defs');
-    
-    ['influences', 'applies'].forEach(type => {
-        defs.append('marker')
-            .attr('id', `arrow-${type}`)
-            .attr('viewBox', '0 -5 10 10')
-            .attr('refX', 25)
-            .attr('refY', 0)
-            .attr('markerWidth', 6)
-            .attr('markerHeight', 6)
-            .attr('orient', 'auto')
-            .append('path')
-            .attr('fill', edgeColors[type])
-            .attr('d', 'M0,-5L10,0L0,5');
-    });
-    
-    container = svg.append('g');
-    
-    // 复制数据
-    const nodesCopy = graphData.nodes.map(d => ({...d}));
-    const edgesCopy = graphData.edges.map(d => ({...d}));
-    
-    // 模拟
-    simulation = d3.forceSimulation(nodesCopy)
-        .force('link', d3.forceLink(edgesCopy).id(d => d.id).distance(150))
-        .force('charge', d3.forceManyBody().strength(-500))
-        .force('center', d3.forceCenter(width / 2, height / 2))
-        .force('collision', d3.forceCollide().radius(d => nodeRadius(d) + 30));
-    
-    // 边
-    edges = container.append('g').attr('class', 'edges')
-        .selectAll('line')
-        .data(edgesCopy)
-        .enter().append('line')
-        .attr('stroke', d => edgeColors[d.type])
-        .attr('stroke-width', 1.5)
-        .attr('stroke-dasharray', d => edgeDash[d.type])
-        .attr('marker-end', d => (d.type === 'influences' || d.type === 'applies') ? `url(#arrow-${d.type})` : null);
-    
-    // 边标签
-    edgeElements = container.append('g').attr('class', 'edge-labels')
-        .selectAll('text')
-        .data(edgesCopy)
-        .enter().append('text')
-        .attr('class', 'edge-label')
-        .text(d => d.label)
-        .attr('fill', 'rgba(255,255,255,0.3)')
-        .attr('font-size', '9px');
-    
-    // 节点组
-    const nodeGroup = container.append('g').attr('class', 'nodes')
-        .selectAll('g')
-        .data(nodesCopy)
-        .enter().append('g')
-        .attr('class', d => `node node-${d.type}${d.id === 'humansolo' ? ' node-humansolo' : ''}`)
-        .call(d3.drag()
-            .on('start', dragStarted)
-            .on('drag', dragged)
-            .on('end', dragEnded));
-    
-    // 节点圆
-    nodeElements = nodeGroup.append('circle')
-        .attr('class', 'node-circle')
-        .attr('r', d => nodeRadius(d))
-        .attr('fill', d => typeColors[d.type])
-        .attr('stroke', d => typeColors[d.type])
-        .attr('fill-opacity', 0.8);
-    
-    // 特殊处理humansolo
-    nodeGroup.filter(d => d.id === 'humansolo')
-        .select('.node-circle')
-        .attr('stroke-dasharray', '4,2')
-        .attr('stroke-width', 3);
-    
-    // 节点标签
-    nodeGroup.append('text')
-        .attr('class', 'node-label')
-        .text(d => d.label)
-        .attr('dy', d => nodeRadius(d) + 14);
-    
-    // 交互
-    nodeGroup
-        .on('mouseover', showTooltip)
-        .on('mousemove', moveTooltip)
-        .on('mouseout', hideTooltip)
-        .on('click', clickNode);
-    
-    // 更新位置
-    simulation.on('tick', () => {
-        edges
-            .attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y);
-        
-        edgeElements
-            .attr('x', d => (d.source.x + d.target.x) / 2)
-            .attr('y', d => (d.source.y + d.target.y) / 2);
-        
-        nodeGroup.attr('transform', d => `translate(${d.x},${d.y})`);
-    });
-    
-    // 缩放
-    const zoom = d3.zoom()
-        .scaleExtent([0.3, 3])
-        .on('zoom', (event) => {
-            container.attr('transform', event.transform);
-        });
-    
-    svg.call(zoom);
-    
-    // 事件监听
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => filterByGroup(btn.dataset.group));
-    });
-    
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        searchQuery = e.target.value.toLowerCase();
-        updateVisibility();
-    });
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closePanel();
-    });
-}
-
-// Tooltip
-function showTooltip(event, d) {
-    document.getElementById('tooltip-title').textContent = d.label;
-    document.getElementById('tooltip-sublabel').textContent = d.sublabel;
-    const quoteEl = document.getElementById('tooltip-quote');
-    if (d.detail.quote) {
-        quoteEl.textContent = d.detail.quote;
-        quoteEl.style.display = 'block';
-    } else {
-        quoteEl.style.display = 'none';
-    }
-    document.getElementById('tooltip').style.display = 'block';
-    moveTooltip(event);
-}
-
-function moveTooltip(event) {
-    const tooltip = document.getElementById('tooltip');
-    tooltip.style.left = (event.pageX + 15) + 'px';
-    tooltip.style.top = (event.pageY - 10) + 'px';
-}
-
-function hideTooltip() {
-    document.getElementById('tooltip').style.display = 'none';
-}
-
-// 点击节点
-function clickNode(event, d) {
-    event.stopPropagation();
-    selectedNode = d;
-    showDetailPanel(d);
-    highlightNeighbors(d);
-}
-
-// 详情面板
-function showDetailPanel(d) {
-    const panel = document.getElementById('detailPanel');
-    const content = document.getElementById('detailContent');
-    
-    // 找到相关边和节点
-    const relatedEdges = graphData.edges.filter(e => e.source === d.id || e.target === d.id);
-    const relatedNodes = relatedEdges.map(e => {
-        const targetId = e.source === d.id ? e.target : e.source;
-        return graphData.nodes.find(n => n.id === targetId);
-    }).filter(n => n);
-    
-    let html = `<h2>${d.label}</h2>`;
-    html += `<div class="sublabel">${d.sublabel}</div>`;
-    
-    if (d.detail.work) {
-        html += `<div class="work">${d.detail.work}</div>`;
-    }
-    
-    if (d.detail.core) {
-        html += `<div class="core">${d.detail.core}</div>`;
-    }
-    
-    if (d.detail.tension) {
-        html += `<div class="tension"><h4>⚡ 张力/争议</h4>${d.detail.tension}</div>`;
-    }
-    
-    if (relatedNodes.length > 0) {
-        html += `<div class="related"><h4>🔗 相关节点</h4>`;
-        relatedNodes.forEach(n => {
-            const edge = relatedEdges.find(e => e.source === n.id || e.target === n.id);
-            html += `<div class="related-item" onclick="jumpToNode('${n.id}')">
-                <span class="related-dot" style="background:${typeColors[n.type]}"></span>
-                ${n.label}
-                <span style="margin-left:auto;font-size:0.7rem;color:var(--text-dim)">${edge ? edge.label : ''}</span>
-            </div>`;
-        });
-        html += `</div>`;
-    }
-    
-    content.innerHTML = html;
-    panel.classList.add('open');
-    document.getElementById('overlay').classList.add('show');
-}
-
-function jumpToNode(id) {
-    const node = simulation.nodes().find(n => n.id === id);
-    if (node) {
-        selectedNode = node;
-        showDetailPanel(node);
-        highlightNeighbors(node);
-    }
-}
-
-function closePanel() {
-    document.getElementById('detailPanel').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-    selectedNode = null;
-    resetHighlight();
-}
-
-function highlightNeighbors(d) {
-    const neighborIds = new Set([d.id]);
-    graphData.edges.forEach(e => {
-        if (e.source === d.id) neighborIds.add(e.target);
-        if (e.target === d.id) neighborIds.add(e.source);
-    });
-    
-    nodeElements.attr('opacity', n => neighborIds.has(n.id) ? 1 : 0.1);
-    edges.attr('opacity', e => (e.source.id === d.id || e.target.id === d.id) ? 1 : 0.1);
-    
-    // 放大选中节点
-    nodeElements.attr('r', n => n.id === d.id ? nodeRadius(n) * 1.3 : nodeRadius(n));
-}
-
-function resetHighlight() {
-    nodeElements.attr('opacity', 1).attr('r', d => nodeRadius(d));
-    edges.attr('opacity', 1);
-}
-
-// 筛选
-function filterByGroup(group) {
-    activeGroup = group;
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.group === group);
-    });
-    updateVisibility();
-}
-
-function updateVisibility() {
-    const nodeData = simulation.nodes();
-    
-    nodeElements.attr('opacity', n => {
-        if (searchQuery && !n.label.toLowerCase().includes(searchQuery) && !n.sublabel.toLowerCase().includes(searchQuery)) {
-            return 0.1;
-        }
-        if (activeGroup === 'all') return 1;
-        return n.group === activeGroup ? 1 : 0.1;
-    });
-    
-    edges.attr('opacity', e => {
-        if (activeGroup === 'all') return 1;
-        const sourceNode = nodeData.find(n => n.id === e.source.id || n.id === e.source);
-        const targetNode = nodeData.find(n => n.id === e.target.id || n.id === e.target);
-        if (!sourceNode || !targetNode) return 0.1;
-        if (activeGroup === 'all') return 1;
-        return (sourceNode.group === activeGroup || targetNode.group === activeGroup) ? 1 : 0.1;
-    });
-}
-
-// 拖拽
-function dragStarted(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-}
-
-function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-}
-
-function dragEnded(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-}
-
-// 初始化
-init();
-
-window.addEventListener('resize', () => {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    svg.attr('width', width).attr('height', height);
-    simulation.force('center', d3.forceCenter(width / 2, height / 2));
-    simulation.alpha(0.3).restart();
-});
+const graphData = {"nodes":[{"id":"anderson","label":"本尼迪克特·安德森","sublabel":"Benedict Anderson","type":"theorist","group":"theory","size":4,"detail":{"work":"《想象的共同体》(1983)","quote":"民族是一个想象的政治共同体——即使是最小的民族，成员也不可能认识大多数同胞，但在他们心中却存在着关于这个共同体的想象。","core":"印刷资本主义（小说+报纸）创造了'同时性'体验——陌生人在同一时间读同一份报纸，想象他们是同一个民族。这是民族认同的技术基础。","tension":"安德森最大的盲点：他几乎没有谈论数字时代的民族主义。社交媒体创造了更快速、更情绪化的'同时性'——这是印刷资本主义无法预见的突变。"}},{"id":"foucault","label":"米歇尔·福柯","sublabel":"Michel Foucault","type":"theorist","group":"theory","size":4,"detail":{"work":"《不同空间的正文与上下文》(1967)","quote":"有在其他文化中真实存在的地方——真实的地方，是从社会实在中形成的地方。","core":"异托邦(Heterotopia)是真实存在的'他者空间'，与乌托邦（不存在的地方）相对。如修道院、墓地、殖民地、花园。","tension":"福柯自己提出异托邦概念之后，几乎没有继续发展它。这个概念的轮廓是模糊的：哪里不是异托邦？理论的弹性是它的力量，也是它的软肋。"}},{"id":"halbwachs","label":"莫里斯·哈布瓦赫","sublabel":"Maurice Halbwachs","type":"theorist","group":"theory","size":3,"detail":{"work":"《集体记忆》(1925)","quote":"我们过去的所有记忆都是重建的结果。","core":"记忆不是被'保存'，而是被'重构'。现在社会框架决定我们如何回忆过去。集体记忆是社会框架对过去的重构。","tension":""}},{"id":"assmann","label":"扬·阿斯曼","sublabel":"Jan Assmann","type":"theorist","group":"theory","size":3,"detail":{"work":"《文化记忆》(1992)","quote":"文化记忆通过固定的符号和仪式来传承，跨越世代。","core":"区分'交流记忆'（当代人口耳相传）和'文化记忆'（通过符号/仪式/文本固定传承）。冷记忆vs热记忆：冷记忆高度仪式化、少变化；热记忆不断被改写激活。","tension":""}},{"id":"hall","label":"斯图亚特·霍尔","sublabel":"Stuart Hall","type":"theorist","group":"theory","size":3,"detail":{"work":"《文化身份与族裔》(1990)","quote":"文化身份不是固定本质，不是等待被发现的东西。","core":"身份是持续'成为'的过程，而非固定'是'的状态。身份是生产而非再现。文化身份涉及认同的政治学——谁被代表，谁被隐形。","tension":""}},{"id":"campbell","label":"约瑟夫·坎贝尔","sublabel":"Joseph Campbell","type":"theorist","group":"theory","size":3,"detail":{"work":"《千面英雄》(1949)","quote":"英雄之旅是对分离-启蒙-回归这一公式的放大。","core":"所有神话英雄经历相同的结构：离开（分离）→ 历险（启蒙）→ 归来（回归）。这是人类共同的神话遗产，跨越文化和时代。","tension":"坎贝尔被后殖民批评者严厉批判：他把特定的西方英雄神话（以男性为中心、以回归为目的）强加为人类共同结构。女性神话、失败的英雄，没有归来的旅程——在他的框架里被隐形了。"}},{"id":"fei_xiaotong","label":"费孝通","sublabel":"Fei Xiaotong","type":"theorist","group":"theory","size":3,"detail":{"work":"《乡土中国》(1947)","quote":"中国传统社会结构是差序格局，以'己'为中心向外推。","core":"乡土中国的社会结构像石子投入水面形成的波纹，以'己'为中心层层外推，没有清晰的团体界限。这与西方的团体格局形成对比。","tension":""}},{"id":"ge_zhaoguang","label":"葛兆光","sublabel":"Ge Zhaoguang","type":"theorist","group":"theory","size":2,"detail":{"work":"中国思想史研究","quote":"中国思想史需要'边界意识'——关注中国如何划定'华夷'界限。","core":"质疑安德森框架的普世性：中国传统'天下'观与近代民族国家之间存在根本张力，需要更细致的分析框架。","tension":"葛兆光对安德森的批评：'想象的共同体'框架是否过度强调了西方经验的普遍性？"}},{"id":"wang_hui","label":"汪晖","sublabel":"Wang Hui","type":"theorist","group":"theory","size":2,"detail":{"work":"现代中国思想史研究","quote":"需要超越单一民族国家框架，在跨体系联系中理解中国历史。","core":"关注'跨体系'的社会网络与文化流动。中国的现代性不能简单地用'冲击-回应'模式来解释。","tension":""}},{"id":"said","label":"爱德华·萨义德","sublabel":"Edward Said","type":"theorist","group":"theory","size":3,"detail":{"work":"《东方主义》1978 / 《文化与帝国主义》1993","quote":"东方是被制造出来的，不是被发现的。","core":"西方关于'东方'的想象是一套权力-知识体系的产物。东方不是真实的地方，而是欧洲投射欲望与恐惧的屏幕。这套想象系统为殖民统治提供了合法性基础。","tension":"萨义德被批评忽视了东方内部的主体性——被凝视者也在凝视。后来他在《文化与帝国主义》中有所修正，承认殖民地文化的反抗与杂糅。"}},{"id":"bhabha","label":"霍米·巴巴","sublabel":"Homi Bhabha","type":"theorist","group":"theory","size":3,"detail":{"work":"《文化的定居》1994","quote":"混杂性是殖民权力最具颠覆性的时刻。","core":"殖民者要求被殖民者模仿自己，但模仿总是'差一点'（almost the same, but not quite）——这个缝隙产生了'杂糅'（hybridity），是文化颠覆的空间。第三空间：所有文化意义都在翻译中诞生，没有原版。","tension":"巴巴的理论被批评为过于乐观，把殖民地的文化杂糅浪漫化，忽视了真实的权力不对称和物质条件。"}},{"id":"appadurai","label":"阿尔君·阿帕杜莱","sublabel":"Arjun Appadurai","type":"theorist","group":"theory","size":2,"detail":{"work":"《消散的现代性》1996","quote":"想象力已经成为一种社会实践。","core":"全球化通过五种'流'（scapes）运作：族群流、媒体流、技术流、金融流、意识形态流。这些流不同步、不对称，产生了'断裂的全球性'。","tension":"appadurai 对全球化的框架被批评为过于流动、忽视了地方的顽固性和不平等的结构性根源。"}},{"id":"bourdieu","label":"皮埃尔·布尔迪厄","sublabel":"Pierre Bourdieu","type":"theorist","group":"theory","size":3,"detail":{"work":"《区隔》1979 / 《实践的逻辑》1980","quote":"品味是阶级的自然化。","core":"文化资本：知识、审美、教育背景是可以积累和换算的资本形式。场域：社会由相对自主的场域构成。惯习：身体化的历史，使阶级差异感觉'自然'。","tension":"布尔迪厄的理论被批评为过于结构决定论，低估了个体的能动性，且主要基于法国案例，跨文化适用性存疑。"}},{"id":"gramsci","label":"安东尼奥·葛兰西","sublabel":"Antonio Gramsci","type":"theorist","group":"theory","size":2,"detail":{"work":"《狱中札记》1929-1935","quote":"旧世界正在死去，新世界还未诞生，在这明暗交替之际，各种怪物出现了。","core":"文化霸权（hegemony）：统治阶级不只靠强制，更靠文化领导权——让被统治者自愿接受统治的合法性。","tension":"葛兰西的霸权概念到底留多少空间给抵抗？霍尔继承了他，但把文化斗争的空间打开得更宽。"}},{"id":"benjamin","label":"瓦尔特·本雅明","sublabel":"Walter Benjamin","type":"theorist","group":"theory","size":3,"detail":{"work":"《机械复制时代的艺术作品》1935 / 《拱廊计划》","quote":"每一件文化文明的记录同时也是野蛮的记录。","core":"灵韵（Aura）：艺术作品在'此时此地'的独特存在感，机械复制使灵韵消失。游荡者（Flâneur）：现代城市中漫无目的的观察者。历史天使：历史不是进步，而是一场堆积废墟的风暴。","tension":"本雅明对灵韵消失的态度是悲观的吗？他同时看到了机械复制的解放潜力（打破艺术的精英垄断）——这个张力至今未解。"}},{"id":"debord","label":"居伊·德波","sublabel":"Guy Debord","type":"theorist","group":"theory","size":2,"detail":{"work":"《景观社会》1967","quote":"曾经被直接经历的一切，都退隐为一种表象。","core":"景观（spectacle）不是图像的集合，而是人与人之间由图像中介的社会关系。消费资本主义把生活本身变成了被观看的演出。","tension":"德波本人的抵抗策略（漂移、挪用）被后来的广告业完全收编——这恰好证明了他的理论，还是推翻了？"}},{"id":"barthes","label":"罗兰·巴特","sublabel":"Roland Barthes","type":"theorist","group":"theory","size":2,"detail":{"work":"《神话学》1957 / 《S/Z》1970","quote":"神话的功能是把历史变成自然。","core":"神话（myth）是第二层次的符号系统：它把特定历史条件下产生的意义自然化使之显得理所当然。作者已死：意义不在作者意图中，而在读者的阅读行为中诞生。","tension":"巴特晚期从结构主义转向了更主观、更碎片化的写作，这是理论的退步还是深化？"}},{"id":"turner","label":"维克多·特纳","sublabel":"Victor Turner","type":"theorist","group":"theory","size":2,"detail":{"work":"《仪式过程》1969","quote":"阈限期间，什么都可能，一切都是实验。","core":"继承范·盖内普的通过仪式三阶段（分离→阈限→整合），深化了'阈限'（liminality）概念。阈限期产生'公社'（communitas）——一种反结构的平等共同体感。","tension":"特纳的模型是否过于强调仪式的社会整合功能，而忽视了仪式作为权力机制的控制面？"}},{"id":"eliade","label":"米尔恰·伊利亚德","sublabel":"Mircea Eliade","type":"theorist","group":"theory","size":2,"detail":{"work":"《神圣与世俗》1957","quote":"人类不能在没有神圣空间的情况下生活。","core":"神圣空间是宇宙轴心（axis mundi）所在。圣山、圣殿、圣树都是宇宙中心的显现。世俗化不能消除对神圣的渴望，它以变形的方式重现。","tension":"伊利亚德的普世主义被后殖民批评：他把西方的神圣观强加给非西方传统，同时他本人的法西斯历史是否影响了他对神圣的崇拜？"}},{"id":"jung","label":"卡尔·荣格","sublabel":"Carl G. Jung","type":"theorist","group":"theory","size":2,"detail":{"work":"《原型与集体无意识》1934","quote":"我们并非来自我们的意识，而是来自那个产生了意识的黑暗。","core":"集体无意识（collective unconscious）：超越个体、超越文化的心理底层，储存着人类共同的原型（archetype）。原型不是内容而是形式——是空的模板，由各文化填充具体内容。","tension":"荣格的集体无意识是普世的还是欧洲中心的？坎贝尔的千面英雄继承了这一框架，同样面临文化霸权的批评。"}},{"id":"castoriadis","label":"科内利尤斯·卡斯托里亚迪斯","sublabel":"Cornelius Castoriadis","type":"theorist","group":"theory","size":2,"detail":{"work":"《社会的想象性建制》1975","quote":"社会通过想象创造自身。","core":"每个社会都有一套核心的'想象性意指'——使该社会作为一个统一体得以存在的意义核心。这与安德森的想象共同体有相似性，但更强调想象的创造性和社会的自我变革能力。","tension":"卡斯托里亚迪斯与马克思主义的决裂：他认为马克思主义无法解释社会的自我创造，但他自己的理论被批评为过于理想主义。"}},{"id":"taylor","label":"查尔斯·泰勒","sublabel":"Charles Taylor","type":"theorist","group":"theory","size":2,"detail":{"work":"《现代社会想象》2004","quote":"社会想象是人们借以理解自身社会存在的方式。","core":"社会想象不是理论，而是普通人对社会的日常理解。三种现代社会想象：市场经济、公共领域，人民自治。世俗化不是宗教消失，而是宗教从默认立场变为一种选择。","tension":"泰勒被批评为过于西方中心——他的世俗化理论是否只描述了北大西洋的特殊经验？"}},{"id":"nora","label":"皮埃尔·诺拉","sublabel":"Pierre Nora","type":"theorist","group":"theory","size":2,"detail":{"work":"《记忆之场》1984-1992（7卷）","quote":"我们说记忆之场，是因为真正的记忆环境已经不存在了。","core":"记忆之场（lieux de mémoire）：当真实的集体记忆消失时，人们用具体的场所（纪念碑、博物馆、档案馆、节日、象征物）来替代记忆。记忆与历史对立：记忆是活的、主观的；历史是批判的、距离化的。","tension":"诺拉的框架是否暗含了一种对'真实记忆'的浪漫化，以及一种精英主义的历史感？"}},{"id":"bachelard","label":"加斯东·巴什拉","sublabel":"Gaston Bachelard","type":"theorist","group":"theory","size":2,"detail":{"work":"《空间的诗学》1958","quote":"家是我们在世界上第一个宇宙。","core":"空间不是中性的容器，而是人类存在的诗性现象。阁楼、地窖、角落、鸟巢——每一个空间都激活特定的存在感。栖居（dwelling）先于空间的客观测量。","tension":"巴什拉被批评为忽视了空间的社会政治维度——他的'诗性空间'是无阶级、无性别、无种族的吗？"}},{"id":"girard","label":"勒内·吉拉尔","sublabel":"René Girard","type":"theorist","group":"theory","size":2,"detail":{"work":"《浪漫的谎言与小说的真实》1961 / 《暴力与神圣》1972","quote":"人类的欲望本质上是模仿性的。","core":"模仿欲望（mimetic desire）：我们不是自发地渴望某物，而是因为看到他人渴望它才渴望它。模仿欲望产生竞争，竞争产生暴力，暴力通过替罪羊机制得以化解。","tension":"吉拉尔的理论到底是社会学、神学还是文学批评？他晚年明确的基督教立场使其理论的普遍性受到质疑。"}},{"id":"spivak","label":"佳亚特里·斯皮瓦克","sublabel":"Gayatri Chakravorty Spivak","type":"theorist","group":"theory","size":2,"detail":{"work":"《属下能说话吗？》1988","quote":"属下不能说话。","core":"属下（subaltern）——那些在殖民/后殖民权力结构中被彻底边缘化的群体——没有任何表达自身的渠道。即使试图'给予他们发声'的知识分子，也是在将属下重新客体化。","tension":"斯皮瓦克的悲观结论是否导致了理论上的死胡同？她本人作为常春藤教授'代表'第三世界女性发言，是否构成她所批判的那种知识权力关系？"}},{"id":"ricoeur","label":"保罗·利科","sublabel":"Paul Ricoeur","type":"theorist","group":"theory","size":2,"detail":{"work":"《时间与叙事》1983-85 / 《记忆、历史、遗忘》2000","quote":"人是会讲故事的存在。","core":"叙事身份（narrative identity）：自我不是固定的实体，而是在讲述生命故事的过程中构成的。时间只有通过叙事才能被人类经验把握。","tension":"利科的叙事身份是否暗含了对连贯性的偏爱？破碎的、无法叙事化的创伤体验如何处理？"}},{"id":"liang_qichao","label":"梁启超","sublabel":"Liang Qichao","type":"theorist","group":"theory","size":2,"detail":{"work":"《新民说》1902","quote":"今日之中国，非昔日之中国也。","core":"晚清启蒙：第一个将'民族'（nation）概念系统引入中国的思想家。他的'新民'工程旨在改造中国人的国民性。他同时是安德森印刷资本主义论题的中国实践者——创办《时务报》《新民丛报》，用白话文创造新的想象共同体。","tension":"梁启超的'新民'究竟是解放还是规训？他对西方现代性的接受和对中国传统的态度在其一生中多次摇摆。"}},{"id":"li_zehou","label":"李泽厚","sublabel":"Li Zehou","type":"theorist","group":"theory","size":2,"detail":{"work":"《美的历程》1981 / 《中国现代思想史论》1987","quote":"情感是理性的基础，而非其对立面。","core":"历史积淀说（sedimentation）：人类的感性形式（审美、情感）是历史实践积淀的结果，不是先天的。'情理结构'：中国文化不是纯理性的，而是情感与理性的独特融合。","tension":"李泽厚的'西体中用'方案被批评为倒置了他所批判的张之洞命题，而非超越了它。"}},{"id":"zhao_tingyang","label":"赵汀阳","sublabel":"Zhao Tingyang","type":"theorist","group":"theory","size":2,"detail":{"work":"《天下体系》2005 / 《惠此中国》2016","quote":"天下是一个没有外部的世界。","core":"以天下（tianxia）概念为基础提出替代性全球秩序方案：天下不是帝国，而是一个兼容差异、以关系为本的世界体系。为'人类命运共同体'提供哲学资源。","tension":"赵汀阳的天下论被批评为中国扩张主义提供意识形态背书。他的'天下'是对传统的还原还是对传统的发明？"}},{"id":"imagined_community","label":"想象的共同体","sublabel":"Imagined Community","type":"concept","group":"theory","size":4,"detail":{"work":"Anderson, 1983","quote":"民族是想象的政治共同体——被想象为本质上既是有限的又是拥有主权的。","core":"安德森的核心概念。民族作为'想象的'不是因为它'虚假'，而是因为它的成员永远不可能认识所有同胞，但在心中存在关于这个共同体的想象。","tension":""}},{"id":"heterotopia","label":"异托邦","sublabel":"Heterotopia","type":"concept","group":"theory","size":3,"detail":{"work":"Foucault, 1967","quote":"异托邦是在所有文化中真实存在的地方——从社会实在中形成的地方。","core":"与乌托邦（不存在的地方）相对。异托邦是真实存在的他者空间，如墓地、花园、殖民地、修道院。它们与主流空间形成张力。","tension":""}},{"id":"cultural_memory","label":"文化记忆","sublabel":"Cultural Memory","type":"concept","group":"theory","size":3,"detail":{"work":"Assmann, 1992","quote":"文化记忆通过固定的符号和仪式来传承，跨越世代。","core":"与交流记忆（当代人口耳相传）相对。文化记忆通过文本、仪式、纪念物固定传承，具有稳定性和持续性。","tension":""}},{"id":"identity_becoming","label":"身份是成为","sublabel":"Identity as Becoming","type":"concept","group":"theory","size":2,"detail":{"work":"Hall, 1990","quote":"身份不是固定本质，而是持续'成为'的过程。","core":"身份不是等待被发现，而是通过不断的话语实践被生产出来。涉及'差异的政治'和认同的张力。","tension":""}},{"id":"heros_journey","label":"英雄之旅","sublabel":"Hero's Journey","type":"concept","group":"theory","size":3,"detail":{"work":"Campbell, 1949","quote":"英雄之旅是对分离-启蒙-回归这一公式的放大。","core":"所有神话英雄经历相同的结构：离开熟悉的世界 → 经历考验和转变 → 带着力量归来。这是跨文化的神话原型。","tension":""}},{"id":"tianxia","label":"天下体系","sublabel":"Tianxia System","type":"concept","group":"compare","size":3,"detail":{"work":"《诗经》","quote":"普天之下，莫非王土；率土之滨，莫非王臣。","core":"以华为中心的世界秩序想象——天下体系通过朝贡制度运作，是前现代中国的国际秩序想象。与现代民族国家体系形成张力。","tension":"当代'人类命运共同体'是否只是天下观念的现代表达？还是根本性的范式转换？"}},{"id":"print_capitalism","label":"印刷资本主义","sublabel":"Print Capitalism","type":"concept","group":"theory","size":3,"detail":{"work":"Anderson, 1983","quote":"印刷资本主义使'同时性'成为可能——陌生人在同一时间读同一份报纸。","core":"16世纪印刷革命创造了统一语言，塑造了'同时代人'的想象。印刷出版使民族认同成为技术上的可能。","tension":""}},{"id":"orientalism","label":"东方主义","sublabel":"Orientalism","type":"concept","group":"theory","size":3,"detail":{"work":"Said, 1978","core":"西方关于'东方'的系统性话语：东方是神秘的、感性的、停滞的，需要被管理的。这些想象不是对东方现实的描述，而是西方自我确认需要的他者构建。","tension":"后来的学者指出东方主义内部的裂缝：殖民地知识分子的反东方主义，以及'西方'内部的差异性。"}},{"id":"third_space","label":"第三空间","sublabel":"Third Space","type":"concept","group":"theory","size":2,"detail":{"work":"Bhabha, 1994","core":"文化意义在翻译和混杂中产生，这个生产场所就是'第三空间'。它既不是原版文化，也不是其模仿，而是一个超越了二元对立的差异空间。","tension":"第三空间是否真的超越了权力关系，还是只是把权力不对称变得不可见？"}},{"id":"liminality","label":"阈限","sublabel":"Liminality","type":"concept","group":"theory","size":3,"detail":{"work":"Turner, 1969","core":"处于两种身份之间的模糊状态：既不再是旧身份，又尚未获得新身份。终南山隐士：出世但未彻底隔绝；大喜们：城市身份已被悬置，山林身份尚未稳定。","tension":"当代'永久阈限'——没有整合阶段的阈限——是可能的吗？数字游民、躺平者，是否停留在一个永不完成通过仪式的状态中？"}},{"id":"mimetic_desire","label":"模仿欲望","sublabel":"Mimetic Desire","type":"concept","group":"theory","size":2,"detail":{"work":"Girard, 1961","core":"欲望不是自发的，而是通过模仿他人产生的。我渴望某物，因为我的'中介'渴望它。内卷是模仿欲望的集体发作：每个人都在模仿邻人的焦虑，欲望的对象反而退隐到背后。","tension":"模仿欲望可以被打断吗？隐士的出走是否是一种拒绝模仿中介的尝试？"}},{"id":"cultural_capital","label":"文化资本","sublabel":"Cultural Capital","type":"concept","group":"theory","size":2,"detail":{"work":"Bourdieu, 1979","core":"文化资本有三种形式：具身化的（内化的审美、气质）、客体化的（书籍、艺术品）、制度化的（学历证书）。文化资本可以换算成经济资本，但这个换算过程被掩盖。","tension":"中国的内卷现象：教育竞争是文化资本积累的极端化形态，当文化资本的回报率下降，积累的意义是什么？"}},{"id":"hegemony","label":"文化霸权","sublabel":"Hegemony","type":"concept","group":"theory","size":2,"detail":{"work":"Gramsci, 1929-35","core":"统治不只靠强制，更靠'同意的组织'——让被统治者自愿接受统治秩序的合法性。文化霸权通过教育、媒体、宗教等'意识形态国家机器'运作。","tension":"霸权和意识形态批判之间的困境：如果连我们批判霸权所使用的语言和框架都是霸权产物，批判如何可能？"}},{"id":"aura","label":"灵韵","sublabel":"Aura","type":"concept","group":"theory","size":2,"detail":{"work":"Benjamin, 1935","core":"艺术品的'此时此地'性，其真实性和独一无二性。机械复制（摄影、电影）使灵韵消亡——复制品取消了原版的权威性。","tension":"灵韵真的消失了吗？或者它以新的形式重现——演唱会现场、网红打卡地的'氛围'，都在制造新型灵韵。"}},{"id":"sites_of_memory","label":"记忆之场","sublabel":"Lieux de mémoire","type":"concept","group":"theory","size":2,"detail":{"work":"Nora, 1984","core":"当我们不再自然地生活在记忆中，就开始刻意建造记忆之场。纪念碑、博物馆、档案馆、节日、象征物——都是活记忆消失后的补偿物。","tension":"数字时代的记忆之场：朋友圈、微博时间轴是否构成新型记忆之场？它们的'过去'感是可能的吗？"}},{"id":"spectacle","label":"景观","sublabel":"Spectacle","type":"concept","group":"theory","size":2,"detail":{"work":"Debord, 1967","core":"景观是资本主义发展到一定阶段的产物——当积累达到顶峰，一切直接经历的生活都变成表象。国家节庆、奥运会、世界杯、短视频瀑布流——都是景观的不同形态。","tension":"景观理论的元悖论：德波用文字批判景观，但文字不也是景观的一部分吗？任何批判是否都已经被景观收编？"}},{"id":"hybridity","label":"文化杂糅","sublabel":"Hybridity","type":"concept","group":"theory","size":2,"detail":{"work":"Bhabha, 1994","core":"在殖民接触地带产生的混合文化形态，既不是'纯粹'的殖民者文化也不是'纯粹'的本土文化。杂糅不是妥协，而是颠覆的策略。","tension":"杂糅是否总是进步的？某些杂糅（如日本帝国主义的'大东亚'意识形态）也可以是霸权的工具。"}},{"id":"collective_unconscious","label":"集体无意识","sublabel":"Collective Unconscious","type":"concept","group":"theory","size":2,"detail":{"work":"Jung, 1934","core":"超越个人无意识的更深层次，储存着人类共同的心理遗产。原型（archetype）是其内容：英雄、阴影，大母神、智慧老人——这些形象以不同面貌出现在全球各文化的神话中。","tension":"集体无意识的普世性主张与后殖民批评的张力：谁的'集体'？荣格本人曾有种族化的论述历史。"}},{"id":"axis_mundi","label":"宇宙轴心","sublabel":"Axis Mundi","type":"concept","group":"theory","size":2,"detail":{"work":"Eliade, 1957","core":"每个传统社会都有一个宇宙中心——圣山、圣树、圣殿——连接天地人三界。中国的宇宙轴心：泰山、五台山、武当山、终南山。朝圣是向宇宙中心移动的身体实践。","tension":"现代旅游对圣山的世俗化：泰山索道、商业化景区——圣山是否还能是轴心，还是变成了另一种记忆之场？"}},{"id":"narrative_identity","label":"叙事身份","sublabel":"Narrative Identity","type":"concept","group":"theory","size":2,"detail":{"work":"Ricoeur, 1983","core":"自我不是固定的实体（idem-identity），而是在时间中讲述自己故事的过程（ipse-identity）。身份的连贯性来自叙事的连贯性。","tension":"当一个人的生命故事无法被叙事化（创伤，失忆，精神分裂），叙事身份是否崩塌？"}},{"id":"social_imaginary","label":"社会想象","sublabel":"Social Imaginary","type":"concept","group":"theory","size":2,"detail":{"work":"Taylor, 2004 / Castoriadis, 1975","core":"社会通过共享的想象自我组织和自我理解。它不是意识形态（精英的系统性世界观），而是普通人对'事情就应该这样运转'的默会理解。","tension":"社会想象与意识形态的边界在哪里？改变社会想象比改变意识形态更难，因为它深入日常实践。"}},{"id":"zhongnan","label":"终南山","sublabel":"Zhongnan Mountains","type":"place","group":"history","size":4,"detail":{"work":"","quote":"","core":"中国道家修行圣地，'洞天福地'之首。历史上是隐士文化的象征空间。当代仍有人在此隐居修行，形成独特的'隐士共同体'。","tension":"终南山的根本悖论：越来越多的人去那里'逃离'，越来越多的媒体去那里拍摄他们的逃离，逃离本身已经成为景观。"}},{"id":"taoyuanjing","label":"桃花源","sublabel":"Peach Blossom Spring","type":"place","group":"history","size":3,"detail":{"work":"陶渊明(5世纪)","quote":"土地平旷，屋舍俨然，有良田美池桑竹之属。阡陌交通，鸡犬相闻。","core":"陶渊明笔下的隐逸乌托邦——一个与世隔绝、和平安宁的理想社会。从此成为中国文学和文化中永恒的隐逸想象。","tension":"桃花源在不同历史时期被赋予不同意义：道教圣地→革命根据地→旅游IP。每一次转译都是对原文的重新叙事。"}},{"id":"shandinzhi_cheng","label":"山巅之城","sublabel":"City Upon a Hill","type":"place","group":"history","size":2,"detail":{"work":"John Winthrop, 1630","quote":"We shall be as a city upon a hill.","core":"清教想象中美国是上帝拣选的国度，负有向世界传播自由的特殊使命。塑造了美国的'例外论'传统。","tension":""}},{"id":"wutai","label":"五台山","sublabel":"Buddhist Sacred Space","type":"place","group":"compare","size":2,"detail":{"work":"","quote":"","core":"文殊菩萨道场，佛教圣地。历史上吸引从唐代到现代的朝圣者和隐修者。五台山是中国宇宙轴心想象的典型案例：一个真实的地理空间被神圣叙事层叠覆盖。","tension":"商业化与神圣性的张力：景区门票、旅游团、网红打卡与隐修传统同时并存。"}},{"id":"jiangnan","label":"江南","sublabel":"Aesthetic Imaginary","type":"place","group":"compare","size":2,"detail":{"work":"","quote":"","core":"中国文化想象中最重要的审美地理：水乡、园林、烟雨、才子佳人。江南已经从真实地方演变为一种可以被商品化的情调（古镇旅游，苏式园林，江南style）。","tension":"谁的江南？江南想象历史上是汉族文人精英的产物，对生活在江南的普通劳动者而言，这一美学是什么？"}},{"id":"silk_road_space","label":"丝绸之路","sublabel":"Silk Road","type":"place","group":"history","size":2,"detail":{"work":"","quote":"","core":"最早的文化杂糅地带：汉代至唐代，中亚、波斯、印度、罗马帝国的商品、宗教、艺术在此交汇。'一带一路'是对丝绸之路想象的政治再激活。","tension":"古代丝绸之路是'和平'的吗？贸易与战争往往并行，丝绸之路沿线同样充满暴力与征服。"}},{"id":"jerusalem","label":"耶路撒冷","sublabel":"Contested Sacred Space","type":"place","group":"compare","size":2,"detail":{"work":"","quote":"","core":"三大亚伯拉罕宗教（犹太教、基督教、伊斯兰教）共同的宇宙轴心：一个真实城市承载了不可通约的多重神圣想象，每一种都声称自己才是唯一合法的继承者。","tension":"耶路撒冷说明了什么？宇宙轴心的神圣性不能化解冲突，反而使冲突神圣化、永久化。"}},{"id":"walden","label":"瓦尔登湖","sublabel":"Walden Pond / Thoreau","type":"place","group":"compare","size":2,"detail":{"work":"Thoreau, 1854","quote":"","core":"梭罗在瓦尔登湖边独居两年，写下《瓦尔登湖》。西方传统中最著名的'隐居'叙事：简化生活、拒绝消费主义、回归自然。但梭罗每周会去母亲家吃饭。","tension":"终南山 vs 瓦尔登湖：两者都是隐居想象的文化符号，但一个嵌入道家/儒家出世传统，一个嵌入美国超验主义和个人主义传统。"}},{"id":"tangping","label":"躺平","sublabel":"Tang Ping","type":"phenomenon","group":"issue","size":3,"detail":{"work":"","quote":"","core":"2021年以哲学化表达拒绝996和'中国梦'叙事的生活方式运动。低欲望、低消费、低奋斗，被视为对内卷的回应。","tension":"躺平是抵抗？还是被收编的消费选择？"}},{"id":"involution","label":"内卷","sublabel":"Involution / Neijuan","type":"phenomenon","group":"issue","size":3,"detail":{"work":"","quote":"","core":"2020年网络热词，描述竞争的死循环——在封闭系统内不断精细化，但无法产出真正的创新或进步。源于人类学家格尔茨的农业概念。","tension":"内卷是资本主义的逻辑必然？还是特定文化的产物？"}},{"id":"digital_nomad","label":"数字游民","sublabel":"Digital Nomad","type":"phenomenon","group":"history","size":2,"detail":{"work":"","quote":"","core":"以远程工作为生，在全球范围内流动生活的群体。地理套利：用发达国家的收入，在发展中国家消费。是当代的'异托邦'实践。","tension":""}},{"id":"kpop","label":"K-pop 全球在地化","sublabel":"K-pop / Glocalization","type":"phenomenon","group":"history","size":2,"detail":{"work":"","quote":"","core":"韩国流行文化的全球输出——本土元素与全球语法的成功融合。是21世纪文化想象全球流动的典范案例。","tension":""}},{"id":"echo_chamber","label":"算法茧房","sublabel":"Echo Chamber","type":"phenomenon","group":"history","size":2,"detail":{"work":"","quote":"你只看到你想看到的。","core":"算法强化既有偏见，创造封闭的信息空间。微粒部落(micro-tribes)取代了传统的想象共同体。","tension":""}},{"id":"guochao","label":"国潮","sublabel":"Guochao / National Trend","type":"phenomenon","group":"issue","size":2,"detail":{"work":"","quote":"","core":"2018年后兴起：将中国传统元素（汉字、纹样、神话）与街头服饰、潮流品牌结合。本质上是一种文化杂糅——它既是真实的民族文化认同上升，也是消费主义对民族情感的精准收编。","tension":"国潮是真实的文化复兴还是爱国情感的商品化？它的兴起是否与反全球化情绪和政治民族主义的上升同步，难以分割？"}},{"id":"hanfu","label":"汉服运动","sublabel":"Hanfu Movement","type":"phenomenon","group":"issue","size":2,"detail":{"work":"","quote":"","core":"2003年以后兴起的汉族传统服饰复兴运动。是民族文化记忆实践的典型案例：通过穿着'恢复'一种历史上断裂的文化传统。","tension":"汉服运动的政治维度：它是民间自发的文化认同运动，还是日益成为一种由国家认可的、带有民族主义意涵的实践？"}},{"id":"temple_economy","label":"寺庙经济","sublabel":"Temple Economy","type":"phenomenon","group":"issue","size":2,"detail":{"work":"","quote":"","core":"近年中国年轻人大规模涌入寺庙：烧香、拜佛、求签、抄经。既是精神寻求，也是焦虑的症候。寺庙从边缘化的宗教场所变成最火爆的新消费场景之一。","tension":"寺庙经济是真实的精神回归还是新形式的景观消费？当寺庙开始销售联名文创和盲盒，神圣与世俗的界限在哪里？"}},{"id":"pilgrimage_tourism","label":"圣地旅游","sublabel":"Pilgrimage Tourism","type":"phenomenon","group":"issue","size":2,"detail":{"work":"","quote":"","core":"传统朝圣与现代旅游的混合：西藏、麦加、圣地亚哥朝圣之路、日本四国遍路——越来越多人以旅游者的方式完成朝圣。","tension":"终南山作为圣地旅游目的地：游客和隐士在同一空间共存。游客的凝视是否根本性地改变了隐士空间的性质？"}},{"id":"diaspora","label":"海外华人离散","sublabel":"Chinese Diaspora","type":"phenomenon","group":"issue","size":2,"detail":{"work":"","quote":"","core":"全球约6000万海外华人，是世界最大的离散族群之一。他们是安德森'长程民族主义'的案例：在异乡通过对故乡的想象建构民族认同，而这种想象有时比'在地'的认同更纯粹、更保守。","tension":"离散认同的悖论：越是身处异乡，对'中国性'的想象越是趋于固化——但这个被固化的'中国'往往是离开那一刻的快照，而不是当代中国的现实。"}},{"id":"dark_tourism","label":"黑暗旅游","sublabel":"Dark Tourism","type":"phenomenon","group":"issue","size":2,"detail":{"work":"","quote":"","core":"参观死亡、灾难、苦难相关场所的旅游实践：奥斯维辛、广岛、切尔诺贝利、卢旺达屠杀纪念馆。是'记忆之场'在旅游经济中的极端形态。","tension":"黑暗旅游的伦理问题：游客在奥斯维辛自拍时，这是什么行为？纪念与娱乐的边界，是否已经彻底模糊？"}},{"id":"humansolo","label":"人间 solo · 终南山","sublabel":"Human Solo · Zhongnan","type":"place","group":"issue","size":3,"detail":{"work":"🎬 纪录片项目，制作中","quote":"我想离开，但我不知道离开之后还剩下什么。","core":"纪录片项目。以第一人称行走视角，从西安出发，深入终南山，依次遇见大喜、年轻的云南洞居者，觉任师傅。试图以影像捕捉欲望结构本身——观众先被隐居生活吸引，再逐渐看清自己渴望的是什么。","tension":"拍摄者作为闯入者的伦理问题：摄像机进入隐居空间，是否根本性地改变了这个空间的性质？纪录片本身是否是景观逻辑的一部分？"}},{"id":"print_revolution","label":"16世纪印刷革命","sublabel":"Print Revolution","type":"event","group":"history","size":2,"detail":{"work":"","quote":"","core":"古腾堡印刷术引发的信息革命。创造了统一语言，标准化了拼写和语法，为民族认同奠定了技术基础。","tension":""}},{"id":"manifest_destiny","label":"昭昭天命","sublabel":"Manifest Destiny","type":"event","group":"history","size":2,"detail":{"work":"19世纪美国","quote":"The American conquest of the West was a fulfillment of providential design.","core":"白人神圣使命向西拓张的意识形态——宗教救赎、领土扩张、文明使命的混合。为美国西部拓张提供了意识形态正当性。","tension":""}},{"id":"socialist_realism","label":"社会主义现实主义","sublabel":"Socialist Realism","type":"event","group":"history","size":2,"detail":{"work":"","quote":"","core":"苏联和社会主义国家的官方艺术风格——塑造'新人'形象、集体农庄、工业化叙事的文化政策。另一种现代性想象。","tension":""}},{"id":"may_fourth","label":"五四运动","sublabel":"May Fourth Movement, 1919","type":"event","group":"history","size":2,"detail":{"work":"","quote":"","core":"中国现代性的起点之一：德赛两先生（民主与科学）的引进，对儒家传统的激烈批判，白话文运动。安德森论题的中国版：白话文取代文言文，是中国印刷资本主义和现代想象共同体的奠基时刻。","tension":"五四之后：激进反传统是否造成了中国文化记忆的人为断裂？这一断裂是否是20世纪中国文化危机的根源之一？"}},{"id":"cultural_revolution","label":"文化大革命","sublabel":"Cultural Revolution, 1966-1976","type":"event","group":"history","size":3,"detail":{"work":"","quote":"","core":"中国历史上最激烈的文化记忆破坏运动：寺庙被毁、典籍被焚、知识分子被批斗。它同时是一场彻底的记忆政治实践——试图清除一切'旧'文化，建立全新的革命性集体记忆。","tension":"文革记忆的当代压制：在中国公共领域，文革仍是高度敏感的话题，其记忆是活的还是被管控的？冷记忆化是否正在发生？"}},{"id":"axial_age","label":"轴心时代","sublabel":"Axial Age / Karl Jaspers","type":"event","group":"history","size":2,"detail":{"work":"Jaspers, 1949","quote":"","core":"公元前800-200年，希腊（苏格拉底）、以色列（先知）、印度（佛陀、摩诃毗罗）、中国（孔子，老子）几乎同时出现了人类精神的突破。神话世界观被超越，个体开始追问终极意义。","tension":"轴心时代是否真实存在？学界争议其历史同时性。轴心时代论题是否在用一个隐蔽的世界历史哲学，将不同文明收编进同一个进步叙事？"}},{"id":"reformation","label":"宗教改革","sublabel":"Protestant Reformation, 16c","type":"event","group":"history","size":2,"detail":{"work":"","quote":"","core":"宗教改革打破了拉丁文的文化垄断，各地方语言圣经的印刷是印刷资本主义的最早动力之一。宗教改革同时是身份认同的重构：从基督教世界的普世认同到民族性的宗教认同。","tension":"宗教改革是解放的吗？它打碎了普世教会的权威，但同时催生了宗教战争和新的不宽容形式。"}}],"edges":[{"source":"anderson","target":"imagined_community","type":"influences","label":"提出"},{"source":"anderson","target":"print_capitalism","type":"influences","label":"论证"},{"source":"print_capitalism","target":"imagined_community","type":"influences","label":"支撑"},{"source":"foucault","target":"heterotopia","type":"influences","label":"提出"},{"source":"halbwachs","target":"cultural_memory","type":"influences","label":"提出"},{"source":"assmann","target":"cultural_memory","type":"influences","label":"发展"},{"source":"campbell","target":"heros_journey","type":"influences","label":"提出"},{"source":"hall","target":"identity_becoming","type":"influences","label":"提出"},{"source":"ge_zhaoguang","target":"tianxia","type":"influences","label":"研究"},{"source":"fei_xiaotong","target":"tianxia","type":"influences","label":"研究"},{"source":"wang_hui","target":"tianxia","type":"influences","label":"研究"},{"source":"print_revolution","target":"print_capitalism","type":"influences","label":"催生"},{"source":"manifest_destiny","target":"shandinzhi_cheng","type":"influences","label":"衍化"},{"source":"said","target":"orientalism","type":"influences","label":"提出"},{"source":"bhabha","target":"hybridity","type":"influences","label":"提出"},{"source":"bhabha","target":"third_space","type":"influences","label":"提出"},{"source":"appadurai","target":"echo_chamber","type":"applies","label":"mediascapes"},{"source":"appadurai","target":"kpop","type":"applies","label":"文化流动"},{"source":"appadurai","target":"diaspora","type":"applies","label":"ethnoscapes"},{"source":"bourdieu","target":"cultural_capital","type":"influences","label":"提出"},{"source":"bourdieu","target":"hegemony","type":"compares","label":"场域 vs 霸权"},{"source":"gramsci","target":"hegemony","type":"influences","label":"提出"},{"source":"hegemony","target":"hall","type":"influences","label":"霍尔继承发展"},{"source":"hegemony","target":"spectacle","type":"compares","label":"同意 vs 景观"},{"source":"benjamin","target":"aura","type":"influences","label":"提出"},{"source":"aura","target":"echo_chamber","type":"applies","label":"复制取消灵韵"},{"source":"benjamin","target":"debord","type":"influences","label":"影响"},{"source":"debord","target":"spectacle","type":"influences","label":"提出"},{"source":"barthes","target":"spectacle","type":"compares","label":"神话 vs 景观"},{"source":"turner","target":"liminality","type":"influences","label":"深化"},{"source":"eliade","target":"axis_mundi","type":"influences","label":"提出"},{"source":"jung","target":"collective_unconscious","type":"influences","label":"提出"},{"source":"collective_unconscious","target":"campbell","type":"influences","label":"坎贝尔继承"},{"source":"collective_unconscious","target":"heros_journey","type":"applies","label":"原型结构"},{"source":"girard","target":"mimetic_desire","type":"influences","label":"提出"},{"source":"mimetic_desire","target":"involution","type":"applies","label":"集体模仿焦虑"},{"source":"mimetic_desire","target":"tangping","type":"applies","label":"拒绝模仿中介"},{"source":"nora","target":"sites_of_memory","type":"influences","label":"提出"},{"source":"nora","target":"cultural_memory","type":"compares","label":"记忆之场 vs 文化记忆"},{"source":"taylor","target":"social_imaginary","type":"influences","label":"提出"},{"source":"castoriadis","target":"social_imaginary","type":"influences","label":"提出"},{"source":"spivak","target":"said","type":"critiques","label":"属下声音的缺席"},{"source":"spivak","target":"orientalism","type":"critiques","label":"深化批判"},{"source":"ricoeur","target":"narrative_identity","type":"influences","label":"提出"},{"source":"narrative_identity","target":"identity_becoming","type":"compares","label":"叙事 vs 成为"},{"source":"liang_qichao","target":"print_capitalism","type":"applies","label":"中国实践"},{"source":"liang_qichao","target":"imagined_community","type":"applies","label":"新民=新的共同体"},{"source":"liang_qichao","target":"may_fourth","type":"influences","label":"启蒙延续"},{"source":"li_zehou","target":"tianxia","type":"compares","label":"情理结构"},{"source":"zhao_tingyang","target":"tianxia","type":"influences","label":"系统化"},{"source":"zhao_tingyang","target":"imagined_community","type":"contrasts","label":"天下 vs 民族"},{"source":"heterotopia","target":"zhongnan","type":"applies","label":"异托邦应用"},{"source":"heterotopia","target":"taoyuanjing","type":"applies","label":"异托邦应用"},{"source":"heterotopia","target":"digital_nomad","type":"applies","label":"当代实践"},{"source":"heros_journey","target":"zhongnan","type":"applies","label":"结构分析"},{"source":"identity_becoming","target":"tangping","type":"applies","label":"理论对应"},{"source":"identity_becoming","target":"involution","type":"applies","label":"理论对应"},{"source":"zhongnan","target":"humansolo","type":"applies","label":"纪录片主题"},{"source":"campbell","target":"humansolo","type":"applies","label":"理论框架"},{"source":"foucault","target":"humansolo","type":"applies","label":"理论框架"},{"source":"orientalism","target":"tianxia","type":"contrasts","label":"西方他者构建"},{"source":"orientalism","target":"imagined_community","type":"compares","label":"他者想象 vs 共同体想象"},{"source":"hybridity","target":"kpop","type":"applies","label":"杂糅实践"},{"source":"hybridity","target":"guochao","type":"applies","label":"传统+当代"},{"source":"third_space","target":"diaspora","type":"applies","label":"离散身份场所"},{"source":"cultural_capital","target":"involution","type":"applies","label":"资本积累的内卷化"},{"source":"hegemony","target":"spectacle","type":"compares","label":"同意 vs 景观"},{"source":"liminality","target":"zhongnan","type":"applies","label":"阈限空间"},{"source":"liminality","target":"tangping","type":"applies","label":"永久阈限？"},{"source":"liminality","target":"pilgrimage_tourism","type":"applies","label":"朝圣中的阈限"},{"source":"liminality","target":"humansolo","type":"applies","label":"核心概念"},{"source":"axis_mundi","target":"zhongnan","type":"applies","label":"隐士圣山"},{"source":"axis_mundi","target":"wutai","type":"applies","label":"佛教宇宙中心"},{"source":"axis_mundi","target":"jerusalem","type":"applies","label":"三重圣地冲突"},{"source":"axis_mundi","target":"temple_economy","type":"applies","label":"神圣渴望的变形"},{"source":"sites_of_memory","target":"dark_tourism","type":"applies","label":"记忆场所的旅游化"},{"source":"sites_of_memory","target":"taoyuanjing","type":"applies","label":"桃花源作为记忆之场"},{"source":"bachelard","target":"zhongnan","type":"applies","label":"栖居的诗学"},{"source":"bachelard","target":"taoyuanjing","type":"applies","label":"庇护空间"},{"source":"narrative_identity","target":"cultural_memory","type":"applies","label":"群体叙事身份"},{"source":"social_imaginary","target":"imagined_community","type":"compares","label":"社会想象 vs 想象共同体"},{"source":"spectacle","target":"kpop","type":"applies","label":"全球景观"},{"source":"spectacle","target":"temple_economy","type":"applies","label":"神圣景观化"},{"source":"spectacle","target":"guochao","type":"applies","label":"民族情感商品化"},{"source":"tianxia","target":"imagined_community","type":"contrasts","label":"框架张力"},{"source":"taoyuanjing","target":"tianxia","type":"contrasts","label":"内外对立"},{"source":"ge_zhaoguang","target":"anderson","type":"critiques","label":"质疑"},{"source":"guochao","target":"hybridity","type":"applies","label":"传统元素杂糅"},{"source":"guochao","target":"cultural_memory","type":"applies","label":"文化记忆的商品化"},{"source":"hanfu","target":"cultural_memory","type":"applies","label":"记忆的身体实践"},{"source":"hanfu","target":"sites_of_memory","type":"applies","label":"传统的发明"},{"source":"temple_economy","target":"tangping","type":"compares","label":"两种脱出策略"},{"source":"pilgrimage_tourism","target":"zhongnan","type":"applies","label":"圣山旅游化"},{"source":"dark_tourism","target":"cultural_memory","type":"applies","label":"通过旅游传递记忆"},{"source":"diaspora","target":"imagined_community","type":"applies","label":"长程民族主义"},{"source":"diaspora","target":"third_space","type":"applies","label":"离散身份"},{"source":"diaspora","target":"identity_becoming","type":"applies","label":"身份的持续构建"},{"source":"silk_road_space","target":"hybridity","type":"applies","label":"最早的杂糅地带"},{"source":"silk_road_space","target":"tianxia","type":"applies","label":"天下秩序的实体"},{"source":"jiangnan","target":"sites_of_memory","type":"applies","label":"审美记忆之场"},{"source":"jiangnan","target":"taoyuanjing","type":"compares","label":"两种隐逸美学"},{"source":"walden","target":"zhongnan","type":"compares","label":"东西方隐居传统"},{"source":"walden","target":"taoyuanjing","type":"compares","label":"乌托邦隐居对比"},{"source":"may_fourth","target":"print_capitalism","type":"applies","label":"白话文"},{"source":"cultural_revolution","target":"cultural_memory","type":"applies","label":"记忆的暴力破坏"},{"source":"cultural_revolution","target":"sites_of_memory","type":"applies","label":"文革记忆的压制"},{"source":"axial_age","target":"tianxia","type":"applies","label":"中国轴心时代"},{"source":"axial_age","target":"axis_mundi","type":"compares","label":"精神突破 vs 空间神圣"},{"source":"reformation","target":"print_capitalism","type":"applies","label":"催生动力"},{"source":"reformation","target":"print_revolution","type":"influences","label":"相互促进"},{"source":"tangping","target":"involution","type":"compares","label":"关联"},{"source":"kpop","target":"echo_chamber","type":"compares","label":"悖论"},{"source":"mimetic_desire","target":"desire","type":"compares","label":"欲望理论对话"},{"source":"cultural_capital","type":"desire","type":"applies","label":"欲望建构"},{"source":"jerusalem","target":"axis_mundi","type":"applies","label":"三重圣地冲突"}]};
+const typeColors={theorist:'#4a9eff',concept:'#f5a623',place:'#4ecdc4',phenomenon:'#ff6b9d',event:'#9b8db0'};
+const edgeColors={influences:'rgba(74,158,255,0.5)',contrasts:'rgba(255,74,74,0.5)',applies:'rgba(78,205,196,0.5)',critiques:'rgba(245,166,35,0.5)',compares:'rgba(136,136,136,0.4)'};
+const edgeDash={influences:'0',contrasts:'6,3',applies:'0',critiques:'4,4',compares:'2,4'};
+function nodeRadius(d){return[0,16,22,30,40][d.size]||16;}
+let svg,container,simulation,nodes,edges,nodeElements,edgeElements,width,height,selectedNode=null,activeGroup='all',searchQuery='';
+function init(){width=window.innerWidth;height=window.innerHeight;svg=d3.select('#graph').attr('width',width).attr('height',height);const defs=svg.append('defs');['influences','applies'].forEach(type=>{defs.append('marker').attr('id',`arrow-${type}`).attr('viewBox','0 -5 10 10').attr('refX',25).attr('refY',0).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto').append('path').attr('fill',edgeColors[type]).attr('d','M0,-5L10,0L0,5');});container=svg.append('g');const nodesCopy=graphData.nodes.map(d=>({...d}));const edgesCopy=graphData.edges.map(d=>({...d}));simulation=d3.forceSimulation(nodesCopy).force('link',d3.forceLink(edgesCopy).id(d=>d.id).distance(150)).force('charge',d3.forceManyBody().strength(-500)).force('center',d3.forceCenter(width/2,height/2)).force('collision',d3.forceCollide().radius(d=>nodeRadius(d)+30));edges=container.append('g').attr('class','edges').selectAll('line').data(edgesCopy).enter().append('line').attr('stroke',d=>edgeColors[d.type]).attr('stroke-width',1.5).attr('stroke-dasharray',d=>edgeDash[d.type]).attr('marker-end',d=>(d.type==='influences'||d.type==='applies')?`url(#arrow-${d.type})`:null);edgeElements=container.append('g').attr('class','edge-labels').selectAll('text').data(edgesCopy).enter().append('text').attr('class','edge-label').text(d=>d.label).attr('fill','rgba(255,255,255,0.3)').attr('font-size','9px');const nodeGroup=container.append('g').attr('class','nodes').selectAll('g').data(nodesCopy).enter().append('g').attr('class',d=>`node node-${d.type}${d.id==='humansolo'?' node-humansolo':''}`).call(d3.drag().on('start',dragStarted).on('drag',dragged).on('end',dragEnded));nodeElements=nodeGroup.append('circle').attr('class','node-circle').attr('r',d=>nodeRadius(d)).attr('fill',d=>typeColors[d.type]).attr('stroke',d=>typeColors[d.type]).attr('fill-opacity',0.8);nodeGroup.filter(d=>d.id==='humansolo').select('.node-circle').attr('stroke-dasharray','4,2').attr('stroke-width',3);nodeGroup.append('text').attr('class','node-label').text(d=>d.label).attr('dy',d=>nodeRadius(d)+14);nodeGroup.on('mouseover',showTooltip).on('mousemove',moveTooltip).on('mouseout',hideTooltip).on('click',clickNode);simulation.on('tick',()=>{edges.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);edgeElements.attr('x',d=>(d.source.x+d.target.x)/2).attr('y',d=>(d.source.y+d.target.y)/2);nodeGroup.attr('transform',d=>`translate(${d.x},${d.y})`);});const zoom=d3.zoom().scaleExtent([0.3,3]).on('zoom',event=>{container.attr('transform',event.transform);});svg.call(zoom);document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',()=>filterByGroup(btn.dataset.group));});document.getElementById('searchInput').addEventListener('input',e=>{searchQuery=e.target.value.toLowerCase();updateVisibility();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});}
+function showTooltip(event,d){document.getElementById('tooltip-title').textContent=d.label;document.getElementById('tooltip-sublabel').textContent=d.sublabel;const quoteEl=document.getElementById('tooltip-quote');if(d.detail.quote){quoteEl.textContent=d.detail.quote;quoteEl.style.display='block';}else{quoteEl.style.display='none';}document.getElementById('tooltip').style.display='block';moveTooltip(event);}
+function moveTooltip(event){const tooltip=document.getElementById('tooltip');tooltip.style.left=(event.pageX+15)+'px';tooltip.style.top=(event.pageY-10)+'px';}
+function hideTooltip(){document.getElementById('tooltip').style.display='none';}
+function clickNode(event,d){event.stopPropagation();selectedNode=d;showDetailPanel(d);highlightNeighbors(d);}
+function showDetailPanel(d){const panel=document.getElementById('detailPanel');const content=document.getElementById('detailContent');const relatedEdges=graphData.edges.filter(e=>e.source===d.id||e.target===d.id);const relatedNodes=relatedEdges.map(e=>{const targetId=e.source===d.id?e.target:e.source;return graphData.nodes.find(n=>n.id===targetId);}).filter(n=>n);let html=`<h2>${d.label}</h2><div class="sublabel">${d.sublabel||''}</div>`;if(d.detail.work){html+=`<div class="work">${d.detail.work}</div>`;}if(d.detail.core){html+=`<div class="core">${d.detail.core}</div>`;}if(d.detail.tension){html+=`<div class="tension"><h4>⚡ 张力/争议</h4>${d.detail.tension}</div>`;}if(relatedNodes.length>0){html+=`<div class="related"><h4>🔗 相关节点</h4>`;relatedNodes.forEach(n=>{const edge=relatedEdges.find(e=>e.source===n.id||e.target===n.id);html+=`<div class="related-item" onclick="jumpToNode('${n.id}')"><span class="related-dot" style="background:${typeColors[n.type]}"></span>${n.label}<span style="margin-left:auto;font-size:0.7rem;color:var(--text-dim)">${edge?edge.label:''}</span></div>`;});html+=`</div>`;}content.innerHTML=html;panel.classList.add('open');document.getElementById('overlay').classList.add('show');}
+function jumpToNode(id){const node=simulation.nodes().find(n=>n.id===id);if(node){selectedNode=node;showDetailPanel(node);highlightNeighbors(node);}}
+function closePanel(){document.getElementById('detailPanel').classList.remove('open');document.getElementById('overlay').classList.remove('show');selectedNode=null;resetHighlight();}
+function highlightNeighbors(d){const neighborIds=new Set([d.id]);graphData.edges.forEach(e=>{if(e.source===d.id)neighborIds.add(e.target);if(e.target===d.id)neighborIds.add(e.source);});nodeElements.attr('opacity',n=>neighborIds.has(n.id)?1:0.1);edges.attr('opacity',e=>(e.source.id===d.id||e.target.id===d.id)?1:0.1);nodeElements.attr('r',n=>n.id===d.id?nodeRadius(n)*1.3:nodeRadius(n));}
+function resetHighlight(){nodeElements.attr('opacity',1).attr('r',d=>nodeRadius(d));edges.attr('opacity',1);}
+function filterByGroup(group){activeGroup=group;document.querySelectorAll('.filter-btn').forEach(btn=>{btn.classList.toggle('active',btn.dataset.group===group);});updateVisibility();}
+function updateVisibility(){const nodeData=simulation.nodes();nodeElements.attr('opacity',n=>{if(searchQuery&&!n.label.toLowerCase().includes(searchQuery)&&!(n.sublabel&&n.sublabel.toLowerCase().includes(searchQuery))){return 0.1;}if(activeGroup==='all')return 1;return n.group===activeGroup?1:0.1;});edges.attr('opacity',e=>{if(activeGroup==='all')return 1;const sourceNode=nodeData.find(n=>n.id===e.source.id||n.id===e.source);const targetNode=nodeData.find(n=>n.id===e.target.id||n.id===e.target);if(!sourceNode||!targetNode)return 0.1;if(activeGroup==='all')return 1;return(sourceNode.group===activeGroup||targetNode.group===activeGroup)?1:0.1;});}
+function dragStarted(event,d){if(!event.active)simulation.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y;}
+function dragged(event,d){d.fx=event.x;d.fy=event.y;}
+function dragEnded(event,d){if(!event.active)simulation.alphaTarget(0);d.fx=null;d.fy=null;}
+init();window.addEventListener('resize',()=>{width=window.innerWidth;height=window.innerHeight;svg.attr('width',width).attr('height',height);simulation.force('center',d3.forceCenter(width/2,height/2));simulation.alpha(0.3).restart();});
 </script>
 </body>
 </html>
