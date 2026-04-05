@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🕸️ 文化想象 - 知识图谱</title>
+    <title>🕸️ 文化想象 - 知识脉络图</title>
     <style>
         * {
             margin: 0;
@@ -13,9 +13,10 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
             min-height: 100vh;
             color: white;
+            overflow-x: hidden;
         }
         
         .nav-bar {
@@ -23,13 +24,13 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(26, 26, 46, 0.98);
+            background: rgba(15, 15, 26, 0.98);
             padding: 12px 15px;
             display: flex;
             gap: 15px;
             z-index: 100;
+            border-bottom: 1px solid rgba(233, 69, 96, 0.3);
             overflow-x: auto;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
         .nav-bar a {
@@ -51,166 +52,224 @@
         
         .container {
             padding: 70px 15px 30px;
-            max-width: 900px;
-            margin: 0 auto;
         }
         
         .header {
             text-align: center;
-            padding: 30px 0;
+            padding: 20px 0;
         }
         
         .header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
         }
         
         .header p {
-            opacity: 0.7;
-            font-size: 0.9rem;
+            opacity: 0.6;
+            font-size: 0.85rem;
         }
         
-        .filter {
+        .mindmap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Node styles */
+        .node {
+            position: relative;
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        .node::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(233, 69, 96, 0.3);
+        }
+        
+        .node:last-child::before {
+            bottom: 50%;
+        }
+        
+        .node:first-child::before {
+            top: 50%;
+        }
+        
+        .node-title {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
-        
-        .filter-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.7);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            border: 1px solid transparent;
+            position: relative;
         }
         
-        .filter-btn.active {
-            background: #e94560;
-            border-color: #e94560;
-            color: white;
+        .node-title:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
         }
         
-        .section {
-            margin-bottom: 30px;
+        .node-title::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid;
+            background: rgba(15, 15, 26, 0.8);
         }
         
-        .section-title {
-            font-size: 1rem;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid;
+        /* Root node */
+        .root .node-title {
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 14px;
+            padding: 18px 22px;
+            border: none;
+        }
+        
+        .root .node-title::before {
+            display: none;
+        }
+        
+        .root::before {
+            display: none;
+        }
+        
+        /* Category colors */
+        .core .node-title::before { border-color: #e94560; }
+        .theorist .node-title::before { border-color: #4ecdc4; }
+        .concept .node-title::before { border-color: #ffe66d; }
+        .history .node-title::before { border-color: #95e1d3; }
+        .civilization .node-title::before { border-color: #ffd93d; }
+        .phenomenon .node-title::before { border-color: #f38181; }
+        .issue .node-title::before { border-color: #aa96da; }
+        
+        .core .node-title { border-color: rgba(233, 69, 96, 0.3); }
+        .theorist .node-title { border-color: rgba(78, 205, 196, 0.3); }
+        .concept .node-title { border-color: rgba(255, 230, 109, 0.3); }
+        .history .node-title { border-color: rgba(149, 225, 211, 0.3); }
+        .civilization .node-title { border-color: rgba(255, 217, 61, 0.3); }
+        .phenomenon .node-title { border-color: rgba(243, 129, 129, 0.3); }
+        .issue .node-title { border-color: rgba(170, 150, 218, 0.3); }
+        
+        /* Expanded state */
+        .node-title.expanded {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .node-title.expanded::before {
+            background: currentColor;
+        }
+        
+        .toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            transition: transform 0.2s;
+        }
+        
+        .node-title.expanded .toggle {
+            transform: rotate(90deg);
+        }
+        
+        .node-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .node-emoji {
+            font-size: 1.1rem;
+        }
+        
+        /* Children container */
+        .node-children {
+            display: none;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .node-children.expanded {
+            display: block;
+        }
+        
+        /* Branch connections */
+        .branch-label {
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            white-space: nowrap;
+            font-style: italic;
+        }
+        
+        /* Connection lines between related branches */
+        .connection-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed rgba(233, 69, 96, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0 20px 30px;
+        }
+        
+        .connection-title {
+            font-size: 0.8rem;
+            color: #e94560;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .section-title.red { border-color: #e94560; }
-        .section-title.teal { border-color: #4ecdc4; }
-        .section-title.yellow { border-color: #ffe66d; }
-        .section-title.blue { border-color: #95e1d3; }
-        .section-title.orange { border-color: #f38181; }
-        .section-title.purple { border-color: #aa96da; }
-        
-        .node-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-        }
-        
-        .node {
-            background: rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-        
-        .node:hover {
-            background: rgba(255,255,255,0.15);
-            transform: translateY(-2px);
-        }
-        
-        .node.red { border-color: rgba(233, 69, 96, 0.5); }
-        .node.teal { border-color: rgba(78, 205, 196, 0.5); }
-        .node.yellow { border-color: rgba(255, 230, 109, 0.5); }
-        .node.blue { border-color: rgba(149, 225, 211, 0.5); }
-        .node.orange { border-color: rgba(243, 129, 129, 0.5); }
-        .node.purple { border-color: rgba(170, 150, 218, 0.5); }
-        
-        .node-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
-        }
-        
-        .node.red .node-dot { background: #e94560; }
-        .node.teal .node-dot { background: #4ecdc4; }
-        .node.yellow .node-dot { background: #ffe66d; }
-        .node.blue .node-dot { background: #95e1d3; }
-        .node.orange .node-dot { background: #f38181; }
-        .node.purple .node-dot { background: #aa96da; }
-        
-        .node-name {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .node-desc {
-            font-size: 0.7rem;
-            opacity: 0.6;
-            line-height: 1.4;
-        }
-        
-        .connections {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        
-        .connections h3 {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            color: #e94560;
-        }
-        
-        .connection-item {
-            font-size: 0.8rem;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        .connection-items {
             display: flex;
+            flex-wrap: wrap;
             gap: 8px;
         }
         
-        .connection-item:last-child {
-            border-bottom: none;
+        .connection-tag {
+            background: rgba(233, 69, 96, 0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(233, 69, 96, 0.3);
         }
         
-        .connection-arrow {
-            color: #e94560;
-        }
-        
+        /* Legend */
         .legend {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 25px;
             font-size: 0.75rem;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
         
         .legend-dot {
@@ -219,91 +278,54 @@
             border-radius: 50%;
         }
         
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 200;
+        /* Collapse all button */
+        .controls {
+            display: flex;
+            gap: 10px;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
-        .modal.show {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: #1a1a2e;
-            border-radius: 16px;
-            padding: 25px;
-            max-width: 400px;
-            width: 100%;
-            border: 1px solid rgba(233, 69, 96, 0.5);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .modal-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.5);
-            font-size: 1.5rem;
+        .ctrl-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.7);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .modal-category {
-            font-size: 0.75rem;
-            color: #e94560;
-            margin-bottom: 10px;
+        .ctrl-btn:hover {
+            background: #e94560;
+            border-color: #e94560;
+            color: white;
         }
         
-        .modal-desc {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            opacity: 0.8;
-        }
-        
-        .modal-links {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .modal-links h4 {
-            font-size: 0.8rem;
-            color: #4ecdc4;
-            margin-bottom: 8px;
-        }
-        
-        .modal-link {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-bottom: 4px;
-        }
-        
+        /* Mobile responsive */
         @media (max-width: 480px) {
-            .node-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .node {
+                margin: 12px 0;
+                padding-left: 20px;
             }
             
-            .legend {
-                grid-template-columns: repeat(2, 1fr);
+            .node-title {
+                padding: 10px 12px;
+            }
+            
+            .node-label {
+                font-size: 0.85rem;
+            }
+            
+            .node-children {
+                margin-left: 10px;
+                padding-left: 15px;
+            }
+            
+            .connection-box {
+                margin-left: 15px;
             }
         }
     </style>
@@ -311,7 +333,7 @@
 <body>
     <nav class="nav-bar">
         <a href="index.html" class="title">🧠 文化想象</a>
-        <a href="graph.html" class="active">🕸️ 图谱</a>
+        <a href="graph.html" class="active">🕸️ 脉络图</a>
         <a href="theory.html">📚 理论</a>
         <a href="history.html">🏛️ 历史</a>
         <a href="compare.html">🌍 比较</a>
@@ -320,207 +342,568 @@
     
     <div class="container">
         <div class="header">
-            <h1>🕸️ 知识图谱</h1>
-            <p>点击节点查看详情</p>
+            <h1>🕸️ 知识脉络图</h1>
+            <p>点击分支展开 · 查看关联 · 层层深入</p>
+        </div>
+        
+        <div class="controls">
+            <button class="ctrl-btn" onclick="expandAll()">⬇️ 展开全部</button>
+            <button class="ctrl-btn" onclick="collapseAll()">⬆️ 收缩全部</button>
         </div>
         
         <div class="legend">
             <div class="legend-item"><span class="legend-dot" style="background:#e94560"></span>核心概念</div>
             <div class="legend-item"><span class="legend-dot" style="background:#4ecdc4"></span>理论家</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#ffe66d"></span>文明</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ffe66d"></span>核心概念</div>
             <div class="legend-item"><span class="legend-dot" style="background:#95e1d3"></span>历史</div>
             <div class="legend-item"><span class="legend-dot" style="background:#f38181"></span>现象</div>
             <div class="legend-item"><span class="legend-dot" style="background:#aa96da"></span>议题</div>
         </div>
         
-        <div class="filter">
-            <button class="filter-btn active" onclick="showAll()">全部</button>
-            <button class="filter-btn" onclick="filterBy('core')">🧠 核心</button>
-            <button class="filter-btn" onclick="filterBy('theorist')">📚 理论家</button>
-            <button class="filter-btn" onclick="filterBy('civilization')">🌍 文明</button>
-            <button class="filter-btn" onclick="filterBy('history')">🏛️ 历史</button>
-            <button class="filter-btn" onclick="filterBy('phenomenon')">💡 现象</button>
-            <button class="filter-btn" onclick="filterBy('issue')">🎯 议题</button>
-        </div>
-        
-        <div id="sections"></div>
-        
-        <div class="connections">
-            <h3>🔗 核心关联</h3>
-            <div class="connection-item"><span class="connection-arrow">→</span><strong>安德森</strong> 提出 <strong>想象的共同体</strong></div>
-            <div class="connection-item"><span class="connection-arrow">→</span><strong>哈布瓦赫</strong> 提出 <strong>集体记忆</strong></div>
-            <div class="connection-item"><span class="connection-arrow">→</span><strong>福柯</strong> 提出 <strong>异托邦</strong></div>
-            <div class="connection-item"><span class="connection-arrow">→</span><strong>文化想象</strong> → <strong>民族主义</strong> → <strong>国家共同体</strong></div>
-            <div class="connection-item"><span class="connection-arrow">→</span><strong>个人主体</strong> ← <strong>躺平/内卷</strong> ← <strong>数字时代</strong></div>
-        </div>
-    </div>
-    
-    <!-- Modal -->
-    <div class="modal" id="modal" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <span class="modal-title" id="modal-title"></span>
-                <button class="modal-close" onclick="closeModal()">×</button>
+        <div class="mindmap">
+            <!-- ROOT: 文化想象 -->
+            <div class="node root">
+                <div class="node-title" onclick="toggle(this)">
+                    <span class="toggle">▶</span>
+                    <span class="node-emoji">🧠</span>
+                    <span class="node-label">文化想象 Cultural Imagination</span>
+                </div>
+                <div class="node-children">
+                    
+                    <!-- 分支1: 理论谱系 -->
+                    <div class="node theorist">
+                        <div class="node-title" onclick="toggle(this)">
+                            <span class="toggle">▶</span>
+                            <span class="node-emoji">📚</span>
+                            <span class="node-label">理论谱系</span>
+                        </div>
+                        <div class="node-children">
+                            
+                            <div class="node theorist">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">本尼迪克特·安德森 Benedict Anderson</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title" onclick="toggle(this)">
+                                            <span class="toggle">▶</span>
+                                            <span class="node-label">《想象的共同体》(1983)</span>
+                                        </div>
+                                        <div class="node-children">
+                                            <div class="node concept">
+                                                <div class="node-title">
+                                                    <span class="node-label">印刷资本主义</span>
+                                                </div>
+                                            </div>
+                                            <div class="node concept">
+                                                <div class="node-title">
+                                                    <span class="node-label">"同时性"的发明</span>
+                                                </div>
+                                            </div>
+                                            <div class="node phenomenon">
+                                                <div class="node-title">
+                                                    <span class="node-label">→ 民族主义</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node theorist">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">米歇尔·福柯 Michel Foucault</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title" onclick="toggle(this)">
+                                            <span class="toggle">▶</span>
+                                            <span class="node-label">异托邦 Heterotopia</span>
+                                        </div>
+                                        <div class="node-children">
+                                            <div class="node phenomenon">
+                                                <div class="node-title">
+                                                    <span class="node-label">→ 终南山隐士空间</span>
+                                                </div>
+                                            </div>
+                                            <div class="node phenomenon">
+                                                <div class="node-title">
+                                                    <span class="node-label">→ 修道院、墓地</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node theorist">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">科妮莉娅·卡斯特里亚季斯</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">社会的想象体制</span>
+                                        </div>
+                                    </div>
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">符号创造与制度</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node theorist">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">哈布瓦赫 + 阿斯曼</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title" onclick="toggle(this)">
+                                            <span class="toggle">▶</span>
+                                            <span class="node-label">集体记忆 → 文化记忆</span>
+                                        </div>
+                                        <div class="node-children">
+                                            <div class="node phenomenon">
+                                                <div class="node-title">
+                                                    <span class="node-label">→ 仪式、节日、纪念日</span>
+                                                </div>
+                                            </div>
+                                            <div class="node phenomenon">
+                                                <div class="node-title">
+                                                    <span class="node-label">→ 国庆日、历史教育</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node theorist">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">斯图亚特·霍尔 Stuart Hall</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">身份是"成为"不是"是"</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 躺平、佛系</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node theorist">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">格尔茨 Geertz</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">厚描述 thick description</span>
+                                        </div>
+                                    </div>
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">文化是意义之网</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node theorist">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">费孝通 + 葛兆光 + 汪晖（中国）</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">差序格局 / 边界意识 / 跨体系历史</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- 分支2: 历史演进 -->
+                    <div class="node history">
+                        <div class="node-title" onclick="toggle(this)">
+                            <span class="toggle">▶</span>
+                            <span class="node-emoji">🏛️</span>
+                            <span class="node-label">历史演进</span>
+                        </div>
+                        <div class="node-children">
+                            
+                            <div class="node history">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">神话时代 → 宗教时代</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node civilization">
+                                        <div class="node-title">
+                                            <span class="node-label">美索不达米亚：创世/洪水神话</span>
+                                        </div>
+                                    </div>
+                                    <div class="node civilization">
+                                        <div class="node-title">
+                                            <span class="node-label">希腊：英雄神话、城邦认同</span>
+                                        </div>
+                                    </div>
+                                    <div class="node civilization">
+                                        <div class="node-title">
+                                            <span class="node-label">中国：天命、天下、九州</span>
+                                        </div>
+                                    </div>
+                                    <div class="node civilization">
+                                        <div class="node-title">
+                                            <span class="node-label">犹太-基督教：选民、应许之地、末世论</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node history">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">近代民族主义（安德森核心）</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">印刷资本主义 → 共同想象</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 民族史诗"发明"</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 民族博物馆、历史叙事</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node history">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">现代意识形态</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">社会主义现实主义（苏联/中国）</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">好莱坞 + 美国梦叙事</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">消费主义："我买故我在"</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node history">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">数字时代</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 社交媒体微粒化部落</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ K-pop 全球文化想象</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 躺平、内卷（数字时代的焦虑）</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- 分支3: 跨文化比较 -->
+                    <div class="node civilization">
+                        <div class="node-title" onclick="toggle(this)">
+                            <span class="toggle">▶</span>
+                            <span class="node-emoji">🌍</span>
+                            <span class="node-label">跨文化比较</span>
+                        </div>
+                        <div class="node-children">
+                            
+                            <div class="node civilization">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">🇨🇳 中国</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">天下 → 天命 → 朝贡体系</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 桃花源（隐逸乌托邦）</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 中华民族伟大复兴</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node civilization">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">🇺🇸 美国</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">昭昭天命 Manifest Destiny</span>
+                                        </div>
+                                    </div>
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">山巅之城 → 美国梦</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 种族乌托邦的阴暗面</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node civilization">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">🇪🇺 欧洲</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">启蒙理想：理性、科学、民主</span>
+                                        </div>
+                                    </div>
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">文明使命 → 殖民主义</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 大屠杀记忆 → 欧洲认同</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node civilization">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">🇯🇵 日本</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">万世一系 + 武士道</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 隐士文化（禅宗）</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node civilization">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">🇮🇳 印度</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">Hindutva 印度教民族主义</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 想象的统一 vs 真实多元</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- 分支4: 核心议题 -->
+                    <div class="node issue">
+                        <div class="node-title" onclick="toggle(this)">
+                            <span class="toggle">▶</span>
+                            <span class="node-emoji">🎯</span>
+                            <span class="node-label">核心议题</span>
+                        </div>
+                        <div class="node-children">
+                            
+                            <div class="node issue">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">议题1: 国家共同体</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">民族主义如何利用文化符号？</span>
+                                        </div>
+                                    </div>
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">教育系统中的再生产</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 历史教科书、公民教育</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node issue">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">议题2: 个人主体</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">归属感 ← → 疏离感</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 内卷 / 躺平 / 佛系</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ "空心病"、存在危机</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="node issue">
+                                <div class="node-title" onclick="toggle(this)">
+                                    <span class="toggle">▶</span>
+                                    <span class="node-label">议题3: 叙事转译</span>
+                                </div>
+                                <div class="node-children">
+                                    <div class="node concept">
+                                        <div class="node-title">
+                                            <span class="node-label">机制: 重新叙事 / 挪用 / 杂糅</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 桃花源: 陶渊明 → 革命 → 旅游IP</span>
+                                        </div>
+                                    </div>
+                                    <div class="node phenomenon">
+                                        <div class="node-title">
+                                            <span class="node-label">→ 隐士: 修行 → 数字游民 → 商业度假</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- 分支间关联 -->
+                    <div class="connection-box">
+                        <div class="connection-title">🔗 跨分支关联</div>
+                        <div class="connection-items">
+                            <span class="connection-tag">安德森 → 民族主义</span>
+                            <span class="connection-tag">霍尔 → 躺平</span>
+                            <span class="connection-tag">福柯 → 隐士空间</span>
+                            <span class="connection-tag">桃花源 → 中国</span>
+                            <span class="connection-tag">美国梦 → 消费主义</span>
+                            <span class="connection-tag">天下 → 国家共同体</span>
+                            <span class="connection-tag">数字时代 → 内卷</span>
+                            <span class="connection-tag">叙事转译 → 文化生命</span>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-            <div class="modal-category" id="modal-category"></div>
-            <div class="modal-desc" id="modal-desc"></div>
-            <div class="modal-links" id="modal-links"></div>
+            
         </div>
     </div>
     
     <script>
-        const data = {
-            core: {
-                title: "🧠 核心概念",
-                color: "red",
-                items: [
-                    { name: "文化想象", category: "核心概念", desc: "社会中群体共享的、关于自身与世界的象征性图像、叙事与情感联结", links: ["安德森→想象的共同体", "卡斯特里亚季斯→社会想象体制", "哈布瓦赫→集体记忆"] }
-                ]
-            },
-            theorist: {
-                title: "📚 理论家",
-                color: "teal",
-                items: [
-                    { name: "本尼迪克特·安德森", category: "理论家", desc: "《想象的共同体》(1983) - 民族作为现代想象，印刷资本主义与民族认同", links: ["核心论点: 民族是想象的共同体", "影响: 近代民族主义研究"] },
-                    { name: "科妮莉娅·卡斯特里亚季斯", category: "理论家", desc: "《社会的想象体制》(1975) - 制度性符号创造，社会如何组织意义", links: ["核心概念: 想象体制", "区分: 想象vs社会想象体制"] },
-                    { name: "米歇尔·福柯", category: "理论家", desc: "《异托邦》- 真实存在的他者空间，与乌托邦对立", links: ["核心概念: 异托邦", "应用于: 隐士空间、圣地"] },
-                    { name: "莫里斯·哈布瓦赫", category: "理论家", desc: "《集体记忆》(1925) - 记忆的社会建构，过去如何被现在塑造", links: ["核心概念: 集体意识", "影响: 阿斯曼文化记忆"] },
-                    { name: "扬·阿斯曼", category: "理论家", desc: "《文化记忆》(1992) - 文化如何通过仪式符号传承记忆", links: ["区分: 交流记忆vs文化记忆", "应用于: 民族认同研究"] },
-                    { name: "克利福德·格尔茨", category: "理论家", desc: "《文化的解释》- 厚描述方法，在语境中解读文化符号", links: ["核心方法: 厚描述", "核心概念: 文化是意义之网"] },
-                    { name: "斯图亚特·霍尔", category: "理论家", desc: "《文化身份与族裔》- 身份是固定本质还是建构过程", links: ["核心观点: 身份是'成为'不是'是'", "应用于: 躺平、佛系研究"] },
-                    { name: "约瑟夫·坎贝尔", category: "理论家", desc: "《千面英雄》- 英雄之旅原型，所有神话的共同结构", links: ["核心结构: 离开-历险-归来", "应用于: 隐士叙事分析"] },
-                    { name: "费孝通", category: "理论家", desc: "《乡土中国》- 差序格局，中国传统社会结构", links: ["核心概念: 差序格局", "应用于: 理解归隐的文化土壤"] },
-                    { name: "汪晖", category: "理论家", desc: "现代中国语境中的'主义'与'想象'", links: ["研究: 现代中国思想史", "关注: 跨体系历史"] },
-                    { name: "葛兆光", category: "理论家", desc: "中国思想史中的'边界意识'", links: ["研究: 中国思想史边界", "质疑: 安德森理论适用性"] },
-                    { name: "凯博文", category: "理论家", desc: "Arthur Kleinman - 苦难与文化建构", links: ["核心: 苦难的文化建构", "应用于: 存在危机研究"] }
-                ]
-            },
-            civilization: {
-                title: "🌍 文明",
-                color: "yellow",
-                items: [
-                    { name: "中国", category: "文明/国家", desc: "天下/天命/大一统，汉字、科举、礼仪为载体", links: ["核心概念: 天下", "符号: 龙凤、长城、汉字"] },
-                    { name: "美国", category: "文明/国家", desc: "昭昭天命/美国梦，媒体、好莱坞为载体", links: ["核心概念: Manifest Destiny", "核心概念: 美国梦"] },
-                    { name: "欧洲", category: "文明/国家", desc: "启蒙/文明使命，大学、博物馆为载体", links: ["核心概念: 理性、民主", "记忆: 大屠杀纪念"] },
-                    { name: "日本", category: "文明/国家", desc: "万世一系/武士道，动漫、文化工业为载体", links: ["核心概念: 天皇制连续性", "文化: 武士道美学"] },
-                    { name: "印度", category: "文明/国家", desc: "宗教多元，宝莱坞、节日为载体", links: ["核心: Hindutva", "挑战: 多元vs统一"] }
-                ]
-            },
-            history: {
-                title: "🏛️ 历史时期",
-                color: "blue",
-                items: [
-                    { name: "神话时代", category: "历史时期", desc: "美索不达米亚、希腊、印度、中国、犹太-基督教的神话与宗教想象", links: ["美索不达米亚: 创世/洪水", "希腊: 英雄/城邦", "中国: 天命/天下"] },
-                    { name: "宗教时代", category: "历史时期", desc: "佛教、基督教、伊斯兰教的传播与本土化", links: ["佛教东传: 印度→中国→日本", "基督教普世主义与扩张"] },
-                    { name: "近代民族", category: "历史时期", desc: "印刷资本主义、民族史诗、想象的共同体", links: ["安德森核心论点", "民族史诗的'发明'"] },
-                    { name: "现代意识形态", category: "历史时期", desc: "社会主义现实主义、好莱坞、消费主义", links: ["苏联: 新人叙事", "美国: 英雄叙事"] },
-                    { name: "数字时代", category: "历史时期", desc: "社交媒体、K-pop、全球本土化", links: ["微粒化部落", "全球在地化"] }
-                ]
-            },
-            phenomenon: {
-                title: "💡 现象",
-                color: "orange",
-                items: [
-                    { name: "民族主义", category: "现象", desc: "利用文化符号建构'我们'的群体认同", links: ["符号: 国旗、国歌、节日", "机制: 教育、媒体"] },
-                    { name: "集体记忆", category: "现象", desc: "通过仪式、节日、纪念日传递的共同过去", links: ["载体: 国庆、纪念日", "争议: 选择性记忆"] },
-                    { name: "异托邦", category: "现象", desc: "真实存在的他者空间（vs 乌托邦）", links: ["例子: 修道院、墓地", "应用: 终南山隐士"] },
-                    { name: "天下", category: "现象", desc: "以华为中心的世界秩序，朝贡体系的文化基础", links: ["古代: 天命→天下", "当代: 人类命运共同体"] },
-                    { name: "桃花源", category: "现象", desc: "隐逸乌托邦，从陶渊明到当代旅游IP", links: ["陶渊明(5世纪)", "革命根据地", "当代乡村振兴"] },
-                    { name: "昭昭天命", category: "现象", desc: "美国白人神圣使命，西部拓张意识形态", links: ["17世纪: 清教想象", "19世纪: 西部拓张"] },
-                    { name: "美国梦", category: "现象", desc: "流动性与个人主义，成功的想象", links: ["核心: 自我创造", "批判: 阶级固化"] },
-                    { name: "隐士文化", category: "现象", desc: "终南山修行，数字游民，隐居式度假", links: ["古代: 道家/儒家", "当代: 避世商业化"] },
-                    { name: "躺平", category: "现象", desc: "2021年哲学化拒绝996的生活方式运动", links: ["背景: 内卷焦虑", "国际对比: 日本低欲望"] },
-                    { name: "内卷", category: "现象", desc: "2020年网络热词，竞争死循环", links: ["学术来源: Geertz", "表现: 教育军备竞赛"] }
-                ]
-            },
-            issue: {
-                title: "🎯 研究议题",
-                color: "purple",
-                items: [
-                    { name: "国家与共同体", category: "研究议题", desc: "民族主义如何利用文化符号？教育系统如何再生产？", links: ["机制: 符号发明", "争议: 安德森理论适用性"] },
-                    { name: "个人主体", category: "研究议题", desc: "个体如何在文化想象中建构身份？归属感与疏离感？", links: ["Stuart Hall身份理论", "案例: 空心病研究"] },
-                    { name: "叙事与转译", category: "研究议题", desc: "文化意象如何在历史中被重新叙事？古代符号如何获得当代意义？", links: ["机制: 重新叙事/挪用/杂糅", "案例: 桃花源层叠"] },
-                    { name: "想象机制", category: "研究议题", desc: "符号发明与挪用、教育系统、媒体传播", links: ["教育再生产", "市场塑造欲望"] }
-                ]
-            }
-        };
-        
-        let currentFilter = 'all';
-        
-        function render() {
-            const sections = document.getElementById('sections');
-            let html = '';
-            
-            for (const [key, section] of Object.entries(data)) {
-                if (currentFilter !== 'all' && currentFilter !== key) continue;
-                
-                html += `<div class="section">
-                    <h2 class="section-title ${section.color}">${section.title}</h2>
-                    <div class="node-grid">`;
-                
-                for (const item of section.items) {
-                    html += `<div class="node ${section.color}" onclick="showNode('${item.name}')">
-                        <div class="node-name"><span class="node-dot"></span>${item.name}</div>
-                        <div class="node-desc">${item.desc.substring(0, 50)}...</div>
-                    </div>`;
-                }
-                
-                html += '</div></div>';
-            }
-            
-            sections.innerHTML = html;
-        }
-        
-        function filterBy(type) {
-            currentFilter = type;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            render();
-        }
-        
-        function showAll() {
-            currentFilter = 'all';
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.filter-btn').classList.add('active');
-            render();
-        }
-        
-        function showNode(name) {
-            // Find node data
-            let node = null;
-            for (const section of Object.values(data)) {
-                for (const item of section.items) {
-                    if (item.name === name) {
-                        node = item;
-                        break;
-                    }
-                }
-                if (node) break;
-            }
-            
-            if (!node) return;
-            
-            document.getElementById('modal-title').textContent = node.name;
-            document.getElementById('modal-category').textContent = node.category;
-            document.getElementById('modal-desc').textContent = node.desc;
-            
-            let linksHtml = '<h4>关联</h4>';
-            for (const link of node.links) {
-                linksHtml += `<div class="modal-link">→ ${link}</div>`;
-            }
-            document.getElementById('modal-links').innerHTML = linksHtml;
-            
-            document.getElementById('modal').classList.add('show');
-        }
-        
-        function closeModal(e) {
-            if (!e || e.target.id === 'modal') {
-                document.getElementById('modal').classList.remove('show');
+        function toggle(el) {
+            const children = el.nextElementSibling;
+            if (children && children.classList.contains('node-children')) {
+                children.classList.toggle('expanded');
+                el.classList.toggle('expanded');
             }
         }
         
-        // Init
-        render();
+        function expandAll() {
+            document.querySelectorAll('.node-children').forEach(el => el.classList.add('expanded'));
+            document.querySelectorAll('.node-title').forEach(el => el.classList.add('expanded'));
+        }
+        
+        function collapseAll() {
+            document.querySelectorAll('.node-children').forEach(el => el.classList.remove('expanded'));
+            document.querySelectorAll('.node-title').forEach(el => el.classList.remove('expanded'));
+        }
+        
+        // Auto expand first level
+        document.querySelectorAll('.mindmap > .node > .node-children > .node > .node-title').forEach(el => {
+            el.classList.add('expanded');
+            const children = el.nextElementSibling;
+            if (children) children.classList.add('expanded');
+        });
     </script>
 </body>
 </html>
